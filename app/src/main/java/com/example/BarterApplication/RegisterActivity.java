@@ -1,10 +1,10 @@
-package com.example.myfirstapp;
+package com.example.BarterApplication;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
 public class RegisterActivity extends AppCompatActivity {
 
     @Override
