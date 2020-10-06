@@ -33,4 +33,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginResetActivity.class);
         startActivity(intent);
     }
+
+    /*
+    public void goToLogin(View v){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+    */
+
+
 }
