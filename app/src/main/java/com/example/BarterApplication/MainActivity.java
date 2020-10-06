@@ -28,4 +28,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    public void goToReset(View v){
+        Intent intent = new Intent(this, LoginResetActivity.class);
+        startActivity(intent);
+    }
 }

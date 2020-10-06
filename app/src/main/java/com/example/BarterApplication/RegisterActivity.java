@@ -97,7 +97,6 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(intent);
             }
-
         });
 
         AlertDialog dialog = builder.create();
@@ -150,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void generateDialog(String msg){
         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-        builder.setTitle("Registration");
+        builder.setTitle("Password Reset");
         builder.setMessage(msg);
         builder.setNeutralButton("OK",null);
         AlertDialog dialog = builder.create();
