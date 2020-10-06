@@ -104,6 +104,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+
+    //USER PRESSES THE BACK BUTTON
+    public void goBackToLoginPage(View v){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     private void createUser(String email, String password) throws NoSuchAlgorithmException {
         // generate hashes to store user
         String emailHash = MD5.generateHash(email);
