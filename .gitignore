@@ -70,3 +70,9 @@ lint/tmp/
 *.hprof
 /.gradle
 /.idea
+
+
+# ADDED BECAUSE GIT IS STRANGE
+*.gradle
+*.idea
+
