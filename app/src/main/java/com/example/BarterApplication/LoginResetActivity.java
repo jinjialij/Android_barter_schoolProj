@@ -29,18 +29,6 @@ public class LoginResetActivity extends AppCompatActivity {
         dbRef = FirebaseDatabase.getInstance().getReference();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_reset);
-
-//        findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-//                builder.setTitle("Bartender");
-//                builder.setMessage("Register Successful!");
-//                builder.setNeutralButton("OK",null);
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-//            }
-//        });
     }
 
 
@@ -72,12 +60,12 @@ public class LoginResetActivity extends AppCompatActivity {
     }
 
 
-    private void updateUser(String email, String password) throws NoSuchAlgorithmException {
-        // generate hashes to store user
-        String emailHash = MD5.generateHash(email);
-        password = MD5.generateHash(password);
-        User u = new User(email, password);
-        dbRef.child("users").child(emailHash).setValue(u);
+    private void updateUser(String email, String password)  {
+//        // generate hashes to store user
+//        String emailHash = MD5.generateHash(email);
+//        password = MD5.generateHash(password);
+//        User u = new User(email, password);
+//        dbRef.child("users").child(emailHash).setValue(u);
     }
 
 
@@ -93,7 +81,7 @@ public class LoginResetActivity extends AppCompatActivity {
         return !TextUtils.isEmpty(s) && PASSWORD_PATTERN.matcher(s).matches();
     }
 
-    public void resetOnClick(android.view.View v) throws NoSuchAlgorithmException {
+    public void resetOnClick(View v) {
 
         EditText passInitial = (EditText)findViewById(R.id.passwordInitial);
         EditText passConfirm = (EditText)findViewById(R.id.passwordConfirm);
@@ -119,7 +107,8 @@ public class LoginResetActivity extends AppCompatActivity {
         }
 
         // we store emails as hashes because firebase doesn't allow periods in identifiers
-        if(!isEmailTaken(MD5.generateHash(email))){
+        if(true // TODO Fix me
+            /*!isEmailTaken(MD5.generateHash(email))*/){
             // redirect to login page
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginResetActivity.this);
 

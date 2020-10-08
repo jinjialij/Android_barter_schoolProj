@@ -1,59 +1,44 @@
 package com.example.BarterApplication;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.example.BarterApplication.helpers.CredentialHelper;
+import com.example.BarterApplication.helpers.Toaster;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         dbRef = FirebaseDatabase.getInstance().getReference();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-//        findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-//                builder.setTitle("Bartender");
-//                builder.setMessage("Register Successful!");
-//                builder.setNeutralButton("OK",null);
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-//            }
-//        });
+        mAuth = FirebaseAuth.getInstance();
     }
 
     /**
      * Creates a user in the database
-     * Stores the email as a MD5 hash for the identifier
-     * @param v
-     * @throws NoSuchAlgorithmException
      */
-    public void registerOnClick(View v) throws NoSuchAlgorithmException {
+    public void registerOnClick(View v){
         EditText passInitial = (EditText)findViewById(R.id.passwordInitial);
         EditText passConfirm = (EditText)findViewById(R.id.passwordConfirm);
 
@@ -64,46 +49,24 @@ public class RegisterActivity extends AppCompatActivity {
         String pass =  passInitial.getText().toString();
 
         if(email.isEmpty() || pass.isEmpty()){
-            generateDialog("Please enter both an email and password.");
+            Toaster.generateToast(RegisterActivity.this,"Please enter both an email and password.");
             return;
         }else if(!pass.equals(passConfirm.getText().toString()) ||
             !email.equalsIgnoreCase(emailConfirm.getText().toString())){
-            generateDialog("Emails and/or passwords do not match.");
+            Toaster.generateToast(RegisterActivity.this,"Emails and/or passwords do not match.");
             return;
-        }else if(!isValidEmail(email)){
-            generateDialog("Entered email address is not valid.");
-            return;
-        }
-        else if(!isValidPassword(pass)){
-            generateDialog("Password must be 4-24 characters ");
+        }else if(!CredentialHelper.isValidEmail(email)){
+            Toaster.generateToast(RegisterActivity.this,"Entered email address is not valid.");
             return;
         }
-
-        // we store emails as hashes because firebase doesn't allow periods in identifiers
-        if(isEmailTaken(MD5.generateHash(email))){
-            generateDialog("Sorry, that email is already taken.");
+        else if(!CredentialHelper.isValidPassword(pass)){
+            Toaster.generateToast(RegisterActivity.this,"Password must be 4-24 characters ");
             return;
         }
 
         createUser(email, pass);
 
-        // redirect to login page
-        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-        builder.setTitle("Registration");
-        builder.setMessage("Registration Successful.");
-        builder.setNeutralButton("OK", new android.content.DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
     }
-
 
     //USER PRESSES THE BACK BUTTON
     public void goBackToLoginPage(View v){
@@ -111,56 +74,34 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void createUser(String email, String password) throws NoSuchAlgorithmException {
-        // generate hashes to store user
-        String emailHash = MD5.generateHash(email);
-        password = MD5.generateHash(password);
+    private void createUser(String email, String password) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
 
-        User u = new User(email, password);
-        dbRef.child("users").child(emailHash).setValue(u);
+                            Toaster.generateToast(RegisterActivity.this,
+                                    "Registratin Successfully, going back to login..");
+
+                            // redirect after 3 seconds
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class );
+                                    startActivity(intent);
+                                }
+                            }, 3000);
+
+                        } else // email is taken
+                            Toaster.generateToast(RegisterActivity.this,"Sorry, that email is already taken.");
+
+                    }
+                });
     }
 
 
-    private boolean isEmailTaken(final String email){
-        // get db reference with email
-        DatabaseReference postRef = dbRef.child("users").child(email);
 
-        final boolean[] x = {false}; // only way to access from inside event listener
-        postRef
-            .addListenerForSingleValueEvent(new ValueEventListener() {
-
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    x[0] = dataSnapshot.exists();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // don't do anything here bc we don't really care for this project
-                };
-            });
-
-        return x[0];
-    }
-
-    public static boolean isValidEmail(CharSequence target) {
-        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
-    }
-
-    public static boolean isValidPassword(String s) {
-        Pattern PASSWORD_PATTERN
-                = Pattern.compile(
-                "[a-zA-Z0-9\\!\\@\\#\\$]{4,24}");
-        return !TextUtils.isEmpty(s) && PASSWORD_PATTERN.matcher(s).matches();
-    }
-
-    private void generateDialog(String msg){
-        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-        builder.setTitle("Password Reset");
-        builder.setMessage(msg);
-        builder.setNeutralButton("OK",null);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
 }

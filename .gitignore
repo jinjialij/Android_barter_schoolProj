@@ -68,11 +68,3 @@ lint/tmp/
 # lint/reports/
 # Android Profiling
 *.hprof
-/.gradle
-/.idea
-
-
-# ADDED BECAUSE GIT IS STRANGE
-*.gradle
-*.idea
-
