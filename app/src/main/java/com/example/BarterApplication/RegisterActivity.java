@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
+                            mAuth.signOut();
                             Toaster.generateToast(RegisterActivity.this,
                                     "Registratin Successfully, going back to login..");
 
