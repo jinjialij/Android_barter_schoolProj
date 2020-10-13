@@ -17,12 +17,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        textviewFindPassword = (TextView) findViewById(R.id.textviewFindPassword);
-        textviewFindPassword.setOnClickListener(this);
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
 
+        textviewFindPassword = (TextView) findViewById(R.id.textviewFindPassword);
+        textviewFindPassword.setOnClickListener(this);
         /* code to get current user
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
