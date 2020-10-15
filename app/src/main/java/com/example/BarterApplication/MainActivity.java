@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void goToLoginReset(View v) {
-        Intent intent = new Intent(this, LoginResetActivity.class);
+        Intent intent = new Intent(this, PasswordResetActivity.class);
         startActivity(intent);
     }
 

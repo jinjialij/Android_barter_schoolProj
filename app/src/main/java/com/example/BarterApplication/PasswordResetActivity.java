@@ -1,14 +1,12 @@
 package com.example.BarterApplication;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import android.text.TextUtils;
-import android.util.Patterns;
+
 import android.view.View;
-import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,10 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.regex.Pattern;
-
-public class LoginResetActivity extends AppCompatActivity {
+public class PasswordResetActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
 
     @Override
@@ -28,11 +23,10 @@ public class LoginResetActivity extends AppCompatActivity {
 
         dbRef = FirebaseDatabase.getInstance().getReference();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_reset);
+        setContentView(R.layout.activity_password_reset);
     }
 
 
-    //USER PRESSES THE BACK BUTTON
     public void goBackToLoginPage(View v){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
