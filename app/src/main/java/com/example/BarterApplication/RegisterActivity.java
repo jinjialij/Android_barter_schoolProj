@@ -3,13 +3,14 @@ package com.example.BarterApplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.BarterApplication.helpers.CredentialHelper;
-import com.example.BarterApplication.helpers.Toaster;
+import com.example.BarterApplication.helpers.*;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
