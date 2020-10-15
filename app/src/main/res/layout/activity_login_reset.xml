@@ -14,7 +14,6 @@
         android:id="@+id/registerBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="53dp"
         android:layout_marginBottom="44dp"
         android:background="@drawable/button_circle_shape"
         android:onClick="resetOnClick"
@@ -24,11 +23,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordConfirm" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/emailInitial"
+        android:id="@+id/resetEmailTextBoxId"
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_marginStart="118dp"
@@ -44,46 +42,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/passwordInitial"
-        android:layout_width="220dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="118dp"
-        android:layout_marginLeft="118dp"
-        android:layout_marginTop="486dp"
-        android:layout_marginEnd="73dp"
-        android:layout_marginRight="73dp"
-        android:layout_marginBottom="195dp"
-        android:hint="New Password"
-        android:inputType="textPassword"
-        android:textColor="#ffffff"
-        android:textColorHint="#ffffff"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/passwordConfirm"
-        android:layout_width="220dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="118dp"
-        android:layout_marginLeft="118dp"
-        android:layout_marginTop="536dp"
-        android:layout_marginEnd="73dp"
-        android:layout_marginRight="73dp"
-        android:layout_marginBottom="145dp"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:textColor="#ffffff"
-        android:textColorHint="#ffffff"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/emailIcon"
         android:layout_width="75dp"
@@ -95,22 +53,6 @@
         android:layout_marginRight="320dp"
         android:layout_marginBottom="328dp"
         android:src="@drawable/ic_email"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/passwordIcon"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="498dp"
-        android:layout_marginEnd="320dp"
-        android:layout_marginRight="320dp"
-        android:layout_marginBottom="158dp"
-        android:src="@drawable/ic_password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

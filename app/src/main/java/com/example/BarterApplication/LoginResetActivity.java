@@ -68,71 +68,7 @@ public class LoginResetActivity extends AppCompatActivity {
 //        dbRef.child("users").child(emailHash).setValue(u);
     }
 
-
-    public static boolean isValidEmail(CharSequence target) {
-        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
-    }
-
-
-    public static boolean isValidPassword(String s) {
-        Pattern PASSWORD_PATTERN
-                = Pattern.compile(
-                "[a-zA-Z0-9\\!\\@\\#\\$]{4,24}");
-        return !TextUtils.isEmpty(s) && PASSWORD_PATTERN.matcher(s).matches();
-    }
-
     public void resetOnClick(View v) {
-
-        EditText passInitial = (EditText)findViewById(R.id.passwordInitial);
-        EditText passConfirm = (EditText)findViewById(R.id.passwordConfirm);
-
-        EditText emailInitial = (EditText)findViewById(R.id.emailInitial);
-
-        String email = emailInitial.getText().toString();
-        String pass =  passInitial.getText().toString();
-
-        if(email.isEmpty() || pass.isEmpty()){
-            generateDialog("Please enter both an email and password.");
-            return;
-        }else if(!pass.equals(passConfirm.getText().toString())){
-            generateDialog("Emails and/or passwords do not match.");
-            return;
-        }else if(!isValidEmail(email)){
-            generateDialog("Entered email address is not valid.");
-            return;
-        }
-        else if(!isValidPassword(pass)){
-            generateDialog("Password must be 4-24 characters ");
-            return;
-        }
-
-        // we store emails as hashes because firebase doesn't allow periods in identifiers
-        if(true // TODO Fix me
-            /*!isEmailTaken(MD5.generateHash(email))*/){
-            // redirect to login page
-            AlertDialog.Builder builder = new AlertDialog.Builder(LoginResetActivity.this);
-
-            //PUT THE STUFF IN THE DB
-
-            updateUser(email, pass);
-
-
-            builder.setTitle("Password Reset");
-            builder.setMessage("Successful.");
-            builder.setNeutralButton("OK", new android.content.DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent intent = new Intent(LoginResetActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-        else
-        {
-            generateDialog("Sorry, no account exists with that email");
-        }
     }
 
 

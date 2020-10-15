@@ -5,12 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.util.Patterns;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.BarterApplication.helpers.CredentialHelper;
 import com.example.BarterApplication.helpers.Toaster;
@@ -20,8 +16,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
@@ -39,11 +33,11 @@ public class RegisterActivity extends AppCompatActivity {
      * Creates a user in the database
      */
     public void registerOnClick(View v){
-        EditText passInitial = (EditText)findViewById(R.id.passwordInitial);
-        EditText passConfirm = (EditText)findViewById(R.id.passwordConfirm);
+        EditText passInitial = (EditText)findViewById(R.id.registerPasswordInitialTextBoxId);
+        EditText passConfirm = (EditText)findViewById(R.id.registerPasswordConfirmTextBoxId);
 
-        EditText emailInitial = (EditText)findViewById(R.id.emailInitial);
-        EditText emailConfirm = (EditText)findViewById(R.id.emailConfirm);
+        EditText emailInitial = (EditText)findViewById(R.id.registerEmailInitialTextBoxId);
+        EditText emailConfirm = (EditText)findViewById(R.id.registerEmailConfirmTextBoxId);
 
         String email = emailInitial.getText().toString();
         String pass =  passInitial.getText().toString();

@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordConfirm" />
 
     <EditText
-        android:id="@+id/emailInitial"
+        android:id="@+id/registerEmailConfirmTextBoxId"
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_marginStart="118dp"
@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/passwordInitial"
+        android:id="@+id/registerPasswordInitialTextBoxId"
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_marginStart="118dp"
@@ -66,7 +66,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/emailConfirm"
+        android:id="@+id/registerEmailInitialTextBoxId"
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_marginStart="118dp"
@@ -84,7 +84,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/passwordConfirm"
+        android:id="@+id/registerPasswordConfirmTextBoxId"
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_marginStart="118dp"
