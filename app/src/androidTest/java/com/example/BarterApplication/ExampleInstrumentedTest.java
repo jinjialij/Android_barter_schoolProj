@@ -57,5 +57,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
 
+        assertEquals("com.example.BarterApplication", appContext.getPackageName());
     }
 }
