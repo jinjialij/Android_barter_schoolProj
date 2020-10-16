@@ -7,8 +7,11 @@ import androidx.annotation.NonNull;
 
 import android.view.View;
 
+import com.example.BarterApplication.helpers.ValidationHelper;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -63,6 +66,8 @@ public class PasswordResetActivity extends AppCompatActivity {
     }
 
     public void resetOnClick(View v) {
+
+        /* @todo WRITE FUNCTIONALITY AFTER TESTS */
     }
 
 

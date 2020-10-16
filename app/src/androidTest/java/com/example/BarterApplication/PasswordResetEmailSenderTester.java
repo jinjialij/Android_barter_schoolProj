@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -30,35 +31,33 @@ public class PasswordResetEmailSenderTester {
             new ActivityScenarioRule<>(PasswordResetActivity.class);
 
     @Before
-    void setup()
+    public void setup()
     {
 
     }
 
 
-    @After void teardown()
+    @After
+    public void teardown()
     {
 
     }
 
     @Test
-    void AT_1() /* Layout test */
+    public void AT_1() /* Layout test */
     {
         onView(withId(R.id.passwordResetButtonId)).check(matches(isDisplayed()));
         onView(withId(R.id.resetEmailTextBoxId)).check(matches(isDisplayed()));
-        onView(withId(R.id.passwordResetButtonId)).check(matches(isDisplayed()));
+        onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(isDisplayed()));
     }
 
     @Test
-    void AT_2()
+    public void AT_2() /* Test the password reset email status message */
     {
-
+        onView(withId(R.id.resetEmailTextBoxId)).perform(typeText("cmattatall2@gmail.com"));
+        onView(withId(R.id.passwordResetSendEmailButtonId)).perform(click());
+        onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(withText(R.string.passwordResetEmailSent)));
     }
 
 
-    @Test
-    void AT_3()
-    {
-
-    }
 }
