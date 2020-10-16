@@ -8,6 +8,7 @@
     <string name="confirmPasswordTextBoxHint">confirm password</string>
     <string name="emailTextBoxHint">email</string>
     <string name="emailConfirmTextBoxHint">confirm email</string>
-    <string name="passwordResetButtonLabel">Reset</string>
+    <string name="passwordResetButtonLabel">Change Password</string>
+    <string name="passwordResetSendResetEmailButtonLabel">Send Reset Email</string>
     <string name="passwordResetEmailSent">A password reset email has been sent to your email</string>
 </resources>
