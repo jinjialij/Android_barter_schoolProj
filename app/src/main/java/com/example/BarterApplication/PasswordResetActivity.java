@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.BarterApplication.helpers.ValidationHelper;
 
@@ -19,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 
 public class PasswordResetActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
@@ -67,13 +70,16 @@ public class PasswordResetActivity extends AppCompatActivity {
 //        dbRef.child("users").child(emailHash).setValue(u);
     }
 
-    public void resetOnClick(View v) {
+    public void resetOnClick(final View v) {
         EditText emailTextEdit = (EditText)findViewById(R.id.passwordResetEmailTextBoxId);
         String email = emailTextEdit.getText().toString();
         FirebaseAuth.getInstance().sendPasswordResetEmail(email);
         TextView emailStatusMessage = (TextView)findViewById(R.id.passwordResetEmailStatusMessageTextViewId);
         emailStatusMessage.setText(R.string.passwordResetEmailSent);
-        goBackToLoginPage(v);
+        new CountDownTimer(1000, 1000) {
+            public void onTick(long millisUntilFinished) {}
+            public void onFinish() { goBackToLoginPage(v); }
+        }.start();
     }
 
 

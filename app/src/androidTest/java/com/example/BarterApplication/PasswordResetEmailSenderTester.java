@@ -56,8 +56,7 @@ public class PasswordResetEmailSenderTester {
     @Test
     public void AT_2() /* Test the password reset email status message */
     {
-        onView(withId(R.id.passwordResetEmailTextBoxId)).perform(typeText("cmattatall2@gmail.com"));
-        hideKeyboard();
+        typeEmail("cmattatall2@gmail.com");
         onView(withId(R.id.passwordResetSendEmailButtonId)).perform(click());
         onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(withText(R.string.passwordResetEmailSent)));
     }
@@ -65,17 +64,31 @@ public class PasswordResetEmailSenderTester {
     @Test
     public void AT_3()
     {
-        onView(withId(R.id.passwordResetEmailTextBoxId)).perform(typeText("cmattatall2@gmail.com"));
-        hideKeyboard();
+        typeEmail("cmattatall2@gmail.com");
         onView(withId(R.id.passwordResetSendEmailButtonId)).perform(click());
         onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(withText(R.string.passwordResetEmailSent)));
         onView(withId(R.id.buttonLogin)).check(matches(isDisplayed())); /* this is the same as AT_2 but we confirm that we've returned to login page */
     }
 
-    private void hideKeyboard() /* on small screen sizes, the keyboard can cover the editTexts */
+    @Test
+    public void AT_4()
     {
-        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.backButton)).perform(click());
+        onView(withId(R.id.buttonLogin)).check(matches(isDisplayed())); /* confirm we're back at login screen */
     }
 
+
+    @Test
+    public void AT_5() /* If the user hasn't entered an email, we shouldn't be sending an email anywhere */
+    {
+        typeEmail(""); /* empty string */
+        onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(withText(R.string.passwordResetEmptyEmailError)));
+    }
+
+    private void typeEmail(String s)
+    {
+        onView(withId(R.id.passwordResetEmailTextBoxId)).perform(typeText(s));
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+    }
 
 }
