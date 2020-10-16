@@ -9,9 +9,6 @@ import java.util.regex.Pattern;
 
 public class CredentialHelper {
 
-    /* Can someone explain why these methods must be static? Really not understanding it but static makes them work. - Carl */
-    /* Is static keyword in java different than static in C / C++ */
-
     public static boolean isValidEmail(CharSequence target) {
         return (charSeq_isEmailEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
