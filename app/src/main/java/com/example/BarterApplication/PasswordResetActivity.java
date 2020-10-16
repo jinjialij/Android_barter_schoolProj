@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.BarterApplication.helpers.ValidationHelper;
 
@@ -66,8 +68,11 @@ public class PasswordResetActivity extends AppCompatActivity {
     }
 
     public void resetOnClick(View v) {
-
-        /* @todo WRITE FUNCTIONALITY AFTER TESTS */
+        EditText emailTextEdit = (EditText)findViewById(R.id.passwordResetEmailTextBoxId);
+        String email = emailTextEdit.getText().toString();
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email);
+        TextView emailStatusMessage = (TextView)findViewById(R.id.passwordResetEmailStatusMessageTextViewId);
+        emailStatusMessage.setText(R.string.passwordResetEmailSent);
     }
 
 

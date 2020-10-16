@@ -49,14 +49,14 @@ public class PasswordResetEmailSenderTester {
     public void AT_1() /* Layout test */
     {
         onView(withId(R.id.passwordResetSendEmailButtonId)).check(matches(isDisplayed()));
-        onView(withId(R.id.resetEmailTextBoxId)).check(matches(isDisplayed()));
+        onView(withId(R.id.passwordResetEmailTextBoxId)).check(matches(isDisplayed()));
         onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(isDisplayed()));
     }
 
     @Test
     public void AT_2() /* Test the password reset email status message */
     {
-        onView(withId(R.id.resetEmailTextBoxId)).perform(typeText("cmattatall2@gmail.com"));
+        onView(withId(R.id.passwordResetEmailTextBoxId)).perform(typeText("cmattatall2@gmail.com"));
         hideKeyboard();
         onView(withId(R.id.passwordResetSendEmailButtonId)).perform(click());
         onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(withText(R.string.passwordResetEmailSent)));
