@@ -73,6 +73,7 @@ public class PasswordResetActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().sendPasswordResetEmail(email);
         TextView emailStatusMessage = (TextView)findViewById(R.id.passwordResetEmailStatusMessageTextViewId);
         emailStatusMessage.setText(R.string.passwordResetEmailSent);
+        goBackToLoginPage(v);
     }
 
 
