@@ -62,6 +62,16 @@ public class PasswordResetEmailSenderTester {
         onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(withText(R.string.passwordResetEmailSent)));
     }
 
+    @Test
+    public void AT_3()
+    {
+        onView(withId(R.id.passwordResetEmailTextBoxId)).perform(typeText("cmattatall2@gmail.com"));
+        hideKeyboard();
+        onView(withId(R.id.passwordResetSendEmailButtonId)).perform(click());
+        onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(withText(R.string.passwordResetEmailSent)));
+        onView(withId(R.id.buttonLogin)).check(matches(isDisplayed())); /* this is the same as AT_2 but we confirm that we've returned to login page */
+    }
+
     private void hideKeyboard() /* on small screen sizes, the keyboard can cover the editTexts */
     {
         onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
