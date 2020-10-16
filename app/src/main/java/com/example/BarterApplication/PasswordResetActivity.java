@@ -2,6 +2,7 @@ package com.example.BarterApplication;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.wifi.hotspot2.pps.Credential;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import com.example.BarterApplication.helpers.*;
 
 public class PasswordResetActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
@@ -73,13 +75,17 @@ public class PasswordResetActivity extends AppCompatActivity {
     public void resetOnClick(final View v) {
         EditText emailTextEdit = (EditText)findViewById(R.id.passwordResetEmailTextBoxId);
         String email = emailTextEdit.getText().toString();
-        FirebaseAuth.getInstance().sendPasswordResetEmail(email);
         TextView emailStatusMessage = (TextView)findViewById(R.id.passwordResetEmailStatusMessageTextViewId);
-        emailStatusMessage.setText(R.string.passwordResetEmailSent);
-        new CountDownTimer(1000, 1000) {
-            public void onTick(long millisUntilFinished) {}
-            public void onFinish() { goBackToLoginPage(v); }
-        }.start();
+        CredentialHelper helper = new CredentialHelper();
+        if(helper.string_isEmailEmpty(email))
+        {
+            emailStatusMessage.setText(R.string.passwordResetEmptyEmailError);
+        }
+        else
+        {
+            FirebaseAuth.getInstance().sendPasswordResetEmail(email);
+            emailStatusMessage.setText(R.string.passwordResetEmailSent);
+        }
     }
 
 

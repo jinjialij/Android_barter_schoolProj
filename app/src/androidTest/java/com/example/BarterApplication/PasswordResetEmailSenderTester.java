@@ -64,24 +64,15 @@ public class PasswordResetEmailSenderTester {
     @Test
     public void AT_3()
     {
-        typeEmail("cmattatall2@gmail.com");
-        onView(withId(R.id.passwordResetSendEmailButtonId)).perform(click());
-        onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(withText(R.string.passwordResetEmailSent)));
-        onView(withId(R.id.buttonLogin)).check(matches(isDisplayed())); /* this is the same as AT_2 but we confirm that we've returned to login page */
-    }
-
-    @Test
-    public void AT_4()
-    {
         onView(withId(R.id.backButton)).perform(click());
         onView(withId(R.id.buttonLogin)).check(matches(isDisplayed())); /* confirm we're back at login screen */
     }
 
-
     @Test
-    public void AT_5() /* If the user hasn't entered an email, we shouldn't be sending an email anywhere */
+    public void AT_4() /* If the user hasn't entered an email, we shouldn't be sending an email anywhere */
     {
         typeEmail(""); /* empty string */
+        onView(withId(R.id.passwordResetSendEmailButtonId)).perform(click());
         onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(withText(R.string.passwordResetEmptyEmailError)));
     }
 
