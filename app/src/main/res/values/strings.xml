@@ -10,6 +10,6 @@
     <string name="emailConfirmTextBoxHint">confirm email</string>
     <string name="passwordResetButtonLabel">Change Password</string>
     <string name="passwordResetSendResetEmailButtonLabel">Send Reset Email</string>
-    <string name="passwordResetEmailSent">A password reset email has been sent to your email</string>
+    <string name="passwordResetEmailSent">A password reset email has been sent to your email if you have an account registered</string>
     <string name="passwordResetEmptyEmailError">Please enter an email first</string>
 </resources>
