@@ -5,22 +5,19 @@ import androidx.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.BarterApplication.helpers.*;
-import com.example.BarterApplication.helpers.ValidationHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    TextView textviewFindPassword;
+public class MainActivity extends AppCompatActivity  {
+
 
     private FirebaseAuth mAuth;
 
@@ -29,9 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        textviewFindPassword = (TextView) findViewById(R.id.textviewFindPassword);
-        textviewFindPassword.setOnClickListener(this);
-        // code to get current user
+
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -114,10 +109,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    public void onClick(View view) {
-        if (view == textviewFindPassword) {
-            finish();
-            startActivity(new Intent(this, FindActivity.class));
+
         }
-    }
-}
+
