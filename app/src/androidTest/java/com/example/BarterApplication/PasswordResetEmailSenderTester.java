@@ -45,7 +45,6 @@ public class PasswordResetEmailSenderTester {
 
     }
 
-    /*
     @Test
     public void AT_1()
     {
@@ -82,6 +81,4 @@ public class PasswordResetEmailSenderTester {
         onView(withId(R.id.passwordResetEmailTextBoxId)).perform(typeText(s));
         onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
     }
-
-     */
 }

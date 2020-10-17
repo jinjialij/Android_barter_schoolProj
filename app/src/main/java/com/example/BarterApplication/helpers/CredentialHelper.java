@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class CredentialHelper {
 
     public static boolean isValidEmail(CharSequence target) {
-        return (charSeq_isEmailEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
     public static boolean isValidPassword(String s) {
@@ -20,12 +20,10 @@ public class CredentialHelper {
         return !TextUtils.isEmpty(s) && PASSWORD_PATTERN.matcher(s).matches();
     }
 
-
     public static boolean charSeq_isEmailEmpty(CharSequence target)
     {
         return target != null && TextUtils.isEmpty(target);
     }
-
 
     public static boolean string_isEmailEmpty(String s)
     {
