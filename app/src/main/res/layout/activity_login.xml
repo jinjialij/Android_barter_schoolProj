@@ -176,24 +176,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textviewFindPassword"
-        android:layout_width="243dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="175dp"
-        android:layout_marginLeft="175dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginRight="150dp"
-        android:layout_marginBottom="47dp"
-        android:text="forgot your password?"
-        android:textColor="#E91E63"
-        android:textColorLink="#E91E63"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.248"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passResetBtn"
-        app:layout_constraintVertical_bias="0.16" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
