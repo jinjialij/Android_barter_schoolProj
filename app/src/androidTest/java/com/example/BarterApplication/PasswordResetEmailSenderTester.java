@@ -5,6 +5,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -50,7 +52,7 @@ public class PasswordResetEmailSenderTester {
     {
         onView(withId(R.id.passwordResetSendEmailButtonId)).check(matches(isDisplayed()));
         onView(withId(R.id.passwordResetEmailTextBoxId)).check(matches(isDisplayed()));
-        onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(isDisplayed()));
+        onView(withId(R.id.passwordResetEmailStatusMessageTextViewId)).check(matches(withText("")));
     }
 
     @Test
@@ -64,6 +66,7 @@ public class PasswordResetEmailSenderTester {
     @Test
     public void AT_3()
     {
+        FirebaseAuth.getInstance().signOut();
         onView(withId(R.id.backButton)).perform(click());
         onView(withId(R.id.buttonLogin)).check(matches(isDisplayed()));
     }
