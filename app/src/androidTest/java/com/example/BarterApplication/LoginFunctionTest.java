@@ -40,21 +40,7 @@ public class LoginFunctionTest {
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
     FirebaseAuth mAuth;
 
-    public ViewAction waitFor(final long delay) {
-        return new ViewAction() {
-            @Override public Matcher<View> getConstraints() {
-                return ViewMatchers.isRoot();
-            }
 
-            @Override public String getDescription() {
-                return "wait for " + delay + "milliseconds";
-            }
-
-            @Override public void perform(UiController uiController, View view) {
-                uiController.loopMainThreadForAtLeast(delay);
-            }
-        };
-    }
 
     @Before
     public void setup()
@@ -85,7 +71,7 @@ public class LoginFunctionTest {
         onView(withId(R.id.buttonLogin))
                 .perform(click());
 
-        onView(isRoot()).perform(waitFor(5000));
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
         assertNotNull(mAuth.getCurrentUser());
         onView(withId(R.id.buttonLogout))
                 .perform(click());

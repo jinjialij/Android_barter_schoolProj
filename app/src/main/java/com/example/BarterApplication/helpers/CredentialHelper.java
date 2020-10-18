@@ -16,7 +16,7 @@ public class CredentialHelper {
     public static boolean isValidPassword(String s) {
         Pattern PASSWORD_PATTERN
                 = Pattern.compile(
-                "[a-zA-Z0-9\\!\\@\\#\\$]{4,24}");
+                "[a-zA-Z0-9\\!\\@\\#\\$]{6,24}");
         return !TextUtils.isEmpty(s) && PASSWORD_PATTERN.matcher(s).matches();
     }
 

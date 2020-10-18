@@ -9,4 +9,10 @@
     <string name="passwordResetSendResetEmailButtonLabel">Send Reset Email</string>
     <string name="passwordResetEmailSent">A password reset email has been sent to your email if you have an account registered</string>
     <string name="passwordResetEmptyEmailError">Please enter an email first</string>
+    <string name="registerEmptyEmailPasswordError">Please enter both an email and password.</string>
+    <string name="registerFieldsMismatchError">Emails and/or passwords do not match.</string>
+    <string name="registerInvalidEmailError">Entered email address is not valid.</string>
+    <string name="registerPasswordLengthError">\"Password must be 6-24 characters \"</string>
+    <string name="registerSuccessMessage">Registration Successfully, going back to login..</string>
+
 </resources>
