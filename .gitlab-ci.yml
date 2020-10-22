@@ -61,7 +61,7 @@ open_merge_request:
     before_script: []
     stage: merge
     only:
-        - /^feature\/*/
+        - /^.*/
     script:
         - HOST=${CI_PROJECT_URL} CI_PROJECT_ID=${CI_PROJECT_ID} CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME} GITLAB_USER_ID=${GITLAB_USER_ID} PRIVATE_TOKEN=${PRIVATE_TOKEN} ./autoMergeRequest.sh # The name of the script
     
