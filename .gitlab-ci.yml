@@ -8,9 +8,10 @@ variables:
   ANDROID_SDK_TOOLS: "4333796"
 
 stages:
-    - openMr
-    - otherStages
-
+    - build
+    - test
+    - merge
+    
 before_script:
   # - apt-get --quiet update --yes
   # - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
@@ -58,7 +59,7 @@ unit_tests:
 
 open_merge_request:
     before_script: []
-    stage: openMr
+    stage: merge
     only:
         - /^feature\/*/
     script:
