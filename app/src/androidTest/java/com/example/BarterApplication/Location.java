@@ -3,10 +3,12 @@ package com.example.BarterApplication;
 import android.Manifest;
 import android.view.View;
 
+import com.example.BarterApplication.helpers.LocationHelper;
 import com.example.BarterApplication.helpers.ToastMatcher;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.hamcrest.Matcher;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -54,7 +56,8 @@ public class Location {
     }
 
     /*
-        We cant unaccept an accepted permission,
+        We cant unaccept an accepted permission, so we can only check that the permission request
+        doesn't appear
      */
     @Test
     public void AT_4_01(){
@@ -63,4 +66,9 @@ public class Location {
                 .check(matches(isDisplayed()));
     }
 
+    @Test
+    public void AT_4_02() throws Exception {
+        // check for longitude/latitude values
+        Assert.assertArrayEquals(new int[]{1,2},LocationHelper.getLocation());
+    }
 }

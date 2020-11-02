@@ -1,4 +1,4 @@
-package com.example.BarterApplication.services;
+package com.example.BarterApplication.helpers;
 
 import android.app.Service;
 import android.content.Intent;

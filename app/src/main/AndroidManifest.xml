@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name="com.example.BarterApplication.services.LocationService"
+            android:name="com.example.BarterApplication.helpers.LocationService"
             android:enabled="true"
             android:foregroundServiceType="location"/>
 
