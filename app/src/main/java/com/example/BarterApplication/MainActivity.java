@@ -109,7 +109,5 @@ public class MainActivity extends AppCompatActivity  {
         Intent intent = new Intent(this, PasswordResetActivity.class);
         startActivity(intent);
     }
-
-
-        }
+}
 
