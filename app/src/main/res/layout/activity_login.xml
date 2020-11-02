@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#009688"
-    tools:context=".MainActivity>">
+    tools:context=".MainActivity">
 
     <Button
         android:id="@+id/buttonLogin"
@@ -18,7 +18,7 @@
         android:layout_marginRight="127dp"
         android:layout_marginBottom="195dp"
         android:background="#FFFFFF"
-        android:onClick="goToLogin"
+        android:onClick="signInButtonClick"
         android:text="Login"
         android:textColor="#009688"
         app:layout_constraintBottom_toBottomOf="parent"

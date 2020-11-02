@@ -1,11 +1,16 @@
 package com.example.BarterApplication;
 
+import android.Manifest;
 import android.content.Intent;
 import androidx.annotation.NonNull;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,10 +20,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 /* add comment to main activity to test automation of merge requests */
 public class MainActivity extends AppCompatActivity  {
 
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
     private FirebaseAuth mAuth;
     private boolean fromMyRequest;
 
@@ -28,42 +33,54 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         fromMyRequest = getIntent().getBooleanExtra("fromMyRequest", false);
+        requestLocationPermission();
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
-
-        Button loginBtn = (Button) findViewById(R.id.buttonLogin);
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText emailAddress = (EditText)findViewById(R.id.editTextTextEmailAddress);
-                EditText password = (EditText)findViewById(R.id.editTextTextPassword);
-
-                String email = emailAddress.getText().toString();
-                String pass = password.getText().toString();
-
-                if (ValidationHelper.isValidEmail(email) && !pass.isEmpty()){
-                    signIn(email, pass);
-                }
-                else{
-                    Toaster.generateToast(MainActivity.this,"Email or password is not valid.");
-                    return;
-                }
-
-            }
-        });
-
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    private void signIn(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
+    @AfterPermissionGranted(REQUEST_LOCATION_PERMISSION)
+    public void requestLocationPermission() {
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
+        if(EasyPermissions.hasPermissions(this, perms)) {
+            Toast.makeText(this, getString(R.string.locationPermissionAllowed), Toast.LENGTH_SHORT).show();
+            updateUI(mAuth.getCurrentUser());
+        }
+        else {
+            EasyPermissions.requestPermissions(this, getString(R.string.locationPermissionUnallowed), REQUEST_LOCATION_PERMISSION, perms);
+        }
+    }
+
+
+    /*
+        Once we have location permissions, check for the redirect
+     */
+    public void updateUI(FirebaseUser user) {
+        // Check if user is signed in (non-null) and update UI accordingly.
+        if (user != null) {
+            Toaster.generateToast(MainActivity.this,
+                    "Login successfully. Welcome!");
+            Intent intent = new Intent(this, HomepageActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public void signInButtonClick(View v) {
+        EditText emailAddress = (EditText)findViewById(R.id.editTextTextEmailAddress);
+        EditText password = (EditText)findViewById(R.id.editTextTextPassword);
+        String email = emailAddress.getText().toString();
+        String pass = password.getText().toString();
+
+        if (!ValidationHelper.isValidEmail(email) || pass.isEmpty()){
+            Toaster.generateToast(MainActivity.this,"Email or password is not valid.");
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -85,20 +102,6 @@ public class MainActivity extends AppCompatActivity  {
                 });
     }
 
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            if(!fromMyRequest){
-                Toaster.generateToast(MainActivity.this,
-                        "Login successfully. Welcome!");
-            }
-            Intent intent = new Intent(this, HomepageActivity.class);
-            startActivity(intent);
-        } else {
-            //
-        }
-    }
-
-
     public void goToRegistration(View v){
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
@@ -108,5 +111,8 @@ public class MainActivity extends AppCompatActivity  {
         Intent intent = new Intent(this, PasswordResetActivity.class);
         startActivity(intent);
     }
+}
+
+
 }
 

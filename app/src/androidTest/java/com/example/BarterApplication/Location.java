@@ -1,10 +1,13 @@
 package com.example.BarterApplication;
 
+import android.Manifest;
 import android.view.View;
 
+import com.example.BarterApplication.helpers.ToastMatcher;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +17,12 @@ import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.internal.platform.content.PermissionGranter;
+import androidx.test.rule.GrantPermissionRule;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -25,8 +32,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class Location {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
+    @Rule
+    public GrantPermissionRule mRuntimePermissionRule
+            = GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION);
 
-    FirebaseAuth mAuth;
+
     public ViewAction waitFor(final long delay) {
         return new ViewAction() {
             @Override public Matcher<View> getConstraints() {
@@ -43,9 +53,14 @@ public class Location {
         };
     }
 
+    /*
+        We cant unaccept an accepted permission,
+     */
     @Test
     public void AT_4_01(){
-        onView(withText("location")).check(matches(isDisplayed()));
+        onView(withText(R.string.locationPermissionUnallowed)).check(doesNotExist());
+        onView(withText(R.string.locationPermissionAllowed)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
     }
 
 }

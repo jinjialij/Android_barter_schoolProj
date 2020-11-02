@@ -1,4 +1,4 @@
-package com.example.BarterApplication;
+package com.example.BarterApplication.helpers;
 
 import android.os.IBinder;
 import android.view.WindowManager;

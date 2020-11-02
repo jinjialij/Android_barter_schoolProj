@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.example.BarterApplication"
         minSdkVersion 15
@@ -58,4 +58,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+
+    /*  LOCATION DEPENDENCIES */
+    implementation('com.google.android.gms:play-services-location:17.1.0')
+    implementation 'pub.devrel:easypermissions:3.0.0'
+    implementation 'androidx.activity:activity:1.1.0'
 }
