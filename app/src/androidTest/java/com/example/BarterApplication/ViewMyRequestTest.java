@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -55,6 +56,14 @@ public class ViewMyRequestTest {
     public void testViewMyRequestButton_AT_08_01(){
         onView(withId(R.id.viewMyRequestBtn)).check(matches(isDisplayed()));
         onView(withId(R.id.viewMyRequestBtn)).check(matches(isClickable()));
+    }
+
+    @Test
+    public void testViewMyRequestButton_redirecting_feature_AT_08_02(){
+        onView(withId(R.id.viewMyRequestBtn)).perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.viewMyRequestBtn)).check(doesNotExist());
+        onView(withId(R.id.viewMyRequestTitle)).check(matches(isDisplayed()));
     }
 
     @After
