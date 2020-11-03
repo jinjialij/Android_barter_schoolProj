@@ -27,6 +27,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
@@ -61,6 +62,14 @@ public class ViewAddButtonTest {
     public void testViewMyRequestButton_AT_06_01(){
         onView(withId(R.id.viewMyAddBtn)).check(matches(isDisplayed()));
         onView(withId(R.id.viewMyAddBtn)).check(matches(isClickable()));
+    }
+
+    public void testViewMyRequestButton_AT_06_02(){
+        onView(withId(R.id.viewMyAddBtn)).perform(click());
+        onView(withId(R.id.viewMyItemsDescription)).check(matches(withText("Description")));
+        onView(withId(R.id.viewMyItemsTitle)).check(matches(withText("Title")));
+        onView(withId(R.id.viewConfirmAddItem)).check(matches(isDisplayed()));
+        onView(withId(R.id.viewConfirmAddItem)).check(matches(isClickable()));
     }
 
     @After
