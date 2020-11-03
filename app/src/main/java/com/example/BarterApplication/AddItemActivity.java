@@ -24,9 +24,8 @@ public class AddItemActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
 
-    public void goToAddItem(){
+    public void goToAddItem(View view) {
         setContentView(R.layout.activity_add_item);
     }
-
 }
 
