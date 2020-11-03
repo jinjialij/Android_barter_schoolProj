@@ -57,11 +57,11 @@ unit_tests:
   tags:
     - dalfcs_gitlab_docker_ci
 
-open_merge_request:
-    before_script: []
-    stage: merge
-    only:
-        - /^.*/
-    script:
-        - HOST=${CI_PROJECT_URL} CI_PROJECT_ID=${CI_PROJECT_ID} CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME} GITLAB_USER_ID=${GITLAB_USER_ID} PRIVATE_TOKEN=${PRIVATE_TOKEN} ./autoMergeRequest.sh # The name of the script
+#open_merge_request:
+#    before_script: []
+#    stage: merge
+#    only:
+#        - /^.*/
+#    script:
+#        - HOST=${CI_PROJECT_URL} CI_PROJECT_ID=${CI_PROJECT_ID} CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME} GITLAB_USER_ID=${GITLAB_USER_ID} PRIVATE_TOKEN=${PRIVATE_TOKEN} ./autoMergeRequest.sh # The name of the script
     
