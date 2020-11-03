@@ -1,13 +1,9 @@
 package com.example.BarterApplication;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,14 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.example.BarterApplication.helpers.*;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,17 +26,19 @@ public class MainActivity extends AppCompatActivity  {
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private FirebaseAuth mAuth;
     private boolean fromMyRequest;
+    private LocationHelper locationHelper;
     private FusedLocationProviderClient fusedLocationClient;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // LocationHelper needs an activity to function, so we have to 'prime' it initially
+        locationHelper = new LocationHelper(LocationServices.getFusedLocationProviderClient(this));
+
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         fromMyRequest = getIntent().getBooleanExtra("fromMyRequest", false);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocationPermission();
-
 
     }
 
@@ -57,21 +52,9 @@ public class MainActivity extends AppCompatActivity  {
 
     @AfterPermissionGranted(REQUEST_LOCATION_PERMISSION)
     public void requestLocationPermission() {
-        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
         if(EasyPermissions.hasPermissions(this, perms)) {
             Toast.makeText(this, getString(R.string.locationPermissionAllowed), Toast.LENGTH_SHORT).show();
-            fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                LocationHelper.location = location;
-                                // Logic to handle location object
-                            }
-                        }
-
-                    });
             updateUI(mAuth.getCurrentUser());
         }
         else {

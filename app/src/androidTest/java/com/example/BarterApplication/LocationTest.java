@@ -33,7 +33,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class Location {
+public class LocationTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
     @Rule
@@ -58,7 +58,7 @@ public class Location {
     }
 
     /*
-        We cant unaccept an accepted permission, so we can only check that the permission request
+        We cant un-accept an accepted permission, so we can only check that the permission request
         doesn't appear
      */
     @Test
@@ -72,18 +72,18 @@ public class Location {
     public void AT_4_02() {
         // check for longitude/latitude values
         onView(isRoot()).perform(TestHelper.waitFor(2500));
-        Assert.assertNotNull(LocationHelper.Location);
+        Assert.assertNotNull(LocationHelper.getLocation());
     }
 
     @Test
     public void AT_4_03() {
         onView(isRoot()).perform(TestHelper.waitFor(1000));
 
-        LocationHelper.getSingleton().setLocation(null);
-        Assert.assertNull(LocationHelper.Location());
+        LocationHelper.setLocation(null);
+        Assert.assertNull(LocationHelper.getLocation());
 
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        Assert.assertNotNull(LocationHelper.Location());
+        Assert.assertNotNull(LocationHelper.getLocation());
     }
 
 }
