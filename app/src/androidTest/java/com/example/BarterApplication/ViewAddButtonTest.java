@@ -64,6 +64,7 @@ public class ViewAddButtonTest {
         onView(withId(R.id.viewMyAddBtn)).check(matches(isClickable()));
     }
 
+    @Test
     public void testViewMyRequestButton_AT_06_02(){
         onView(withId(R.id.viewMyAddBtn)).perform(click());
         onView(withId(R.id.viewMyItemsDescription)).check(matches(withText("Description")));
