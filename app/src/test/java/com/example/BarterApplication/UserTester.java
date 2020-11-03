@@ -22,7 +22,7 @@ public class UserTester {
     public void USERTEST1(){
         String e = "validEmail@test.com";
         String p = "testPassword";
-        User u = new User(p, e);
+        User u = new User(e, p);
         assertEquals(u.getEmail(), e);
         assertEquals(u.getPassword(), p);
     }

@@ -19,13 +19,11 @@ public class User {
 
 
     public  String getPassword(){
-
-        return null;
+        return this.password;
     }
 
 
     public String getEmail(){
-        return null;
-
+        return this.email;
     }
 }
