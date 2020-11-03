@@ -72,6 +72,18 @@ public class Location {
     public void AT_4_02() {
         // check for longitude/latitude values
         onView(isRoot()).perform(TestHelper.waitFor(2500));
-        Assert.assertNotNull(LocationHelper.location);
+        Assert.assertNotNull(LocationHelper.Location);
     }
+
+    @Test
+    public void AT_4_03() {
+        onView(isRoot()).perform(TestHelper.waitFor(1000));
+
+        LocationHelper.getSingleton().setLocation(null);
+        Assert.assertNull(LocationHelper.Location());
+
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        Assert.assertNotNull(LocationHelper.Location());
+    }
+
 }
