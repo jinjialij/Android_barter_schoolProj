@@ -1,7 +1,7 @@
 package com.example.BarterApplication;
 
 public class Item {
-    private String name = null;
+    private String name = null; // THE ABSOLUTE MINIMUM REQUIRED IS A NAME
     private String description = null;
     private String[] labels = null;
     //@todo PHOTO
@@ -9,7 +9,7 @@ public class Item {
     // ctor
     public Item()
     {
-        this.name = new String("enter a name");
+        this.name = null;
     }
 
 
@@ -30,7 +30,9 @@ public class Item {
         this.description = description;
     }
 
-
+    public String get_name() {
+        return null;
+    }
 
     public String get_description() {
         return description;
@@ -54,7 +56,7 @@ public class Item {
     }
 
 
-    public void add_description(String desc) {
+    public void set_description(String desc) {
         // overwrite the description
     }
 
@@ -68,4 +70,7 @@ public class Item {
 
         return null;
     }
+
+
+
 }

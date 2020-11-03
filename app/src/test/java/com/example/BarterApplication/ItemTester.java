@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class ItemTester {
 
 
@@ -20,8 +22,12 @@ public class ItemTester {
 
     }
 
-
-
-
-
+    @Test
+    public void ITEMTEST1(){
+        String e = "validEmail@test.com";
+        String p = "testPassword";
+        User u = new User(e, p);
+        assertEquals(u.getEmail(), e);
+        assertEquals(u.getPassword(), p);
+    }
 }
