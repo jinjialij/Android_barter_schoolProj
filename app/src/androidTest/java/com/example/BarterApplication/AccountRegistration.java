@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
@@ -77,11 +78,11 @@ public class AccountRegistration {
     public void AT_02(){
         String invalidEmail = "a";
         String password = "1234";
-        onView(withId(R.id.registerEmailInitialTextBoxId)).perform(typeText(invalidEmail));
-        onView(withId(R.id.registerEmailConfirmTextBoxId)).perform(typeText(invalidEmail));
+        onView(withId(R.id.registerEmailInitialTextBoxId)).perform(typeText(invalidEmail), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.registerEmailConfirmTextBoxId)).perform(typeText(invalidEmail), ViewActions.closeSoftKeyboard());
 
-        onView(withId(R.id.registerPasswordInitialTextBoxId)).perform(typeText(password));
-        onView(withId(R.id.registerPasswordConfirmTextBoxId)).perform(typeText(password));
+        onView(withId(R.id.registerPasswordInitialTextBoxId)).perform(typeText(password), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordConfirmTextBoxId)).perform(typeText(password), ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
         onView(withText(R.string.registerInvalidEmailError)).inRoot(new ToastMatcher())
@@ -92,11 +93,11 @@ public class AccountRegistration {
     public void AT_03(){
 
         // mismatch email
-        onView(withId(R.id.registerEmailInitialTextBoxId)).perform(typeText("adam@mat.com"));
-        onView(withId(R.id.registerEmailConfirmTextBoxId)).perform(typeText("adam@mattatall.com"));
+        onView(withId(R.id.registerEmailInitialTextBoxId)).perform(typeText("adam@mat.com"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.registerEmailConfirmTextBoxId)).perform(typeText("adam@mattatall.com"), ViewActions.closeSoftKeyboard());
 
-        onView(withId(R.id.registerPasswordInitialTextBoxId)).perform(typeText("password1234"));
-        onView(withId(R.id.registerPasswordConfirmTextBoxId)).perform(typeText("password1234"));
+        onView(withId(R.id.registerPasswordInitialTextBoxId)).perform(typeText("password1234"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordConfirmTextBoxId)).perform(typeText("password1234"), ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
         onView(withText(R.string.registerFieldsMismatchError)).inRoot(new ToastMatcher())
@@ -109,11 +110,11 @@ public class AccountRegistration {
         onView(withId(R.id.registerPasswordConfirmTextBoxId)).perform(clearText());
 
         // mismatch password
-        onView(withId(R.id.registerEmailInitialTextBoxId)).perform(typeText("adam@mattatall.com"));
-        onView(withId(R.id.registerEmailConfirmTextBoxId)).perform(typeText("adam@mattatall.com"));
+        onView(withId(R.id.registerEmailInitialTextBoxId)).perform(typeText("adam@mattatall.com"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.registerEmailConfirmTextBoxId)).perform(typeText("adam@mattatall.com"), ViewActions.closeSoftKeyboard());
 
-        onView(withId(R.id.registerPasswordInitialTextBoxId)).perform(typeText("password1234"));
-        onView(withId(R.id.registerPasswordConfirmTextBoxId)).perform(typeText("password12345"));
+        onView(withId(R.id.registerPasswordInitialTextBoxId)).perform(typeText("password1234"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordConfirmTextBoxId)).perform(typeText("password12345"), ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
         onView(withText(R.string.registerFieldsMismatchError)).inRoot(new ToastMatcher())
@@ -122,11 +123,11 @@ public class AccountRegistration {
 
     @Test
     public void AT_04(){
-        onView(withId(R.id.registerEmailInitialTextBoxId)).perform(typeText("adam@mattatall.com"));
-        onView(withId(R.id.registerEmailConfirmTextBoxId)).perform(typeText("adam@mattatall.com"));
+        onView(withId(R.id.registerEmailInitialTextBoxId)).perform(typeText("adam@mattatall.com"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.registerEmailConfirmTextBoxId)).perform(typeText("adam@mattatall.com"), ViewActions.closeSoftKeyboard());
 
-        onView(withId(R.id.registerPasswordInitialTextBoxId)).perform(typeText("1"));
-        onView(withId(R.id.registerPasswordConfirmTextBoxId)).perform(typeText("1"));
+        onView(withId(R.id.registerPasswordInitialTextBoxId)).perform(typeText("1"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordConfirmTextBoxId)).perform(typeText("1"), ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
         onView(withText(R.string.registerPasswordLengthError)).inRoot(new ToastMatcher())
@@ -139,11 +140,11 @@ public class AccountRegistration {
         // random email
         String email = UUID.randomUUID().toString().replace("-","") + "@dal.ca";
 
-        onView(withId(R.id.registerEmailInitialTextBoxId)).perform(typeText(email));
-        onView(withId(R.id.registerEmailConfirmTextBoxId)).perform(typeText(email));
+        onView(withId(R.id.registerEmailInitialTextBoxId)).perform(typeText(email), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.registerEmailConfirmTextBoxId)).perform(typeText(email), ViewActions.closeSoftKeyboard());
 
-        onView(withId(R.id.registerPasswordInitialTextBoxId)).perform(typeText("123456"));
-        onView(withId(R.id.registerPasswordConfirmTextBoxId)).perform(typeText("123456"));
+        onView(withId(R.id.registerPasswordInitialTextBoxId)).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordConfirmTextBoxId)).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
         onView(withText(R.string.registerSuccessMessage)).inRoot(new ToastMatcher())
