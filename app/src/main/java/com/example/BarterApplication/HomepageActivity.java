@@ -44,4 +44,10 @@ public class HomepageActivity extends AppCompatActivity {
         mAuth.signOut();
         updateUI(null);
     }
+
+
+    public void goToAddItem(View view) {
+        Intent intent = new Intent(this, AddItemActivity.class);
+        startActivity(intent);
+    }
 }

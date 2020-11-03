@@ -14,5 +14,8 @@
     <string name="registerInvalidEmailError">Entered email address is not valid.</string>
     <string name="registerPasswordLengthError">\"Password must be 6-24 characters \"</string>
     <string name="registerSuccessMessage">Registration Successfully, going back to login..</string>
+    <string name="description">Description</string>
+    <string name="confirm">Confirm</string>
+    <string name="title">Title</string>
 
 </resources>
