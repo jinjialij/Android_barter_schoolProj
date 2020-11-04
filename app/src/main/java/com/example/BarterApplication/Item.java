@@ -20,7 +20,6 @@ public class Item {
     public Item(String name) {
         this.name = name;
         this.labels = new ArrayList<String>();
-        removeDuplicateLabels();
     }
 
     // other form of ctor
