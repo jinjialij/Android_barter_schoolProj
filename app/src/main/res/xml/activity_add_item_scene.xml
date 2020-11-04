@@ -16,18 +16,17 @@
             android:layout_marginEnd="170dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="170dp"
-            android:layout_marginTop="506dp"
+            android:layout_marginTop="608dp"
             motion:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="177dp"
-            motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintHorizontal_bias="1.0"
+            motion:layout_constraintHorizontal_bias="0.0"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
-            motion:layout_constraintVertical_bias="1.0"
             motion:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="153dp"
             android:layout_marginStart="153dp"
-            android:id="@+id/viewConfirmAddItem" />
+            android:id="@+id/viewConfirmAddItem"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="75dp" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
