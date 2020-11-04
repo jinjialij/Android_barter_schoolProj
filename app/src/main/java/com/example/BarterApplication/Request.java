@@ -1,6 +1,6 @@
 package com.example.BarterApplication;
 
-public class request {
+public class Request {
     private String requestName;
     private long requestId;
 
