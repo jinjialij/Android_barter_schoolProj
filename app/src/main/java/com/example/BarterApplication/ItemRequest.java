@@ -1,11 +1,20 @@
 package com.example.BarterApplication;
 
 public class ItemRequest {
-    User requester;
-    Item item;
-    public ItemRequest(User u, Item i)
+    public String requesterId;
+    public Item item;
+
+    public ItemRequest(String requesterId, Item i)
     {
         this.item = i;
-        this.requester = u;
+        this.requesterId = requesterId;
+    }
+
+    public String getRequesterId() {
+        return requesterId;
+    }
+
+    public Item getItem() {
+        return item;
     }
 }

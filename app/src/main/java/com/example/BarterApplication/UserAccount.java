@@ -11,8 +11,8 @@ public class UserAccount extends User {
 
     //@todo ITERATION 3: RATING
 
-    public UserAccount(String email, String password){
-        super(email, password);
+    public UserAccount(String email, String uid){
+        super(email, uid);
         items = null;
         requests = null;
     }

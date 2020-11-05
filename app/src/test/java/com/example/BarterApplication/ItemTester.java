@@ -23,17 +23,21 @@ public class ItemTester {
     @Test
     public void test_CTOR1(){
         String n = "my item";
-        Item i = new Item(n);
+        String ownerId = "123456";
+        Item i = new Item(n, ownerId);
         assertEquals(i.get_name(), n);
+        assertEquals(i.getOwnerId(), ownerId);
     }
 
     @Test
     public void test_CTOR2(){
         String n = "my item";
         String d = "my_description";
-        Item i = new Item(n, d);
+        String ownerId = "123456";
+        Item i = new Item(n, d, ownerId);
         assertEquals(i.get_name(), n);
         assertEquals(i.get_description(), d);
+        assertEquals(i.getOwnerId(), ownerId);
     }
 
     @Test
@@ -41,14 +45,16 @@ public class ItemTester {
         String n = "my item";
         String d = "my_description";
         String new_d = "new_description";
+        String ownerId = "123456";
         ArrayList<String> labels = new ArrayList<>();
         labels.add("label1");
         labels.add("label2");
-        Item i = new Item(n, d, labels);
+        Item i = new Item(n, d, labels, ownerId);
         assertEquals(i.get_name(), n);
         assertEquals(i.get_description(), d);
         assertTrue(i.get_labels().contains("label1"));
         assertTrue(i.get_labels().contains("label2"));
+        assertEquals(i.getOwnerId(), ownerId);
     }
 
     @Test   //TEST SET DESCRIPTION
@@ -57,10 +63,11 @@ public class ItemTester {
         String n = "my item";
         String d = "my_description";
         String new_d = "new_description";
+        String ownerId = "123456";
         ArrayList<String> labels = new ArrayList<>();
         labels.add("label1");
         labels.add("label2");
-        Item i = new Item(n, d, labels);
+        Item i = new Item(n, d, labels, ownerId);
         assertEquals(i.get_name(), n);
         assertEquals(i.get_description(), d);
         assertTrue(i.get_labels().contains("label1"));
@@ -74,9 +81,10 @@ public class ItemTester {
     {
         String n = "my item";
         String d = "my_description";
+        String ownerId = "123456";
         ArrayList<String> labels = new ArrayList<>();
         labels.add("label1");
-        Item i = new Item(n, d, labels);
+        Item i = new Item(n, d, labels, ownerId);
         assertEquals(i.get_name(), n);
         assertEquals(i.get_description(), d);
         assertTrue(i.get_labels().contains("label1"));
@@ -88,8 +96,9 @@ public class ItemTester {
         String name = "my item";
         String desc = "my_description";
         String duplicate_label = "duplicate_label";
+        String ownerId = "123456";
         ArrayList<String> labels = new ArrayList<>();
-        Item item = new Item(name, desc, labels);
+        Item item = new Item(name, desc, labels, ownerId);
         item.add_label(duplicate_label);
         item.add_label(duplicate_label);
         int count = 0;
@@ -105,6 +114,5 @@ public class ItemTester {
     public void test_DELLABEL(){
 
     }
-
 
 }
