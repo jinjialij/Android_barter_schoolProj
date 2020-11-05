@@ -59,13 +59,13 @@ public class ViewAddButtonTest {
     }
 
     @Test
-    public void testViewMyRequestButton_AT_06_01(){
+    public void testViewMyRequestButton_AT_06_01(){//check add button
         onView(withId(R.id.viewMyAddBtn)).check(matches(isDisplayed()));
         onView(withId(R.id.viewMyAddBtn)).check(matches(isClickable()));
     }
 
     @Test
-    public void testViewMyRequestButton_AT_06_02(){
+    public void testViewMyRequestButton_AT_06_02(){//check item title and description
         onView(withId(R.id.viewMyAddBtn)).perform(click());
         onView(withId(R.id.viewMyItemsDescription)).check(matches(withText("Description")));
         onView(withId(R.id.viewMyItemsTitle)).check(matches(withText("Title")));
@@ -74,7 +74,7 @@ public class ViewAddButtonTest {
     }
 
     @Test
-    public void testViewMyRequestButton_AT_06_03(){
+    public void testViewMyRequestButton_AT_06_04(){//check confirm add successful
         String description = "This is my test item";
         String Title = "Test Item";
 
@@ -89,6 +89,25 @@ public class ViewAddButtonTest {
                 .perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withText(R.string.addItemSuccess)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testViewMyRequestButton_AT_06_05(){//check confirm add failed
+        String description = "This is my test item";
+        String Title = "Test Item";
+
+        onView(withId(R.id.viewMyAddBtn)).perform(click());
+        onView(withId(R.id.viewMyItemsDescription))
+                .perform(click())
+                .perform(typeText(description), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.editTextTextPassword))
+                .perform(click())
+                .perform(typeText(Title), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.viewConfirmAddItem))
+                .perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withText(R.string.addItemFail)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
 

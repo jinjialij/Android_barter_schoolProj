@@ -18,5 +18,6 @@
     <string name="confirm">Confirm</string>
     <string name="title">Title</string>
     <string name="addItemSuccess">The item has been added successfully</string>
+    <string name="addItemFail">The item failed add to database.</string>
 
 </resources>
