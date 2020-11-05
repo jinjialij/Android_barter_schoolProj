@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.UUID;
 
+
 public class Item {
     private String name = null; // THE ABSOLUTE MINIMUM REQUIRED IS A NAME
     private String description = null;
