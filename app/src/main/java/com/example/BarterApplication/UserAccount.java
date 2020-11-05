@@ -38,12 +38,9 @@ public class UserAccount extends User {
     public ArrayList<Item> getItems(){
         return this.items;
     }
-
-
     public ArrayList<String> getRequestIds(){
         return this.requestIds;
     }
-
     /*
         on data shapshot change (userAccount my_account) {
             database_inst d = someowmfomfwe firebase.database.getInst().databaseObj;

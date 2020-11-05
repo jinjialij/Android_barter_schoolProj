@@ -28,9 +28,9 @@ public class ItemRequest {
         return requesterId;
     }
 
-    public ArrayList<String> getOfferings(){
+    public ArrayList<String> getItemIdsOffered(){
         /** @todo */
-        return null;
+        return this.ItemIdsOffered;
     }
 
     public Item getItem(){
@@ -40,11 +40,6 @@ public class ItemRequest {
 
     public User getRequester(){
         /** @todo */
-        return null;
+        return UID_Service.findUserById(this.requesterId);
     }
-
-    public User getOwner(){
-        return null;
-    }
-
 }
