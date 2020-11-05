@@ -3,23 +3,22 @@ package com.example.BarterApplication;
 import com.example.BarterApplication.helpers.CredentialHelper;
 
 public class User {
-    public String password;
     public String email;
-    int guid;
+    public String uid;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
         // create a random Guid just in case we need to identify users by something other than email
     }
 
-    public User(String email, String pass) {
+    public User(String email, String uid) {
         this.email = email;
-        this.password = pass;
+        this.uid = uid;
     }
 
 
-    public  String getPassword(){
-        return this.password;
+    public  String getUid(){
+        return this.uid;
     }
 
 

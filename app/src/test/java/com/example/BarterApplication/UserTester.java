@@ -23,21 +23,12 @@ public class UserTester {
     }
 
     @Test
-    public void creationTest(){
-        String e = "validEmail@test.com";
-        String p = "testPassword";
-        User u = new User(e, p);
-        assertEquals(u.getEmail(), e);
-        assertEquals(u.getPassword(), p);
-    }
-
-    @Test
     public void test_creationWithUidTest(){
         String e = "validEmail@test.com";
         String uid = "1234567";
         User user = new User(e, uid);
 
-        assertEquals(user.getUid, uid);
+        assertEquals(user.getUid(), uid);
         assertEquals(user.getEmail(), e);
     }
 }

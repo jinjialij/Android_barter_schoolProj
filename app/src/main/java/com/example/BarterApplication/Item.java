@@ -7,6 +7,7 @@ public class Item {
     private String name = null; // THE ABSOLUTE MINIMUM REQUIRED IS A NAME
     private String description = null;
     private ArrayList<String> labels;
+    private String ownerId;
     //@todo PHOTO
 
     // ctor
@@ -14,27 +15,31 @@ public class Item {
     {
         this.name = null;
         this.labels = new ArrayList<String>();
+        this.ownerId = null;
     }
 
 
-    public Item(String name) {
+    public Item(String name, String ownerId) {
         this.name = name;
         this.labels = new ArrayList<String>();
+        this.ownerId = ownerId;
     }
 
     // other form of ctor
-    public Item(String name, String description, ArrayList<String> labels) {
+    public Item(String name, String description, ArrayList<String> labels, String ownerId) {
         this.name = name;
         this.description = description;
         this.labels = labels;
         removeDuplicateLabels();
+        this.ownerId = ownerId;
     }
 
 
     // ctor
-    public Item(String name, String description) {
+    public Item(String name, String description, String ownerId) {
         this.name = name;
         this.description = description;
+        this.ownerId = ownerId;
     }
 
     public String get_name() {
@@ -47,6 +52,10 @@ public class Item {
 
     public ArrayList<String> get_labels() {
         return this.labels;
+    }
+
+    public String getOwnerId() {
+        return this.ownerId;
     }
 
     public void add_label(String lbl) {

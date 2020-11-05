@@ -19,9 +19,10 @@ public class ItemRequestTest {
     @Test
     public void test_CTOR(){
         String requesterId = "requesterId";
-        String n = "my item";
-        Item i = new Item(n, requesterId);
-        assertEquals(i.get_name(), n);
-        assertEquals(i.requesterId(), requesterId);
+        String name = "my item";
+        Item item = new Item(name, requesterId);
+        ItemRequest itemRequest = new ItemRequest(requesterId, item);
+        assertEquals(itemRequest.getItem().get_name(), name);
+        assertEquals(itemRequest.getRequesterId(), requesterId);
     }
 }
