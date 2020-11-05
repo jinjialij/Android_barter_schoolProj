@@ -73,6 +73,25 @@ public class ViewAddButtonTest {
         onView(withId(R.id.viewConfirmAddItem)).check(matches(isClickable()));
     }
 
+    @Test
+    public void testViewMyRequestButton_AT_06_03(){
+        String description = "This is my test item";
+        String Title = "Test Item";
+
+        onView(withId(R.id.viewMyAddBtn)).perform(click());
+        onView(withId(R.id.viewMyItemsDescription))
+                .perform(click())
+                .perform(typeText(description), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.editTextTextPassword))
+                .perform(click())
+                .perform(typeText(Title), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.viewConfirmAddItem))
+                .perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withText(R.string.addItemSuccess)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
     @After
     public void teardown()
     {
