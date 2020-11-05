@@ -111,6 +111,28 @@ public class ViewAddButtonTest {
                 .check(matches(isDisplayed()));
     }
 
+    @Test
+    public void testViewMyRequestButton_AT_06_06(){//redirect to view item list page
+        String description = "This is my test item";
+        String Title = "Test Item";
+
+        onView(withId(R.id.viewMyAddBtn)).perform(click());
+        onView(withId(R.id.viewMyItemsDescription))
+                .perform(click())
+                .perform(typeText(description), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.editTextTextPassword))
+                .perform(click())
+                .perform(typeText(Title), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.viewConfirmAddItem))
+                .perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withText(R.string.addItemSuccess)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        // TO DO
+        // view item list page
+    }
+
     @After
     public void teardown()
     {
