@@ -4,7 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ItemRequestTest {
     @Before
@@ -18,11 +21,26 @@ public class ItemRequestTest {
 
     @Test
     public void test_CTOR(){
-        String requesterId = "requesterId";
+        String userId = "userId";
+        String userEmail = "userEmail@User.com";
         String name = "my item";
-        Item item = new Item(name, requesterId);
-        ItemRequest itemRequest = new ItemRequest(requesterId, item);
-        assertEquals(itemRequest.getItem().get_name(), name);
-        assertEquals(itemRequest.getRequesterId(), requesterId);
+
+        UserAccount u = new UserAccount(userEmail, userId);
+
+        Item itemBeingRequested = new Item(name, userId);
+
+        String requesterId = "requesterId";
+        String offered_item_name1 = "item_to_offer1";
+        String offered_item_name2 = "item_to_offer2";
+        ArrayList<Item> itemsOffered = new ArrayList<Item>();
+        itemsOffered.add(new Item(offered_item_name1, requesterId));
+        itemsOffered.add(new Item(offered_item_name2, requesterId));
+        ItemRequest request = new ItemRequest(u, itemBeingRequested, itemsOffered);
+        assertEquals(request.getItem().get_name(), name);
+        assertEquals(request.getRequesterId(), requesterId);
+        assertEquals(request.getRequester().getUid(), requesterId);
+        for(int i = 0; i < request.getOfferings().size(); i++){
+            assertTrue(request.getOfferings().contains(itemsOffered.get(i).getUid()));
+        }
     }
 }

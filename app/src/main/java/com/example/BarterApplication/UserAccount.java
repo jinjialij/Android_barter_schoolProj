@@ -18,6 +18,32 @@ public class UserAccount extends User {
         requestIds = new ArrayList<String>();
     }
 
+
+    public void addItem(Item i){
+        if(!this.items.contains(i)){
+            this.items.add(i);
+        }
+    }
+
+
+    public void addItems(ArrayList<Item> items){
+        if(items.size() > 0){
+            for(int i = 0; i < items.size(); i++){
+                this.addItem(items.get(i));
+            }
+        }
+    }
+
+
+    public ArrayList<Item> getItems(){
+        return this.items;
+    }
+
+
+    public ArrayList<String> getRequestIds(){
+        return this.requestIds;
+    }
+
     /*
         on data shapshot change (userAccount my_account) {
             database_inst d = someowmfomfwe firebase.database.getInst().databaseObj;
