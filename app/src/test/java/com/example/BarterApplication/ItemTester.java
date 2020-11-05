@@ -23,17 +23,21 @@ public class ItemTester {
     @Test
     public void test_CTOR1(){
         String n = "my item";
-        Item i = new Item(n);
+        String ownerId = "123456";
+        Item i = new Item(n, ownerId);
         assertEquals(i.get_name(), n);
+        assertEquals(i.getOwnerId(), ownerId);
     }
 
     @Test
     public void test_CTOR2(){
         String n = "my item";
         String d = "my_description";
-        Item i = new Item(n, d);
+        String ownerId = "123456";
+        Item i = new Item(n, d, ownerId);
         assertEquals(i.get_name(), n);
         assertEquals(i.get_description(), d);
+        assertEquals(i.getOwnerId(), ownerId);
     }
 
     @Test
@@ -41,14 +45,16 @@ public class ItemTester {
         String n = "my item";
         String d = "my_description";
         String new_d = "new_description";
+        String ownerId = "123456";
         ArrayList<String> labels = new ArrayList<>();
         labels.add("label1");
         labels.add("label2");
-        Item i = new Item(n, d, labels);
+        Item i = new Item(n, d, labels, ownerId);
         assertEquals(i.get_name(), n);
         assertEquals(i.get_description(), d);
         assertTrue(i.get_labels().contains("label1"));
         assertTrue(i.get_labels().contains("label2"));
+        assertEquals(i.getOwnerId(), ownerId);
     }
 
     @Test   //TEST SET DESCRIPTION
@@ -105,6 +111,5 @@ public class ItemTester {
     public void test_DELLABEL(){
 
     }
-
 
 }

@@ -30,4 +30,14 @@ public class UserTester {
         assertEquals(u.getEmail(), e);
         assertEquals(u.getPassword(), p);
     }
+
+    @Test
+    public void test_creationWithUidTest(){
+        String e = "validEmail@test.com";
+        String uid = "1234567";
+        User user = new User(e, uid);
+
+        assertEquals(user.getUid, uid);
+        assertEquals(user.getEmail(), e);
+    }
 }
