@@ -1,28 +1,33 @@
 package com.example.BarterApplication;
 
+import com.example.BarterApplication.helpers.UID_Service;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
+import java.util.UUID;
+
 
 public class Item {
     private String name = null; // THE ABSOLUTE MINIMUM REQUIRED IS A NAME
     private String description = null;
     private ArrayList<String> labels;
+    private String uid;
     private String ownerId;
     //@todo PHOTO
 
     // ctor
-    public Item()
-    {
+    public Item() {
         this.name = null;
         this.labels = new ArrayList<String>();
         this.ownerId = null;
     }
 
-
     public Item(String name, String ownerId) {
         this.name = name;
         this.labels = new ArrayList<String>();
         this.ownerId = ownerId;
+        this.uid = UID_Service.newUID();
     }
 
     // other form of ctor
@@ -34,6 +39,10 @@ public class Item {
         this.ownerId = ownerId;
     }
 
+
+    public String getUid() {
+        return this.uid;
+    }
 
     // ctor
     public Item(String name, String description, String ownerId) {
