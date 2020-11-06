@@ -1,11 +1,8 @@
 package com.example.BarterApplication;
 
-import com.example.BarterApplication.helpers.UID_Service;
+import com.example.BarterApplication.helpers.UidService;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-import java.util.UUID;
 
 
 public class Item {
@@ -21,27 +18,24 @@ public class Item {
         this.name = null;
         this.labels = new ArrayList<String>();
         this.ownerId = null;
+        this.uid = UidService.newUID();
     }
 
     public Item(String name, String ownerId) {
         this.name = name;
         this.labels = new ArrayList<String>();
         this.ownerId = ownerId;
-        this.uid = UID_Service.newUID();
+        this.uid = UidService.newUID();
     }
 
     // other form of ctor
     public Item(String name, String description, ArrayList<String> labels, String ownerId) {
         this.name = name;
         this.description = description;
+        this.uid = UidService.newUID();
         this.labels = labels;
         removeDuplicateLabels();
         this.ownerId = ownerId;
-    }
-
-
-    public String getUid() {
-        return this.uid;
     }
 
     // ctor
@@ -49,17 +43,24 @@ public class Item {
         this.name = name;
         this.description = description;
         this.ownerId = ownerId;
+        this.uid = UidService.newUID();
     }
 
-    public String get_name() {
+
+
+    public String getUid() {
+        return this.uid;
+    }
+
+    public String getName() {
         return this.name;
     }
 
-    public String get_description() {
+    public String getDescription() {
         return description;
     }
 
-    public ArrayList<String> get_labels() {
+    public ArrayList<String> getLabels() {
         return this.labels;
     }
 
@@ -67,28 +68,28 @@ public class Item {
         return this.ownerId;
     }
 
-    public void add_label(String lbl) {
+    public void addLabel(String lbl) {
         if(!this.labels.contains(lbl)){
             labels.add(lbl);
         }
     }
 
-    public void remove_label(String lbl) {
+    public void removeLabel(String lbl) {
         if(this.labels.contains((lbl))){
             labels.remove(lbl);
         }
     }
 
-    public void set_description(String desc) {
+    public void setDescription(String desc) {
         this.description = desc;
     }
 
-    public void add_request(User u) {
+    public void addRequest(User u) {
         // add to list
     }
 
 
-    public User[] get_requests() {
+    public User[] getRequests() {
         //return list
 
         return null;

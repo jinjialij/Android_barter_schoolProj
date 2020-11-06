@@ -1,6 +1,6 @@
 package com.example.BarterApplication;
 
-import com.example.BarterApplication.helpers.UID_Service;
+import com.example.BarterApplication.helpers.UidService;
 
 import org.junit.After;
 import org.junit.Before;
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 
-public class UID_ServiceTester {
+public class UidServiceTester {
 
     @Before
     public void setup(){
@@ -22,8 +22,8 @@ public class UID_ServiceTester {
 
     @Test
     public void uniquenessTest(){
-        String first = UID_Service.newUID();
-        String second = UID_Service.newUID();
+        String first = UidService.newUID();
+        String second = UidService.newUID();
         assertFalse(first.equals(second));
     }
 }

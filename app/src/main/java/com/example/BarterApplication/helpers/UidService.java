@@ -5,9 +5,9 @@ import com.example.BarterApplication.User;
 
 import java.util.UUID;
 
-public class UID_Service {
+public class UidService {
 
-    static public Item findItemById(String id) {
+    static public Item findItemByItemUid(String id) {
         return null;
     }
 
@@ -16,7 +16,7 @@ public class UID_Service {
     }
 
 
-    static public User findOwnerById(String id){
+    static public User findItemOwnerByOwnerId(String id){
         return null;
     }
 

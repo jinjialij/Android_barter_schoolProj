@@ -1,9 +1,8 @@
 package com.example.BarterApplication;
 
-import com.example.BarterApplication.helpers.UID_Service;
+import com.example.BarterApplication.helpers.UidService;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class ItemRequest {
         private String requesterId;
@@ -35,11 +34,11 @@ public class ItemRequest {
 
     public Item getItem(){
         /** @todo */
-        return UID_Service.findItemById(this.itemId);
+        return UidService.findItemByItemUid(this.itemId);
     }
 
     public User getRequester(){
         /** @todo */
-        return UID_Service.findUserById(this.requesterId);
+        return UidService.findUserById(this.requesterId);
     }
 }

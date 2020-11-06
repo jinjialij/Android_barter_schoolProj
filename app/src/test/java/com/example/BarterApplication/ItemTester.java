@@ -25,7 +25,7 @@ public class ItemTester {
         String n = "my item";
         String ownerId = "123456";
         Item i = new Item(n, ownerId);
-        assertEquals(i.get_name(), n);
+        assertEquals(i.getName(), n);
         assertEquals(i.getOwnerId(), ownerId);
     }
 
@@ -35,8 +35,8 @@ public class ItemTester {
         String d = "my_description";
         String ownerId = "123456";
         Item i = new Item(n, d, ownerId);
-        assertEquals(i.get_name(), n);
-        assertEquals(i.get_description(), d);
+        assertEquals(i.getName(), n);
+        assertEquals(i.getDescription(), d);
         assertEquals(i.getOwnerId(), ownerId);
     }
 
@@ -50,10 +50,10 @@ public class ItemTester {
         labels.add("label1");
         labels.add("label2");
         Item i = new Item(n, d, labels, ownerId);
-        assertEquals(i.get_name(), n);
-        assertEquals(i.get_description(), d);
-        assertTrue(i.get_labels().contains("label1"));
-        assertTrue(i.get_labels().contains("label2"));
+        assertEquals(i.getName(), n);
+        assertEquals(i.getDescription(), d);
+        assertTrue(i.getLabels().contains("label1"));
+        assertTrue(i.getLabels().contains("label2"));
         assertEquals(i.getOwnerId(), ownerId);
     }
 
@@ -68,12 +68,12 @@ public class ItemTester {
         labels.add("label1");
         labels.add("label2");
         Item i = new Item(n, d, labels, ownerId);
-        assertEquals(i.get_name(), n);
-        assertEquals(i.get_description(), d);
-        assertTrue(i.get_labels().contains("label1"));
-        assertTrue(i.get_labels().contains("label2"));
-        i.set_description(new_d);
-        assertEquals(new_d, i.get_description());
+        assertEquals(i.getName(), n);
+        assertEquals(i.getDescription(), d);
+        assertTrue(i.getLabels().contains("label1"));
+        assertTrue(i.getLabels().contains("label2"));
+        i.setDescription(new_d);
+        assertEquals(new_d, i.getDescription());
     }
 
     @Test
@@ -85,9 +85,9 @@ public class ItemTester {
         ArrayList<String> labels = new ArrayList<>();
         labels.add("label1");
         Item i = new Item(n, d, labels, ownerId);
-        assertEquals(i.get_name(), n);
-        assertEquals(i.get_description(), d);
-        assertTrue(i.get_labels().contains("label1"));
+        assertEquals(i.getName(), n);
+        assertEquals(i.getDescription(), d);
+        assertTrue(i.getLabels().contains("label1"));
     }
 
     @Test
@@ -99,10 +99,10 @@ public class ItemTester {
         String ownerId = "123456";
         ArrayList<String> labels = new ArrayList<>();
         Item item = new Item(name, desc, labels, ownerId);
-        item.add_label(duplicate_label);
-        item.add_label(duplicate_label);
+        item.addLabel(duplicate_label);
+        item.addLabel(duplicate_label);
         int count = 0;
-        for(String s : item.get_labels()){
+        for(String s : item.getLabels()){
             if(s.equals(duplicate_label)){
                 count++;
             }
