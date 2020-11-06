@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 
 public class Item {
-    private String name = null; // THE ABSOLUTE MINIMUM REQUIRED IS A NAME
+    // THE ABSOLUTE MINIMUM REQUIRED IS the uid and name (for user)
+    private String name = null;
     private String description = null;
     private ArrayList<String> labels;
     private String uid;
@@ -46,8 +47,6 @@ public class Item {
         this.uid = UidService.newUID();
     }
 
-
-
     public String getUid() {
         return this.uid;
     }
@@ -71,6 +70,14 @@ public class Item {
     public void addLabel(String lbl) {
         if(!this.labels.contains(lbl)){
             labels.add(lbl);
+        }
+    }
+
+    public void addLabels(ArrayList<String> otherLabels) {
+        for(String label : otherLabels){
+            if (!this.labels.contains(label)){
+                this.labels.add(label);
+            }
         }
     }
 
@@ -104,6 +111,5 @@ public class Item {
         }
         this.labels = singles;
     }
-
 
 }
