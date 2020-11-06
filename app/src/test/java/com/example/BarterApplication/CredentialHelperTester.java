@@ -6,8 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.security.cert.Certificate;
+import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -32,7 +33,6 @@ public class CredentialHelperTester {
         assertTrue(CredentialHelper.isValidEmail("test123@test123.com"));
         assertTrue(CredentialHelper.isValidEmail("test@test.ca"));
         assertTrue(CredentialHelper.isValidEmail("test_with_underscore@test.com"));
-        assertTrue(CredentialHelper.isValidEmail("user@email_with_an_underscore.com"));
         assertTrue(CredentialHelper.isValidEmail("superVeryVeryVeryVeryVeryVeryVeryLongUserNameForAnEmailUserName@email.com"));
         assertTrue(CredentialHelper.isValidEmail("user@superVeryVeryVeryVeryVeryVeryVeryLongEmailAddress.com"));
     }
@@ -48,6 +48,7 @@ public class CredentialHelperTester {
         assertFalse(CredentialHelper.isValidEmail("user@numeric_domain.1023103219"));
         assertFalse(CredentialHelper.isValidEmail("user@.domain_starting_with_a_space.com"));
         assertFalse(CredentialHelper.isValidEmail("user@domain_with_garbage#$$$$@#$@$e.com"));
+        assertFalse(CredentialHelper.isValidEmail("user@email_withanunderscore.com"));
         assertFalse(CredentialHelper.isValidEmail("")); // empty password
         assertFalse(CredentialHelper.isValidEmail(null));
     }
@@ -57,21 +58,20 @@ public class CredentialHelperTester {
     public void passwordTestPositive(){
         assertTrue(CredentialHelper.isValidPassword("validPassword123"));
         assertTrue(CredentialHelper.isValidPassword("embedded123alphanumeric"));
-        assertTrue(CredentialHelper.isValidPassword("password_with_underscores"));
-        assertTrue(CredentialHelper.isValidPassword("password_with_underscores_and_numbers1234"));
-
+        assertTrue(CredentialHelper.isValidPassword("123409454059")); //purely numeric password
     }
 
     @Test
     public  void passwordTestNegative(){
         assertFalse(CredentialHelper.isValidPassword("purely_alphabetic_password"));
-        assertFalse(CredentialHelper.isValidPassword("123409454059")); //purely numeric password
         assertFalse(CredentialHelper.isValidPassword("")); // empty password
         assertFalse(CredentialHelper.isValidPassword(null)); // empty password
         assertFalse(CredentialHelper.isValidPassword("garbage_in_the_password@#$(@#$(!@"));
         assertFalse(CredentialHelper.isValidPassword("spaces in the password"));
         assertFalse(CredentialHelper.isValidPassword("_______"));
-        assertFalse(CredentialHelper.isValidPassword("short1")); // short password
+        assertFalse(CredentialHelper.isValidPassword("password_with_underscores"));
+        assertFalse(CredentialHelper.isValidPassword("s1")); // short password
         assertFalse(CredentialHelper.isValidPassword("password-with-hyphens"));
+        assertFalse(CredentialHelper.isValidPassword("password_with_underscores_and_numbers1234"));
     }
 }

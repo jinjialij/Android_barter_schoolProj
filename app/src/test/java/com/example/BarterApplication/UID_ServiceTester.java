@@ -26,5 +26,4 @@ public class UID_ServiceTester {
         String second = UID_Service.newUID();
         assertFalse(first.equals(second));
     }
-
 }
