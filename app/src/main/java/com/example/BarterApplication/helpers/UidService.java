@@ -2,25 +2,37 @@ package com.example.BarterApplication.helpers;
 
 import com.example.BarterApplication.Item;
 import com.example.BarterApplication.User;
+import com.example.BarterApplication.UserAccount;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class UidService {
 
-    static public Item findItemByItemUid(String id) {
+    public static Item findItemByItemUid(String id, ArrayList<Item> items) {
+        for (Item item : items){
+            if (item.getUid().equals(id)){
+                return item;
+            }
+        }
         return null;
     }
 
-    static public User findUserById(String id) {
+    public static User findUserById(String id) {
         return null;
     }
 
-
-    static public User findItemOwnerByOwnerId(String id){
+    //Use UserAccount instead of User to avoid firebase problems during tests since the app uses FirebaseUser to get user info
+    public static UserAccount findItemOwnerByOwnerId(String itemOwnerId, ArrayList<UserAccount> userAccounts){
+        for(UserAccount userAccount:userAccounts){
+            if(userAccount.getUid().equals(itemOwnerId)){
+                return userAccount;
+            }
+        }
         return null;
     }
 
-    static public String newUID() {
+    public static String newUID() {
         return UUID.randomUUID().toString();
     }
 

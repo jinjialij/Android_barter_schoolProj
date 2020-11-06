@@ -31,14 +31,4 @@ public class ItemRequest {
         /** @todo */
         return this.ItemIdsOffered;
     }
-
-    public Item getItem(){
-        /** @todo */
-        return UidService.findItemByItemUid(this.itemId);
-    }
-
-    public User getRequester(){
-        /** @todo */
-        return UidService.findUserById(this.requesterId);
-    }
 }
