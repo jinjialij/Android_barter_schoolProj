@@ -115,4 +115,19 @@ public class ItemTester {
 
     }
 
+    @Test
+    public  void test_addLabels()
+    {
+        String n = "my item";
+        String d = "my_description";
+        String ownerId = "123456";
+        Item i = new Item(n, ownerId);
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("label1");
+        labels.add("label2");
+        i.addLabels(labels);
+
+        assertEquals(i.getLabels().size(), 2);
+        assertEquals(i.getLabels(), labels);
+    }
 }
