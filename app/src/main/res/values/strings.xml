@@ -15,6 +15,9 @@
     <string name="registerPasswordLengthError">\"Password must be 6-24 characters \"</string>
     <string name="registerSuccessMessage">Registration Successfully, going back to login..</string>
     <string name="search_prompt">Choose an option</string>
+    <string name="confirm" />
+    <string name="title" />
+    <string name="description" />
 
 
     <string-array name="search_arrays">
