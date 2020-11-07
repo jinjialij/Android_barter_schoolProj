@@ -10,6 +10,14 @@ public class ItemRequest {
     private String requestItemId;
     private String uid;
 
+    //This constructor is used for Firebase
+    public ItemRequest() {
+        this.requesterId = null;
+        this.itemIdsOffered = new ArrayList<String>();
+        this.requestItemId = null;
+        this.uid = UidService.newUID();
+    }
+
     public ItemRequest(UserAccount u, Item wanted, ArrayList<Item> offered ) {
         this.uid = UidService.newUID();
         if(offered.size() != 0){
@@ -25,7 +33,7 @@ public class ItemRequest {
         }
     }
 
-    //This constructor is only used for FirebaseUser currentUser who log in the app
+    //This constructor is only used for Firebase insert dummy data for test
     public ItemRequest(String requesterId, String requestItemId, String uid) {
         this.uid = uid;
         this.requesterId = requesterId;
@@ -42,19 +50,11 @@ public class ItemRequest {
         return this.itemIdsOffered;
     }
 
-    public String getRequestedItemId() {
+    public String getRequestItemId() {
         return requestItemId;
     }
 
     public String getUid() {
         return this.uid;
-    }
-
-    public void addOfferedItemIds(ArrayList<String> offeredItemIds){
-        for(String id : offeredItemIds){
-            if(!this.itemIdsOffered.contains(id)){
-                this.itemIdsOffered.add(id);
-            }
-        }
     }
 }

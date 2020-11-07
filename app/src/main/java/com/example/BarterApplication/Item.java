@@ -73,14 +73,6 @@ public class Item {
         }
     }
 
-    public void addLabels(ArrayList<String> otherLabels) {
-        for(String label : otherLabels){
-            if (!this.labels.contains(label)){
-                this.labels.add(label);
-            }
-        }
-    }
-
     public void removeLabel(String lbl) {
         if(this.labels.contains((lbl))){
             labels.remove(lbl);

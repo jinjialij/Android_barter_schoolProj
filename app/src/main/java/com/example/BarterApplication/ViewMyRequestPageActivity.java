@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,9 +15,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class ViewMyRequestPageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
+    private ArrayList<String> itemRequestsIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,8 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
+        Intent old = getIntent();
+        itemRequestsIds = (ArrayList<String>) old.getExtras().get("itemRequestsIds");
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
 
@@ -37,6 +43,12 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
                 updateUI(null);
             }
         });
+    }
+
+    public void onStart(){
+        super.onStart();
+        TextView itemR = (TextView) findViewById(R.id.itemRequest1);
+        itemR.setText(itemRequestsIds.get(0));
     }
 
     private void updateUI(FirebaseUser user) {

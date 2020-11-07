@@ -55,22 +55,7 @@ public class ItemRequestTest {
         String uid = UidService.newUID();
         ItemRequest request = new ItemRequest(requesterId, requestItemId, uid);
         assertEquals(request.getRequesterId(), requesterId);
-        assertEquals(request.getRequestedItemId(), requestItemId);
+        assertEquals(request.getRequestItemId(), requestItemId);
         assertEquals(request.getUid(), uid);
-    }
-
-    @Test
-    public void test_addOfferedItemIds(){
-        String requesterId = "requesterId";
-        String requestItemId = "requestItemId";
-        String uid = UidService.newUID();
-        ItemRequest request = new ItemRequest(requesterId, requestItemId, uid);
-        ArrayList<String> offeredItemIds = new ArrayList<>();
-        String id1 = UidService.newUID();
-        String id2 = UidService.newUID();
-        offeredItemIds.add(id1);
-        offeredItemIds.add(id2);
-        request.addOfferedItemIds(offeredItemIds);
-        assertEquals(request.getItemIdsOffered(), offeredItemIds);
     }
 }

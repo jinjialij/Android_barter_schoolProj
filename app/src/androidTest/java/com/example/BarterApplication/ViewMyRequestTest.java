@@ -67,12 +67,13 @@ public class ViewMyRequestTest {
         onView(withId(R.id.viewMyRequestTitle)).check(matches(isDisplayed()));
     }
 
+    //@todo refactor this fragile test
     @Test
     public void testViewMyRequestButton_show_itemRequests_AT_08_02(){
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.itemRequestContent)).check(matches(isDisplayed()));
-        onView(withId(R.id.viewMyRequestTitle)).check(matches(matches(withText("itemRequest"))));
+        onView(withId(R.id.itemRequest1)).check(matches(isDisplayed()));
+        onView(withId(R.id.itemRequest1)).check(matches(withText("38b1991f-36b0-4f9c-8f9b-2f02c9fbd1e1")));
     }
 
     @After

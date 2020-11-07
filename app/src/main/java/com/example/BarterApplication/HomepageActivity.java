@@ -7,19 +7,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.BarterApplication.helpers.ItemRequestService;
+import com.example.BarterApplication.helpers.ItemService;
+import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class HomepageActivity extends AppCompatActivity {
-
+    private DatabaseReference dbRef;
+    private DatabaseReference itemDbRef;
+    private DatabaseReference itemReqDbRef;
     private FirebaseAuth mAuth;
+    private ArrayList<ItemRequest> itemRequests = new ArrayList<>();
+    private ArrayList<Item> items = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-
         mAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance().getReference();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
 
@@ -33,6 +45,17 @@ public class HomepageActivity extends AppCompatActivity {
                 updateUI(null);
             }
         });
+
+        //get items and requests
+        itemReqDbRef = FirebaseDatabase.getInstance().getReference("ItemRequests");
+        ItemRequestService.readItemRequestData(itemReqDbRef, itemRequests);
+
+        itemDbRef = FirebaseDatabase.getInstance().getReference("Items");
+        ItemService.readItemData(itemDbRef, items);
+    }
+
+    public void onStart(){
+        super.onStart();
     }
 
     private void updateUI(FirebaseUser user) {
@@ -49,6 +72,12 @@ public class HomepageActivity extends AppCompatActivity {
 
     public void goToViewMyRequestPage(View v){
         Intent intent = new Intent(this, ViewMyRequestPageActivity.class);
+
+        ArrayList<String> itemReqIds = new ArrayList<>();
+        for(ItemRequest itemRequest : itemRequests){
+            itemReqIds.add(itemRequest.getUid());
+        }
+        intent.putStringArrayListExtra("itemRequestsIds", itemReqIds);
         startActivity(intent);
     }
 }
