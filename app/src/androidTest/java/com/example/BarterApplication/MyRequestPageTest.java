@@ -1,5 +1,7 @@
 package com.example.BarterApplication;
 
+import android.widget.TextView;
+
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -21,6 +23,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -59,6 +62,13 @@ public class MyRequestPageTest {
     public void testMyRequest_AT_08_03(){
         onView(withId(R.id.itemRequestTitle)).check(matches(isDisplayed()));
         onView(withId(R.id.reqestID)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testMyRequest_AT_08_08(){
+        onView(withId(R.id.reqestID)).check(matches(withText("38b1991f-36b0-4f9c-8f9b-2f02c9fbd1e1")));
+        onView(withId(R.id.reqestItemInfo)).check(matches(isDisplayed()));
+        onView(withId(R.id.offeredItemInfo)).check(matches(isDisplayed()));
     }
 
     @After
