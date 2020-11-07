@@ -1,6 +1,7 @@
 package com.example.BarterApplication;
 
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
 
@@ -25,7 +26,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class ViewMyRequestTest {
+public class MyRequestPageTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
     FirebaseAuth mAuth;
@@ -49,28 +50,14 @@ public class ViewMyRequestTest {
                 .perform(click());
 
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-    }
-
-    @Test
-    public void testViewMyRequestButton_AT_08_01(){
-        onView(withId(R.id.viewMyRequestBtn)).check(matches(isDisplayed()));
-        onView(withId(R.id.viewMyRequestBtn)).check(matches(isClickable()));
-    }
-
-    @Test
-    public void testViewMyRequestButton_redirecting_feature_AT_08_02(){
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.viewMyRequestBtn)).check(doesNotExist());
-        onView(withId(R.id.viewMyRequestTitle)).check(matches(isDisplayed()));
+        onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
     }
 
     @Test
-    public void testViewMyRequestButton_show_itemRequests_AT_08_02(){
-        onView(withId(R.id.viewMyRequestBtn)).perform(click());
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.requestRecyclerView)).check(matches(isDisplayed()));
-        onView(withId(R.id.requestRecyclerView)).check(matches(hasDescendant(withText("Request id: 38b1991f-36b0-4f9c-8f9b-2f02c9fbd1e1"+ " : item4"))));
+    public void testMyRequest_AT_08_03(){
+        onView(withId(R.id.requestID)).check(matches(isDisplayed()));
     }
 
     @After
