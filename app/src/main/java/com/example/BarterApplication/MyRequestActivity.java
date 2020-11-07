@@ -61,9 +61,11 @@ public class MyRequestActivity extends AppCompatActivity {
         if (receivedItemRequest!=null && items!=null && !items.isEmpty()){
             if (receivedItemRequest.isAccepted()){
                 refuseBtn.setEnabled(true);
+                acceptBtn.setEnabled(false);
             }
             else{
                 refuseBtn.setEnabled(false);
+                acceptBtn.setEnabled(true);
             }
             HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();
             ArrayList<HashMap<String, String>> offeredItemInfoMapList = new ArrayList<>();
@@ -84,12 +86,23 @@ public class MyRequestActivity extends AppCompatActivity {
             offerItemInfo.setText(offeredItemInfoMapList.toString());
         }
 
+        acceptBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                receivedItemRequest.setAccepted(true);
+                ItemRequestService.updateItemRequest(dbRef, receivedItemRequest);
+                acceptBtn.setEnabled(false);
+                refuseBtn.setEnabled(true);
+            }
+        });
+
         refuseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 receivedItemRequest.setAccepted(false);
                 ItemRequestService.updateItemRequest(dbRef, receivedItemRequest);
                 refuseBtn.setEnabled(false);
+                acceptBtn.setEnabled(true);
             }
         });
     }
