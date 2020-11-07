@@ -71,6 +71,14 @@ public class MyRequestPageTest {
         onView(withId(R.id.offeredItemInfo)).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void testMyRequest_AT_08_07(){
+        onView(withId(R.id.acceptBtn)).check(isDisplayed());
+        onView(withId(R.id.refuseBtn)).check(isDisplayed());
+        onView(withId(R.id.acceptBtn)).check(isClickable());
+        onView(withId(R.id.refuseBtn)).check(isClickable());
+    }
+
     @After
     public void teardown()
     {
