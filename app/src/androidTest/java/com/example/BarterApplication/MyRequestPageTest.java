@@ -1,7 +1,5 @@
 package com.example.BarterApplication;
 
-import android.widget.TextView;
-
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -9,6 +7,7 @@ import androidx.test.runner.AndroidJUnit4;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.hamcrest.core.IsNot;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -18,15 +17,13 @@ import org.junit.runner.RunWith;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.Espresso.pressBack;
 
 @RunWith(AndroidJUnit4.class)
 public class MyRequestPageTest {
@@ -62,6 +59,16 @@ public class MyRequestPageTest {
     public void testMyRequest_AT_08_03(){
         onView(withId(R.id.itemRequestTitle)).check(matches(isDisplayed()));
         onView(withId(R.id.requestID)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testMyRequest_AT_08_04(){
+        onView(withId(R.id.acceptRequestBtn)).perform(click());
+        pressBack();
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.acceptRequestBtn)).check(matches(IsNot.not(isClickable())));
+
     }
 
     @Test
