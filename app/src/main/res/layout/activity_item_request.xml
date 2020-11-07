@@ -15,4 +15,28 @@
         android:layout_width="match_parent"
         android:layout_height="35dp" />
 
+    <TextView
+        android:id="@+id/requestItem"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:text="@string/itemRequestRequestItemSection"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/requestItemInfo"
+        android:layout_width="match_parent"
+        android:layout_height="94dp" />
+
+    <TextView
+        android:id="@+id/offeredItem"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:text="@string/itemRequestOfferedItemSection"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/offeredItemInfo"
+        android:layout_width="match_parent"
+        android:layout_height="358dp" />
+
 </LinearLayout>

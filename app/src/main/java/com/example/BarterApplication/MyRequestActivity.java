@@ -26,6 +26,8 @@ public class MyRequestActivity extends AppCompatActivity {
     private static final String TAG = "myRequest";
 
     private FirebaseAuth mAuth;
+    private ArrayList<Item> items;
+    private ItemRequest receivedItemRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,14 @@ public class MyRequestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_request);
 
         mAuth = FirebaseAuth.getInstance();
+        items = new ArrayList<>();
+
+        ArrayList<ItemRequest> itemRequests = (ArrayList<ItemRequest>)getIntent().getSerializableExtra("itemRequestSelected");
+        if(itemRequests!=null && !itemRequests.isEmpty()){
+            receivedItemRequest = itemRequests.get(0);
+        }
+
+        items  = (ArrayList<Item>)getIntent().getSerializableExtra("itemsExtra");
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
@@ -40,12 +50,44 @@ public class MyRequestActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
         TextView requestId = (TextView) findViewById(R.id.reqestID);
+        TextView requestItemInfo = (TextView) findViewById(R.id.requestItemInfo);
+        TextView offerItemInfo = (TextView) findViewById(R.id.offeredItemInfo);
+
+        if (receivedItemRequest!=null && items!=null && !items.isEmpty()){
+            HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();
+            ArrayList<HashMap<String, String>> offeredItemInfoMapList = new ArrayList<>();
+            String a = receivedItemRequest.getRequestItemId();
+            Item requestItem = UidService.findItemByItemUid(receivedItemRequest.getRequestItemId(), items);
+            getItemMap(requestItem, requestItemInfoMap);
+
+            for(String id: receivedItemRequest.getItemIdsOffered()){
+                Item offeredItem = UidService.findItemByItemUid(id, items);
+                HashMap<String, String> map = new LinkedHashMap<>();
+                getItemMap(offeredItem, map);
+                offeredItemInfoMapList.add(map);
+            }
+
+            String requestUid = receivedItemRequest.getUid();
+            requestId.setText(requestUid);
+            requestItemInfo.setText(requestItemInfoMap.toString());
+            offerItemInfo.setText(offeredItemInfoMapList.toString());
+        }
     }
 
     private void updateUI(FirebaseUser user) {
         if (user == null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+        }
+    }
+
+    private void getItemMap(Item item, HashMap<String, String> map){
+        if (item!=null){
+            map.put("Name: ", item.getName());
+            map.put("Labels: ", item.getLabels().toString());
+            map.put("Description: ", item.getDescription());
+            //@todo use uid to get owner name
+            map.put("Owner Name: ", item.getOwnerId());
         }
     }
 }

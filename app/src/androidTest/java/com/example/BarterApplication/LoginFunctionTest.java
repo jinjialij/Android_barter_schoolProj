@@ -38,7 +38,7 @@ import static org.junit.Assert.assertNotNull;
 public class LoginFunctionTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
 
 

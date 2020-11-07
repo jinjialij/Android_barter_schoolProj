@@ -38,7 +38,7 @@ public class AccountRegistration {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
 
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
     public ViewAction waitFor(final long delay) {
         return new ViewAction() {
             @Override public Matcher<View> getConstraints() {

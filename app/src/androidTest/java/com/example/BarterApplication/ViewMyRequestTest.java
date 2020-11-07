@@ -28,7 +28,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class ViewMyRequestTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
     @Before
     public void setup()

@@ -32,7 +32,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class MyRequestPageTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
     @Before
     public void setup()
@@ -67,7 +67,7 @@ public class MyRequestPageTest {
     @Test
     public void testMyRequest_AT_08_08(){
         onView(withId(R.id.reqestID)).check(matches(withText("38b1991f-36b0-4f9c-8f9b-2f02c9fbd1e1")));
-        onView(withId(R.id.reqestItemInfo)).check(matches(isDisplayed()));
+        onView(withId(R.id.requestItemInfo)).check(matches(isDisplayed()));
         onView(withId(R.id.offeredItemInfo)).check(matches(isDisplayed()));
     }
 
