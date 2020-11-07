@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.BarterApplication.helpers.ItemRequestService;
 import com.example.BarterApplication.helpers.MyAdapter;
 import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +26,7 @@ import java.util.Map;
 public class MyRequestActivity extends AppCompatActivity {
     private static final String TAG = "myRequest";
 
+    private DatabaseReference dbRef;
     private FirebaseAuth mAuth;
     private ArrayList<Item> items;
     private ItemRequest receivedItemRequest;
@@ -35,6 +37,7 @@ public class MyRequestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_request);
 
         mAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance().getReference();
         items = new ArrayList<>();
 
         ArrayList<ItemRequest> itemRequests = (ArrayList<ItemRequest>)getIntent().getSerializableExtra("itemRequestSelected");
@@ -56,6 +59,12 @@ public class MyRequestActivity extends AppCompatActivity {
         Button refuseBtn = (Button) findViewById(R.id.refuseRequestBtn);
 
         if (receivedItemRequest!=null && items!=null && !items.isEmpty()){
+            if (receivedItemRequest.isAccepted()){
+                refuseBtn.setEnabled(true);
+            }
+            else{
+                refuseBtn.setEnabled(false);
+            }
             HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();
             ArrayList<HashMap<String, String>> offeredItemInfoMapList = new ArrayList<>();
             String a = receivedItemRequest.getRequestItemId();
@@ -74,6 +83,15 @@ public class MyRequestActivity extends AppCompatActivity {
             requestItemInfo.setText(requestItemInfoMap.toString());
             offerItemInfo.setText(offeredItemInfoMapList.toString());
         }
+
+        refuseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                receivedItemRequest.setAccepted(false);
+                ItemRequestService.updateItemRequest(dbRef, receivedItemRequest);
+                refuseBtn.setEnabled(false);
+            }
+        });
     }
 
     private void updateUI(FirebaseUser user) {

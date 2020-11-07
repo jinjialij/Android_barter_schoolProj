@@ -34,4 +34,8 @@ public class ItemRequestService {
             }
         });
     }
+
+    public static void updateItemRequest(DatabaseReference db, ItemRequest itemReq) {
+        db.child("ItemRequests").child(itemReq.getUid()).child("accepted").setValue(itemReq.isAccepted());
+    }
 }

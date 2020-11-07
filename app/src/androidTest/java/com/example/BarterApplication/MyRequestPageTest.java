@@ -20,6 +20,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -63,19 +64,19 @@ public class MyRequestPageTest {
 
     @Test
     public void testMyRequest_AT_08_04(){
-        onView(withId(R.id.acceptRequestBtn)).perform(click());
+        onView(withId(R.id.refuseRequestBtn)).perform(click());
         pressBack();
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.acceptRequestBtn)).check(matches(IsNot.not(isClickable())));
-
+        onView(withId(R.id.refuseRequestBtn)).check(matches(IsNot.not(isEnabled())));
     }
 
     @Test
     public void testMyRequest_AT_08_08(){
         onView(withId(R.id.requestID)).check(matches(withText("38b1991f-36b0-4f9c-8f9b-2f02c9fbd1e1")));
         onView(withId(R.id.requestItemInfo)).check(matches(isDisplayed()));
-        onView(withId(R.id.offeredItemInfo)).check(matches(isDisplayed()));
+        onView(withId(R.id.offeredItemInfo)).check(matches(IsNot.not(withText(""))));
+        onView(withId(R.id.requestItemInfo)).check(matches(IsNot.not(withText(""))));
     }
 
     @Test
