@@ -22,6 +22,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
@@ -64,6 +65,14 @@ public class ViewMyRequestTest {
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.viewMyRequestBtn)).check(doesNotExist());
         onView(withId(R.id.viewMyRequestTitle)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testViewMyRequestButton_show_itemRequests_AT_08_02(){
+        onView(withId(R.id.viewMyRequestBtn)).perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.itemRequestContent)).check(matches(isDisplayed()));
+        onView(withId(R.id.viewMyRequestTitle)).check(matches(matches(withText("itemRequest"))));
     }
 
     @After
