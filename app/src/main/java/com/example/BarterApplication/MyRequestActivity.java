@@ -38,7 +38,7 @@ public class MyRequestActivity extends AppCompatActivity {
         items = new ArrayList<>();
 
         ArrayList<ItemRequest> itemRequests = (ArrayList<ItemRequest>)getIntent().getSerializableExtra("itemRequestSelected");
-        if(itemRequests!=null && !itemRequests.isEmpty()){
+        if(itemRequests!=null && !itemRequests.isEmpty()) {
             receivedItemRequest = itemRequests.get(0);
         }
 
@@ -49,9 +49,11 @@ public class MyRequestActivity extends AppCompatActivity {
 
     public void onStart(){
         super.onStart();
-        TextView requestId = (TextView) findViewById(R.id.reqestID);
+        TextView requestId = (TextView) findViewById(R.id.requestID);
         TextView requestItemInfo = (TextView) findViewById(R.id.requestItemInfo);
         TextView offerItemInfo = (TextView) findViewById(R.id.offeredItemInfo);
+        Button acceptBtn = (Button) findViewById(R.id.acceptRequestBtn);
+        Button refuseBtn = (Button) findViewById(R.id.refuseRequestBtn);
 
         if (receivedItemRequest!=null && items!=null && !items.isEmpty()){
             HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();

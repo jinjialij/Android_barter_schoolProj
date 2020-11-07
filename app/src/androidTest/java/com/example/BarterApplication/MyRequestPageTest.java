@@ -61,22 +61,22 @@ public class MyRequestPageTest {
     @Test
     public void testMyRequest_AT_08_03(){
         onView(withId(R.id.itemRequestTitle)).check(matches(isDisplayed()));
-        onView(withId(R.id.reqestID)).check(matches(isDisplayed()));
+        onView(withId(R.id.requestID)).check(matches(isDisplayed()));
     }
 
     @Test
     public void testMyRequest_AT_08_08(){
-        onView(withId(R.id.reqestID)).check(matches(withText("38b1991f-36b0-4f9c-8f9b-2f02c9fbd1e1")));
+        onView(withId(R.id.requestID)).check(matches(withText("38b1991f-36b0-4f9c-8f9b-2f02c9fbd1e1")));
         onView(withId(R.id.requestItemInfo)).check(matches(isDisplayed()));
         onView(withId(R.id.offeredItemInfo)).check(matches(isDisplayed()));
     }
 
     @Test
     public void testMyRequest_AT_08_07(){
-        onView(withId(R.id.acceptBtn)).check(isDisplayed());
-        onView(withId(R.id.refuseBtn)).check(isDisplayed());
-        onView(withId(R.id.acceptBtn)).check(isClickable());
-        onView(withId(R.id.refuseBtn)).check(isClickable());
+        onView(withId(R.id.acceptRequestBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.refuseRequestBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.acceptRequestBtn)).check(matches(isClickable()));
+        onView(withId(R.id.refuseRequestBtn)).check(matches(isClickable()));
     }
 
     @After
