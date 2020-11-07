@@ -1,10 +1,13 @@
 package com.example.BarterApplication;
 
+import com.example.BarterApplication.helpers.UidService;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -47,24 +50,27 @@ public class ItemRequestTest {
     @Test
     public void test_CTOR_for_firebase_currentUser_use(){
         //in this case, user is the requester
-        String userId = "userId";
-        String name = "my item";
-        Item itemBeingRequested = new Item(name, userId);
-        String offered_item_name1 = "item_to_offer1";
-        String offered_item_name2 = "item_to_offer2";
-        ArrayList<Item> itemsOffered = new ArrayList<Item>();
-        Item offer1 = new Item(offered_item_name1, userId);
-        Item offer2 = new Item(offered_item_name2, userId);
-        itemsOffered.add(offer1);
-        itemsOffered.add(offer2);
-        ItemRequest request = new ItemRequest(userId, itemBeingRequested, itemsOffered);
-        assertEquals(request.getRequestedItemId(), itemBeingRequested.getUid());
-        assertEquals(request.getRequesterId(), userId);
-        assertEquals(request.getItemIdsOffered().size(), itemsOffered.size());
+        String requesterId = "requesterId";
+        String requestItemId = "requestItemId";
+        String uid = UidService.newUID();
+        ItemRequest request = new ItemRequest(requesterId, requestItemId, uid);
+        assertEquals(request.getRequesterId(), requesterId);
+        assertEquals(request.getRequestedItemId(), requestItemId);
+        assertEquals(request.getUid(), uid);
+    }
 
-        ArrayList<String> itemIdsOffered = new ArrayList<String>();
-        itemIdsOffered.add(offer1.getUid());
-        itemIdsOffered.add(offer2.getUid());
-        assertTrue(itemIdsOffered.containsAll(request.getItemIdsOffered()));
+    @Test
+    public void test_addOfferedItemIds(){
+        String requesterId = "requesterId";
+        String requestItemId = "requestItemId";
+        String uid = UidService.newUID();
+        ItemRequest request = new ItemRequest(requesterId, requestItemId, uid);
+        ArrayList<String> offeredItemIds = new ArrayList<>();
+        String id1 = UidService.newUID();
+        String id2 = UidService.newUID();
+        offeredItemIds.add(id1);
+        offeredItemIds.add(id2);
+        request.addOfferedItemIds(offeredItemIds);
+        assertEquals(request.getItemIdsOffered(), offeredItemIds);
     }
 }
