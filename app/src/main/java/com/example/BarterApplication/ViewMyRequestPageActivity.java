@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 public class ViewMyRequestPageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
-    private ArrayList<String> itemRequestsIds;
+    private ArrayList<ItemRequest> itemRequests;
+    private ArrayList<Item> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,10 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
-        Intent old = getIntent();
-        itemRequestsIds = (ArrayList<String>) old.getExtras().get("itemRequestsIds");
+        itemRequests = new ArrayList<>();
+        items = new ArrayList<>();
+        itemRequests = (ArrayList<ItemRequest>)getIntent().getSerializableExtra("itemRequestsExtra");
+        items  = (ArrayList<Item>)getIntent().getSerializableExtra("itemsExtra");
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
 
@@ -48,7 +52,10 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
         TextView itemR = (TextView) findViewById(R.id.itemRequest1);
-        itemR.setText(itemRequestsIds.get(0));
+        Item requestItem = UidService.findItemByItemUid(itemRequests.get(0).getRequestItemId(), items);
+        if(requestItem!=null){
+            itemR.setText("Request id: " + itemRequests.get(0).getUid() + " : " + requestItem.getName());
+        }
     }
 
     private void updateUI(FirebaseUser user) {

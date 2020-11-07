@@ -2,10 +2,11 @@ package com.example.BarterApplication;
 
 import com.example.BarterApplication.helpers.UidService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Item {
+public class Item implements Serializable {
     // THE ABSOLUTE MINIMUM REQUIRED IS the uid and name (for user)
     private String name = null;
     private String description = null;

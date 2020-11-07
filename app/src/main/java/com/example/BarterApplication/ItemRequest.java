@@ -2,9 +2,10 @@ package com.example.BarterApplication;
 
 import com.example.BarterApplication.helpers.UidService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ItemRequest {
+public class ItemRequest implements Serializable {
     private String requesterId;
     private ArrayList<String> itemIdsOffered;
     private String requestItemId;

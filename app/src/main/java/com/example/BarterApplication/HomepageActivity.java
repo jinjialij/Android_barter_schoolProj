@@ -73,11 +73,8 @@ public class HomepageActivity extends AppCompatActivity {
     public void goToViewMyRequestPage(View v){
         Intent intent = new Intent(this, ViewMyRequestPageActivity.class);
 
-        ArrayList<String> itemReqIds = new ArrayList<>();
-        for(ItemRequest itemRequest : itemRequests){
-            itemReqIds.add(itemRequest.getUid());
-        }
-        intent.putStringArrayListExtra("itemRequestsIds", itemReqIds);
+        intent.putExtra("itemRequestsExtra", itemRequests);
+        intent.putExtra("itemsExtra", items);
         startActivity(intent);
     }
 }
