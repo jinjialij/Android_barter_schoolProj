@@ -7,6 +7,7 @@ import android.widget.EditText;
 import com.example.BarterApplication.helpers.AddItemHelper;
 import com.example.BarterApplication.helpers.Toaster;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +29,8 @@ public class AddItemActivity extends AppCompatActivity {
 
     private FirebaseAuth fbAuth;
 
+
+
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,10 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void confirmAddOnClick(View view){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final String ownerId = user.getUid();
+
         EditText input_item_title = findViewById(R.id.viewMyItemsTitle);
         EditText input_item_description = findViewById(R.id.viewMyItemsDescription);
 
@@ -59,7 +66,7 @@ public class AddItemActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    AddItemHelper addItemHelper = new AddItemHelper(title,description,uuid);
+                    AddItemHelper addItemHelper = new AddItemHelper(title,description,uuid,ownerId);
                     dbRef.child(uuid).setValue(addItemHelper);
                     Toaster.generateToast(AddItemActivity.this,"Item add successful.\nUUID: "+uuid);
                 }
