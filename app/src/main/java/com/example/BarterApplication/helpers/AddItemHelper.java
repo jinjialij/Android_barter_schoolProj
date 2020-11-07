@@ -2,22 +2,22 @@ package com.example.BarterApplication.helpers;
 
 public class AddItemHelper {
 
-    String title, description,labels,ownerId,uuid;
+    String name, description,labels,ownerId,uuid;
 
 
     public AddItemHelper(String title, String description, String uuid, String ownerId) {
-        this.title = title;
+        this.name = title;
         this.description = description;
         this.uuid = uuid;
         this.ownerId = ownerId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
