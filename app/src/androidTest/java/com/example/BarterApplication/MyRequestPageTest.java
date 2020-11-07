@@ -57,7 +57,8 @@ public class MyRequestPageTest {
 
     @Test
     public void testMyRequest_AT_08_03(){
-        onView(withId(R.id.requestID)).check(matches(isDisplayed()));
+        onView(withId(R.id.itemRequestTitle)).check(matches(isDisplayed()));
+        onView(withId(R.id.reqestID)).check(matches(isDisplayed()));
     }
 
     @After

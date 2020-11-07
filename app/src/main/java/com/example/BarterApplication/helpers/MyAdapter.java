@@ -1,5 +1,7 @@
 package com.example.BarterApplication.helpers;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.BarterApplication.Item;
 import com.example.BarterApplication.ItemRequest;
+import com.example.BarterApplication.MyRequestActivity;
 import com.example.BarterApplication.R;
+import com.example.BarterApplication.ViewMyRequestPageActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,9 +24,12 @@ import java.util.Map;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private static final String TAG = "myAdapter";
+    private static Context context;
     private Map<String, ArrayList<Item>> requestAndItemIdsOfferedMap;
     private Map<String, Item> requestAndRequestItemMap;
     private String[] mDataset;
+    private static ArrayList<ItemRequest> itemRequests;
+    private static ArrayList<Item> itemLists;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
@@ -32,6 +39,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "Element " + getAdapterPosition() + " clicked.");
+                    Intent intent = new Intent(context, MyRequestActivity.class);
+                    context.startActivity(intent);
                 }
             });
             textView = (TextView) v.findViewById(R.id.itemRequestTextView);
@@ -41,8 +50,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
     }
 
-    public MyAdapter(String[] data) {
+    public MyAdapter(String[] data, ArrayList<ItemRequest> itemRequestsData, ArrayList<Item> items) {
         mDataset = data;
+        itemRequests = itemRequestsData;
+        itemLists = items;
     }
 
     @Override
@@ -50,6 +61,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         FrameLayout v = (FrameLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.text_row_item, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
+        context = parent.getContext();
         return vh;
     }
 
