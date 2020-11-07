@@ -68,6 +68,7 @@ public class MyRequestPageTest {
         pressBack();
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.refuseRequestBtn)).check(matches(IsNot.not(isEnabled())));
     }
 
@@ -77,6 +78,7 @@ public class MyRequestPageTest {
         pressBack();
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.acceptRequestBtn)).check(matches(IsNot.not(isEnabled())));
     }
 
