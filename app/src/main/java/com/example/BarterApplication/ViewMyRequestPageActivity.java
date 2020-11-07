@@ -17,12 +17,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import com.example.BarterApplication.helpers.MyAdapter;
 
 public class ViewMyRequestPageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
     private ArrayList<ItemRequest> itemRequests;
     private ArrayList<Item> items;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +55,21 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
 
     public void onStart(){
         super.onStart();
-        TextView itemR = (TextView) findViewById(R.id.itemRequest1);
-        Item requestItem = UidService.findItemByItemUid(itemRequests.get(0).getRequestItemId(), items);
-        if(requestItem!=null){
-            itemR.setText("Request id: " + itemRequests.get(0).getUid() + " : " + requestItem.getName());
+        ArrayList<String> data = new ArrayList<>();
+        for (ItemRequest itemRequest:itemRequests){
+            Item requestItem = UidService.findItemByItemUid(itemRequest.getRequestItemId(), items);
+            if(requestItem!=null){
+                String text = "Request id: " + itemRequests.get(0).getUid() + " : " + requestItem.getName();
+                data.add(text);
+            }
         }
+        recyclerView = (RecyclerView) findViewById(R.id.requestRecyclerView);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        String [] mData = new String[data.size()];
+        mData = data.toArray(mData);
+        mAdapter = new MyAdapter(mData);
+        recyclerView.setAdapter(mAdapter);
     }
 
     private void updateUI(FirebaseUser user) {
