@@ -16,7 +16,7 @@ public class ItemRequestService {
         db.child("ItemRequests").child(itemReq.getUid()).setValue(itemReq);
     }
 
-    public static void readItemRequestData(DatabaseReference itemReqNode, ArrayList<ItemRequest> itemReqs) {
+    public static void readItemRequestData(DatabaseReference itemReqNode, final ArrayList<ItemRequest> itemReqs) {
         itemReqNode.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.BarterApplication.helpers.AddItemHelper;
+import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.Toaster;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,6 +48,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         final String title = input_item_title.getText().toString();
         final String description = input_item_description.getText().toString();
+
 
         // Generate uuid
         final String uuid = UUID.randomUUID().toString().replace("-", "");
