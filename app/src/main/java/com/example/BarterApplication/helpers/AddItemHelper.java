@@ -4,14 +4,11 @@ public class AddItemHelper {
 
     String title, description,labels,ownerId,uuid;
 
-    public AddItemHelper(String title, String description){
-
-        this.title = title;
-        this.description = description;
-
-    }
 
     public AddItemHelper(String title, String description, String uuid) {
+        this.title = title;
+        this.description = description;
+        this.uuid = uuid;
     }
 
     public String getTitle() {
