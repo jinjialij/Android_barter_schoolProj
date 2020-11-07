@@ -1,28 +1,46 @@
 package com.example.BarterApplication;
 
-import com.example.BarterApplication.helpers.UID_Service;
+import com.example.BarterApplication.helpers.UidService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class ItemRequest {
-        private String requesterId;
-        private ArrayList<String> ItemIdsOffered;
-        private String itemId;
+public class ItemRequest implements Serializable {
+    private String requesterId;
+    private ArrayList<String> itemIdsOffered;
+    private String requestItemId;
+    private String uid;
 
-        public ItemRequest(User u, Item wanted, ArrayList<Item> offered ) {
-            if(offered.size() != 0){
-                this.requesterId = u.getUid();
-                this.itemId = wanted.getUid();
-                this.ItemIdsOffered = new ArrayList<String>();
-                int i = 0;
-                for(i = 0; i < offered.size(); i++){
-                    if(!this.ItemIdsOffered.contains(offered.get(i).getUid())){
-                        this.ItemIdsOffered.add(offered.get(i).getUid());
-                    }
+    //This constructor is used for Firebase
+    public ItemRequest() {
+        this.requesterId = null;
+        this.itemIdsOffered = new ArrayList<String>();
+        this.requestItemId = null;
+        this.uid = UidService.newUID();
+    }
+
+    public ItemRequest(UserAccount u, Item wanted, ArrayList<Item> offered ) {
+        this.uid = UidService.newUID();
+        if(offered.size() != 0){
+            this.requesterId = u.getUid();
+            this.requestItemId = wanted.getUid();
+            this.itemIdsOffered = new ArrayList<String>();
+            int i = 0;
+            for(i = 0; i < offered.size(); i++){
+                if(!this.itemIdsOffered.contains(offered.get(i).getUid())){
+                    this.itemIdsOffered.add(offered.get(i).getUid());
                 }
             }
         }
+    }
+
+    //This constructor is only used for Firebase insert dummy data for test
+    public ItemRequest(String requesterId, String requestItemId, String uid) {
+        this.uid = uid;
+        this.requesterId = requesterId;
+        this.requestItemId = requestItemId;
+        this.itemIdsOffered = new ArrayList<>();
+    }
 
     public String getRequesterId() {
         return requesterId;
@@ -30,16 +48,14 @@ public class ItemRequest {
 
     public ArrayList<String> getItemIdsOffered(){
         /** @todo */
-        return this.ItemIdsOffered;
+        return this.itemIdsOffered;
     }
 
-    public Item getItem(){
-        /** @todo */
-        return UID_Service.findItemById(this.itemId);
+    public String getRequestItemId() {
+        return requestItemId;
     }
 
-    public User getRequester(){
-        /** @todo */
-        return UID_Service.findUserById(this.requesterId);
+    public String getUid() {
+        return this.uid;
     }
 }

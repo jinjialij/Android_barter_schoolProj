@@ -58,6 +58,7 @@ public class AccountRegistration {
     @Before
     public void setup()
     {
+        FirebaseAuth.getInstance().signOut();
         onView(withId(R.id.regBtn)).perform(click());
     }
 
