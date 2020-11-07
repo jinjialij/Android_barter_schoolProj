@@ -14,10 +14,13 @@
     <string name="registerInvalidEmailError">Entered email address is not valid.</string>
     <string name="registerPasswordLengthError">\"Password must be 6-24 characters \"</string>
     <string name="registerSuccessMessage">Registration Successfully, going back to login..</string>
-    <string name="description">Description</string>
-    <string name="confirm">Confirm</string>
-    <string name="title">Title</string>
-    <string name="addItemSuccess">The item has been added successfully</string>
-    <string name="addItemFail">The item failed add to database.</string>
+    <string name="search_prompt">Choose an option</string>
+
+
+    <string-array name="search_arrays">
+        <item>Label</item>
+        <item>Name</item>
+
+    </string-array>
 
 </resources>

@@ -7,17 +7,31 @@ import org.w3c.dom.Text;
 
 import java.util.regex.Pattern;
 
-public class CredentialHelper {
 
+
+public class CredentialHelper {
+    private static String emailRegexExpr = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$";
+    private static Pattern emailRegex = Pattern.compile(emailRegexExpr, Pattern.CASE_INSENSITIVE);
     public static boolean isValidEmail(CharSequence target) {
-        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+        if(target == null){
+            return false;
+        }
+        else {
+            return emailRegex.matcher(target).matches();
+        }
     }
 
     public static boolean isValidPassword(String s) {
-        Pattern PASSWORD_PATTERN
-                = Pattern.compile(
-                "[a-zA-Z0-9\\!\\@\\#\\$]{6,24}");
-        return !TextUtils.isEmpty(s) && PASSWORD_PATTERN.matcher(s).matches();
+        if(s == null){
+            return false;
+        }
+        else
+        {
+            Pattern PASSWORD_PATTERN
+                    = Pattern.compile(
+                    "[a-zA-Z0-9\\!\\@\\#\\$]{6,24}");
+            return !TextUtils.isEmpty(s) && PASSWORD_PATTERN.matcher(s).matches();
+        }
     }
 
     public static boolean charSeq_isEmailEmpty(CharSequence target)
