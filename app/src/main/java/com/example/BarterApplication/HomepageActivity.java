@@ -23,8 +23,9 @@ public class HomepageActivity extends AppCompatActivity {
     private DatabaseReference itemDbRef;
     private DatabaseReference itemReqDbRef;
     private FirebaseAuth mAuth;
-    private ArrayList<ItemRequest> itemRequests = new ArrayList<>();
-    private ArrayList<Item> items = new ArrayList<>();
+    private ArrayList<ItemRequest> itemRequests;
+    private ArrayList<Item> items;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +49,11 @@ public class HomepageActivity extends AppCompatActivity {
 
         //get items and requests
         itemReqDbRef = FirebaseDatabase.getInstance().getReference("ItemRequests");
+        itemRequests = new ArrayList<>();
         ItemRequestService.readItemRequestData(itemReqDbRef, itemRequests);
 
         itemDbRef = FirebaseDatabase.getInstance().getReference("Items");
+        items = new ArrayList<>();
         ItemService.readItemData(itemDbRef, items);
     }
 

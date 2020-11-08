@@ -19,16 +19,15 @@ import com.google.firebase.auth.FirebaseUser;
 /* add comment to main activity to test automation of merge requests */
 public class MainActivity extends AppCompatActivity  {
 
-
     private FirebaseAuth mAuth;
+    private boolean fromMyRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
         mAuth = FirebaseAuth.getInstance();
+        fromMyRequest = getIntent().getBooleanExtra("fromMyRequest", false);
     }
 
     @Override
@@ -86,12 +85,12 @@ public class MainActivity extends AppCompatActivity  {
                 });
     }
 
-
-
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            Toaster.generateToast(MainActivity.this,
-                    "Login successfully. Welcome!");
+            if(!fromMyRequest){
+                Toaster.generateToast(MainActivity.this,
+                        "Login successfully. Welcome!");
+            }
             Intent intent = new Intent(this, HomepageActivity.class);
             startActivity(intent);
         } else {

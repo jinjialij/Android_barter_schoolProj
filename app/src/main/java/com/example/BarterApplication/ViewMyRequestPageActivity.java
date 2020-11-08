@@ -56,10 +56,12 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
         ArrayList<String> data = new ArrayList<>();
+        ArrayList<ItemRequest> itemRequestsData = new ArrayList<>();
         for (ItemRequest itemRequest:itemRequests){
+            itemRequestsData.add(itemRequest);
             Item requestItem = UidService.findItemByItemUid(itemRequest.getRequestItemId(), items);
             if(requestItem!=null){
-                String text = "Request id: " + itemRequests.get(0).getUid() + " : " + requestItem.getName();
+                String text = "Request id: " + itemRequest.getUid() + " : " + requestItem.getName();
                 data.add(text);
             }
         }
@@ -68,7 +70,7 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         String [] mData = new String[data.size()];
         mData = data.toArray(mData);
-        mAdapter = new MyAdapter(mData);
+        mAdapter = new MyAdapter(mData, itemRequestsData, items);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -82,5 +84,11 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
     private void signOut() {
         mAuth.signOut();
         updateUI(null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

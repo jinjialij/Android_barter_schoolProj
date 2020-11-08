@@ -10,6 +10,7 @@ public class ItemRequest implements Serializable {
     private ArrayList<String> itemIdsOffered;
     private String requestItemId;
     private String uid;
+    private boolean accepted;
 
     //This constructor is used for Firebase
     public ItemRequest() {
@@ -17,10 +18,12 @@ public class ItemRequest implements Serializable {
         this.itemIdsOffered = new ArrayList<String>();
         this.requestItemId = null;
         this.uid = UidService.newUID();
+        this.accepted = false;
     }
 
     public ItemRequest(UserAccount u, Item wanted, ArrayList<Item> offered ) {
         this.uid = UidService.newUID();
+        this.accepted = false;
         if(offered.size() != 0){
             this.requesterId = u.getUid();
             this.requestItemId = wanted.getUid();
@@ -40,6 +43,7 @@ public class ItemRequest implements Serializable {
         this.requesterId = requesterId;
         this.requestItemId = requestItemId;
         this.itemIdsOffered = new ArrayList<>();
+        this.accepted = false;
     }
 
     public String getRequesterId() {
@@ -57,5 +61,13 @@ public class ItemRequest implements Serializable {
 
     public String getUid() {
         return this.uid;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
     }
 }
