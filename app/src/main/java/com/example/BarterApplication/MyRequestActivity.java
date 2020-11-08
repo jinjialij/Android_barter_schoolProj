@@ -69,7 +69,6 @@ public class MyRequestActivity extends AppCompatActivity {
             }
             HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();
             ArrayList<HashMap<String, String>> offeredItemInfoMapList = new ArrayList<>();
-            String a = receivedItemRequest.getRequestItemId();
             Item requestItem = UidService.findItemByItemUid(receivedItemRequest.getRequestItemId(), items);
             getItemMap(requestItem, requestItemInfoMap);
 
@@ -122,5 +121,11 @@ public class MyRequestActivity extends AppCompatActivity {
             //@todo use uid to get owner name
             map.put("Owner Name: ", item.getOwnerId());
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

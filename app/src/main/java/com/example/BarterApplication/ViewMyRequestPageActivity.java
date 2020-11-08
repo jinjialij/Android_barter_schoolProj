@@ -85,4 +85,10 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
         mAuth.signOut();
         updateUI(null);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 }
