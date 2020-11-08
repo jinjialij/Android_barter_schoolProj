@@ -25,6 +25,7 @@ public class HomepageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ArrayList<ItemRequest> itemRequests;
     private ArrayList<Item> items;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,7 @@ public class HomepageActivity extends AppCompatActivity {
         ItemRequestService.readItemRequestData(itemReqDbRef, itemRequests);
 
         itemDbRef = FirebaseDatabase.getInstance().getReference("Items");
-        items = items = new ArrayList<>();
+        items = new ArrayList<>();
         ItemService.readItemData(itemDbRef, items);
     }
 

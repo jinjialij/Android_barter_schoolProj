@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.BarterApplication.helpers.ItemRequestService;
+import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.MyAdapter;
 import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,6 +58,7 @@ public class MyRequestActivity extends AppCompatActivity {
         TextView offerItemInfo = (TextView) findViewById(R.id.offeredItemInfo);
         Button acceptBtn = (Button) findViewById(R.id.acceptRequestBtn);
         Button refuseBtn = (Button) findViewById(R.id.refuseRequestBtn);
+        Button closeBtn = (Button) findViewById(R.id.closeBtn);
 
         if (receivedItemRequest!=null && items!=null && !items.isEmpty()){
             if (receivedItemRequest.isAccepted()){
@@ -104,6 +106,13 @@ public class MyRequestActivity extends AppCompatActivity {
                 acceptBtn.setEnabled(true);
             }
         });
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBackToMainActivity();
+            }
+        });
     }
 
     private void updateUI(FirebaseUser user) {
@@ -125,7 +134,12 @@ public class MyRequestActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        goBackToMainActivity();
+    }
+
+    public void goBackToMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("fromMyRequest", true);
         startActivity(intent);
     }
 }

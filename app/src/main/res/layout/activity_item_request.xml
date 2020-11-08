@@ -37,7 +37,7 @@
     <TextView
         android:id="@+id/offeredItemInfo"
         android:layout_width="match_parent"
-        android:layout_height="358dp" />
+        android:layout_height="309dp" />
 
     <Button
         android:id="@+id/acceptRequestBtn"
@@ -50,5 +50,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/itemRequestRefuse" />
+
+    <Button
+        android:id="@+id/closeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itemRequestClose" />
 
 </LinearLayout>
