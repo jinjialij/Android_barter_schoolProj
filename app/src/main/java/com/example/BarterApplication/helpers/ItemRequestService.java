@@ -16,7 +16,7 @@ public class ItemRequestService {
         db.child("ItemRequests").child(itemReq.getUid()).setValue(itemReq);
     }
 
-    public static void readItemRequestData(DatabaseReference itemReqNode,  ArrayList<ItemRequest> itemReqs) {
+    public static void readItemRequestData(DatabaseReference itemReqNode, ArrayList<ItemRequest> itemReqs) {
         itemReqNode.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -33,5 +33,9 @@ public class ItemRequestService {
                 Log.w("TAG", "Failed to read value.", error.toException());
             }
         });
+    }
+
+    public static void updateItemRequest(DatabaseReference db, ItemRequest itemReq) {
+        db.child("ItemRequests").child(itemReq.getUid()).child("accepted").setValue(itemReq.isAccepted());
     }
 }

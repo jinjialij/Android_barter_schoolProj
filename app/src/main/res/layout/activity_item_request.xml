@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/itemRequestTitle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/itemRequestTitle"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/requestID"
+        android:layout_width="match_parent"
+        android:layout_height="35dp" />
+
+    <TextView
+        android:id="@+id/requestItem"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:text="@string/itemRequestRequestItemSection"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/requestItemInfo"
+        android:layout_width="match_parent"
+        android:layout_height="94dp" />
+
+    <TextView
+        android:id="@+id/offeredItem"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:text="@string/itemRequestOfferedItemSection"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/offeredItemInfo"
+        android:layout_width="match_parent"
+        android:layout_height="309dp" />
+
+    <Button
+        android:id="@+id/acceptRequestBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itemRequestAccept" />
+
+    <Button
+        android:id="@+id/refuseRequestBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itemRequestRefuse" />
+
+    <Button
+        android:id="@+id/closeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itemRequestClose" />
+
+</LinearLayout>

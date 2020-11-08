@@ -14,6 +14,7 @@
         <activity android:name="com.example.BarterApplication.HomepageActivity"/>
         <activity android:name="com.example.BarterApplication.ViewMyRequestPageActivity"/>
         <activity android:name="com.example.BarterApplication.AddItemActivity"/>
+        <activity android:name="com.example.BarterApplication.MyRequestActivity"/>
         <activity android:name="com.example.BarterApplication.MainActivity">
         <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
