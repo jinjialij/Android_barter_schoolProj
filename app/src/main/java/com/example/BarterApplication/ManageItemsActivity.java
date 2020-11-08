@@ -1,25 +1,25 @@
 package com.example.BarterApplication;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+
+import com.example.BarterApplication.helpers.ItemService;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class ManageItemsActivity extends AppCompatActivity{
 
     private EditText name;
     private EditText label;
-    private DatabaseReference myRef;
     private String ValueDatabase;
     private String refinedData;
     private ListView listView;
@@ -27,18 +27,51 @@ public class ManageItemsActivity extends AppCompatActivity{
     private SearchView searchView;
     private TextView textViewSearch;
 
+    private FirebaseDatabase myDb;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private ArrayList<Item> userItems;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_items);
 
-        myRef = FirebaseDatabase.getInstance().getReference("item");
+        mAuth = FirebaseAuth.getInstance();
+        myDb = FirebaseDatabase.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        userItems = ItemService.getUserItems(myDb, currentUser);
+
+        Item i1 = new Item("ItemName1", currentUser.getUid());
+        Item i2 = new Item("ItemName2", currentUser.getUid());
+        ItemService.createNewItem(myDb, i1);
+        ItemService.createNewItem(myDb, i2);
+        displayItems(userItems);
+    }
+
+    private void displayItems(ArrayList<Item> userItems){
+        TextView itemDisplay = (TextView)findViewById(R.id.ItemDisplayTextBoxId);
+        String format = "";
+        for(Item i : userItems){
+            format.concat("" + i.getName());
+        }
+
+        itemDisplay.setText(format);
+
+        /* when user loads this activity, we should be loading a list of the users items
+        (and if they have none, display some sort of message) */
+
+
+        /*
         name = findViewById(R.id.findname);
         label = findViewById(R.id.findlabel);
         listView =findViewById(R.id.listView);
         searchView = findViewById(R.id.search);
         textViewSearch = findViewById(R.id.result);
+        */
 
+
+        /*
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -55,8 +88,11 @@ public class ManageItemsActivity extends AppCompatActivity{
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
 
+        });
+                   */
+
+        /*
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -73,16 +109,22 @@ public class ManageItemsActivity extends AppCompatActivity{
                 return false;
             }
         });
+
+                 */
     }
+
+    /*
 
     public void InsertButton(View view){
         try {
-            myRef.child(name.getText().toString()).setValue(label.getText().toString());
+            myDb.child(name.getText().toString()).setValue(label.getText().toString());
         }
         catch (Exception e){
             e.printStackTrace();
         }
     }
+
+     */
 }
 
 
