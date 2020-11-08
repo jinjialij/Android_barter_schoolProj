@@ -5,6 +5,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.BarterApplication.helpers.TestHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.hamcrest.core.IsNot;
