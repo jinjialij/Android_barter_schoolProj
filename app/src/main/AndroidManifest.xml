@@ -13,13 +13,14 @@
         <activity android:name="com.example.BarterApplication.PasswordResetActivity"/>
         <activity android:name="com.example.BarterApplication.HomepageActivity"/>
         <activity android:name="com.example.BarterApplication.ViewMyRequestPageActivity"/>
+
         <activity android:name="com.example.BarterApplication.MainActivity">
         <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name="com.example.BarterApplication.SearchId"/>
     </application>
 
 </manifest>

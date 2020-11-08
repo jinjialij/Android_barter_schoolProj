@@ -25,6 +25,7 @@ public class HomepageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ArrayList<ItemRequest> itemRequests = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
+    private Button bt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,7 @@ public class HomepageActivity extends AppCompatActivity {
 
         Button logoutBtn = (Button) findViewById(R.id.buttonLogout);
         Button viewMyRequestBtn = (Button) findViewById(R.id.viewMyRequestLogoutBtn);
+         bt = (Button) findViewById(R.id.bTS);
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,4 +79,10 @@ public class HomepageActivity extends AppCompatActivity {
         intent.putExtra("itemsExtra", items);
         startActivity(intent);
     }
+    public void goToSearch(View v){
+        Intent intent = new Intent(this,SearchId.class);
+        startActivity(intent);
+
+    }
+
 }
