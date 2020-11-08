@@ -40,12 +40,12 @@ public class ManageItemsActivity extends AppCompatActivity{
         mAuth = FirebaseAuth.getInstance();
         myDb = FirebaseDatabase.getInstance();
         currentUser = mAuth.getCurrentUser();
-        userItems = ItemService.getUserItems(myDb, currentUser);
-
         Item i1 = new Item("ItemName1", currentUser.getUid());
         Item i2 = new Item("ItemName2", currentUser.getUid());
-        ItemService.createNewItem(myDb, i1);
-        ItemService.createNewItem(myDb, i2);
+        ItemService.addItem(i1);
+        ItemService.addItem(i2);
+
+        userItems = ItemService.getUserItems(currentUser);
         displayItems(userItems);
     }
 

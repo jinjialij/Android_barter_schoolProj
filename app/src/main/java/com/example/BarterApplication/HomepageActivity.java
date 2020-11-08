@@ -51,7 +51,7 @@ public class HomepageActivity extends AppCompatActivity {
         ItemRequestService.readItemRequestData(itemReqDbRef, itemRequests);
 
         itemDbRef = FirebaseDatabase.getInstance().getReference("Items");
-        items = ItemService.readItemData(FirebaseDatabase.getInstance());
+        items = ItemService.getItemList();
     }
 
     public void onStart(){
