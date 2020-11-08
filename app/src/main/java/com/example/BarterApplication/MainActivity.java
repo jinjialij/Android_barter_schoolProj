@@ -16,6 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/* add comment to main activity to test automation of merge requests */
 public class MainActivity extends AppCompatActivity  {
 
 
@@ -108,7 +109,5 @@ public class MainActivity extends AppCompatActivity  {
         Intent intent = new Intent(this, PasswordResetActivity.class);
         startActivity(intent);
     }
-
-
-        }
+}
 

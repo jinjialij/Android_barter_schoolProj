@@ -3,25 +3,40 @@ package com.example.BarterApplication;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.BarterApplication.helpers.ItemRequestService;
+import com.example.BarterApplication.helpers.ItemService;
+import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class HomepageActivity extends AppCompatActivity {
-
+    private DatabaseReference dbRef;
+    private DatabaseReference itemDbRef;
+    private DatabaseReference itemReqDbRef;
     private FirebaseAuth mAuth;
+    private ArrayList<ItemRequest> itemRequests = new ArrayList<>();
+    private ArrayList<Item> items = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-
         mAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance().getReference();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
 
         Button logoutBtn = (Button) findViewById(R.id.buttonLogout);
+        Button viewMyRequestBtn = (Button) findViewById(R.id.viewMyRequestLogoutBtn);
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +46,16 @@ public class HomepageActivity extends AppCompatActivity {
             }
         });
 
+        //get items and requests
+        itemReqDbRef = FirebaseDatabase.getInstance().getReference("ItemRequests");
+        ItemRequestService.readItemRequestData(itemReqDbRef, itemRequests);
+
+        itemDbRef = FirebaseDatabase.getInstance().getReference("Items");
+        ItemService.readItemData(itemDbRef, items);
+    }
+
+    public void onStart(){
+        super.onStart();
     }
 
     private void updateUI(FirebaseUser user) {
@@ -43,5 +68,13 @@ public class HomepageActivity extends AppCompatActivity {
     private void signOut() {
         mAuth.signOut();
         updateUI(null);
+    }
+
+    public void goToViewMyRequestPage(View v){
+        Intent intent = new Intent(this, ViewMyRequestPageActivity.class);
+
+        intent.putExtra("itemRequestsExtra", itemRequests);
+        intent.putExtra("itemsExtra", items);
+        startActivity(intent);
     }
 }
