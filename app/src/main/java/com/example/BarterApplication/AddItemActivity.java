@@ -1,5 +1,6 @@
 package com.example.BarterApplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import java.util.UUID;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import android.os.Handler;
 
 
 public class AddItemActivity extends AppCompatActivity {
@@ -56,17 +58,15 @@ public class AddItemActivity extends AppCompatActivity {
         final String uuid = UUID.randomUUID().toString().replace("-", "");
 
         boolean title_validator = title.matches("^.*[^a-zA-Z0-9 ].*$");
-        boolean description_validator = description.matches("^.*[^a-zA-Z0-9 ].*$");
-
 
         if (title.isEmpty() || description.isEmpty()){
             Toaster.generateToast(AddItemActivity.this,"Please enter Item Title/Description.");
-        }//else if(title.equals("Title")){
-           // Toaster.generateToast(AddItemActivity.this,"Item title not valid.");
-        //}else if(description.equals("Description")){
-          //  Toaster.generateToast(AddItemActivity.this,"Item description not valid.");
-       // }
-        else if(title_validator||description_validator){
+        }else if(title.equals("Name")){
+            Toaster.generateToast(AddItemActivity.this,"Item title not valid.");
+        }else if(description.equals("description")){
+            Toaster.generateToast(AddItemActivity.this,"Item description not valid.");
+        }
+        else if(title_validator){
             addItemMessage.setText("Item add failed.");
         }else{
             fDB = FirebaseDatabase.getInstance();
@@ -78,8 +78,15 @@ public class AddItemActivity extends AppCompatActivity {
 
                     AddItemHelper addItemHelper = new AddItemHelper(title,description,uuid,ownerId);
                     dbRef.child(uuid).setValue(addItemHelper);
-                    addItemMessage.setText("Item add successful.\nUUID: "+uuid);
-                    //Toaster.generateToast(AddItemActivity.this,"Item add successful.\nUUID: "+uuid);
+                    addItemMessage.setText("Item add successful.\nUUID: "+uuid+"\nRedirecting in 5 seconds...");
+
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            goToMyItems(null);
+                        }
+                    }, 5000);
                 }
 
                 @Override
@@ -88,6 +95,11 @@ public class AddItemActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void goToMyItems(View view){
+        Intent intent = new Intent(this, HomepageActivity.class);//need update to item list page
+        startActivity(intent);
     }
 
 }

@@ -94,8 +94,8 @@ public class ViewAddButtonTest {
 
     @Test
     public void testViewMyAddButton_AT_06_05(){//check confirm add failed
-        String description = "@@@";
-        String Title = "Test Item";
+        String description = "Test description";
+        String Title = "@@@";
 
         onView(withId(R.id.viewAddItemBtn)).perform(click());
         onView(withId(R.id.viewMyItemsDescription))
