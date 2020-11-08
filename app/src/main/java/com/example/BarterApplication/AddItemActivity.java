@@ -55,6 +55,10 @@ public class AddItemActivity extends AppCompatActivity {
         // Generate uuid
         final String uuid = UUID.randomUUID().toString().replace("-", "");
 
+        boolean title_validator = title.matches("^.*[^a-zA-Z0-9 ].*$");
+        boolean description_validator = description.matches("^.*[^a-zA-Z0-9 ].*$");
+
+
         if (title.isEmpty() || description.isEmpty()){
             Toaster.generateToast(AddItemActivity.this,"Please enter Item Title/Description.");
         }//else if(title.equals("Title")){
@@ -62,7 +66,9 @@ public class AddItemActivity extends AppCompatActivity {
         //}else if(description.equals("Description")){
           //  Toaster.generateToast(AddItemActivity.this,"Item description not valid.");
        // }
-        else{
+        else if(title_validator||description_validator){
+            addItemMessage.setText("Item add failed.");
+        }else{
             fDB = FirebaseDatabase.getInstance();
             dbRef = fDB.getReference("Items");
 
@@ -78,7 +84,7 @@ public class AddItemActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    addItemMessage.setText("Item add failed.\nUUID: "+uuid);
                 }
             });
         }
