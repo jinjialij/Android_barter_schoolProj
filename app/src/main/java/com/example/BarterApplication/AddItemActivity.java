@@ -3,6 +3,7 @@ package com.example.BarterApplication;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.BarterApplication.helpers.AddItemHelper;
 import com.example.BarterApplication.helpers.ItemService;
@@ -43,8 +44,9 @@ public class AddItemActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String ownerId = user.getUid();
 
-        EditText input_item_title = findViewById(R.id.viewMyItemsTitle);
+        EditText input_item_title = findViewById(R.id.viewMyItemsName);
         EditText input_item_description = findViewById(R.id.viewMyItemsDescription);
+        final TextView addItemMessage = findViewById(R.id.addItemMessage);
 
         final String title = input_item_title.getText().toString();
         final String description = input_item_description.getText().toString();
@@ -70,7 +72,8 @@ public class AddItemActivity extends AppCompatActivity {
 
                     AddItemHelper addItemHelper = new AddItemHelper(title,description,uuid,ownerId);
                     dbRef.child(uuid).setValue(addItemHelper);
-                    Toaster.generateToast(AddItemActivity.this,"Item add successful.\nUUID: "+uuid);
+                    addItemMessage.setText("Item add successful.\nUUID: "+uuid);
+                    //Toaster.generateToast(AddItemActivity.this,"Item add successful.\nUUID: "+uuid);
                 }
 
                 @Override

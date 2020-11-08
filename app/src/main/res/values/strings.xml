@@ -18,6 +18,8 @@
     <string name="confirm" />
     <string name="title" />
     <string name="description" />
+    <string name="addItemSuccess">Item add successful.</string>
+    <string name="addItemFail">Choose an option</string>
 
 
     <string-array name="search_arrays">

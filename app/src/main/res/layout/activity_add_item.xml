@@ -16,16 +16,15 @@
         android:layout_marginEnd="170dp"
         android:layout_marginRight="170dp"
         android:layout_marginBottom="177dp"
+        android:onClick="confirmAddOnClick"
         android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="confirmAddOnClick"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/viewMyItemsTitle"
+        android:id="@+id/viewMyItemsName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="192dp"
@@ -57,4 +56,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/addItemMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Message"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="544dp" />
+
 </androidx.constraintlayout.motion.widget.MotionLayout>

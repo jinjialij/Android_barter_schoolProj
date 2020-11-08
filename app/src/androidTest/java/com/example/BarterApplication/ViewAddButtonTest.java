@@ -8,6 +8,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
+import static org.hamcrest.core.StringContains.containsString;
 
 import com.example.BarterApplication.helpers.ValidationHelper;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,68 +60,66 @@ public class ViewAddButtonTest {
     }
 
     @Test
-    public void testViewMyRequestButton_AT_06_01(){//check add button
-        onView(withId(R.id.viewMyAddBtn)).check(matches(isDisplayed()));
-        onView(withId(R.id.viewMyAddBtn)).check(matches(isClickable()));
+    public void testViewMyAddButton_AT_06_01(){//check add button
+        onView(withId(R.id.viewAddItemBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.viewAddItemBtn)).check(matches(isClickable()));
     }
 
     @Test
-    public void testViewMyRequestButton_AT_06_02(){//check item title and description
-        onView(withId(R.id.viewMyAddBtn)).perform(click());
-        onView(withId(R.id.viewMyItemsDescription)).check(matches(withText("Description")));
-        onView(withId(R.id.viewMyItemsTitle)).check(matches(withText("Title")));
+    public void testViewMyAddButton_AT_06_02(){//check item title and description
+        onView(withId(R.id.viewAddItemBtn)).perform(click());
+        onView(withId(R.id.viewMyItemsDescription)).check(matches(withText("description")));
+        onView(withId(R.id.viewMyItemsName)).check(matches(withText("Name")));
         onView(withId(R.id.viewConfirmAddItem)).check(matches(isDisplayed()));
         onView(withId(R.id.viewConfirmAddItem)).check(matches(isClickable()));
     }
 
     @Test
-    public void testViewMyRequestButton_AT_06_04(){//check confirm add successful
+    public void testViewMyAddButton_AT_06_04(){//check confirm add successful
         String description = "This is my test item";
-        String Title = "Test Item";
+        String Name = "Test Item";
 
-        onView(withId(R.id.viewMyAddBtn)).perform(click());
+        onView(withId(R.id.viewAddItemBtn)).perform(click());
         onView(withId(R.id.viewMyItemsDescription))
                 .perform(click())
                 .perform(typeText(description), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.editTextTextPassword))
+        onView(withId(R.id.viewMyItemsName))
+                .perform(click())
+                .perform(typeText(Name), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.viewConfirmAddItem))
+                .perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.addItemMessage)).check(matches((withText(containsString("Item add successful.")))));
+    }
+
+    @Test
+    public void testViewMyAddButton_AT_06_05(){//check confirm add failed
+        String description = "This is my test item";
+        String Title = "Test Item";
+
+        onView(withId(R.id.viewAddItemBtn)).perform(click());
+        onView(withId(R.id.viewMyItemsDescription))
+                .perform(click())
+                .perform(typeText(description), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.viewMyItemsName))
                 .perform(click())
                 .perform(typeText(Title), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.viewConfirmAddItem))
                 .perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withText(R.string.addItemSuccess)).inRoot(new ToastMatcher())
-                .check(matches(isDisplayed()));
+        onView(withId(R.id.addItemMessage)).check(matches((withText(containsString("Item add failed.")))));
     }
 
     @Test
-    public void testViewMyRequestButton_AT_06_05(){//check confirm add failed
+    public void testViewMyAddButton_AT_06_06(){//redirect to view item list page
         String description = "This is my test item";
         String Title = "Test Item";
 
-        onView(withId(R.id.viewMyAddBtn)).perform(click());
+        onView(withId(R.id.viewAddItemBtn)).perform(click());
         onView(withId(R.id.viewMyItemsDescription))
                 .perform(click())
                 .perform(typeText(description), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.editTextTextPassword))
-                .perform(click())
-                .perform(typeText(Title), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.viewConfirmAddItem))
-                .perform(click());
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withText(R.string.addItemFail)).inRoot(new ToastMatcher())
-                .check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void testViewMyRequestButton_AT_06_06(){//redirect to view item list page
-        String description = "This is my test item";
-        String Title = "Test Item";
-
-        onView(withId(R.id.viewMyAddBtn)).perform(click());
-        onView(withId(R.id.viewMyItemsDescription))
-                .perform(click())
-                .perform(typeText(description), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.editTextTextPassword))
+        onView(withId(R.id.viewMyItemsName))
                 .perform(click())
                 .perform(typeText(Title), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.viewConfirmAddItem))
