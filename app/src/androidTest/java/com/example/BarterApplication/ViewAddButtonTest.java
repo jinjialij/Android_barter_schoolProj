@@ -76,8 +76,8 @@ public class ViewAddButtonTest {
 
     @Test
     public void testViewMyAddButton_AT_06_04(){//check confirm add successful
-        String description = "This is my test item";
-        String Name = "Test Item";
+        String description = "test";
+        String Name = "TestItem";
 
         onView(withId(R.id.viewAddItemBtn)).perform(click());
         onView(withId(R.id.viewMyItemsDescription))
@@ -89,7 +89,8 @@ public class ViewAddButtonTest {
         onView(withId(R.id.viewConfirmAddItem))
                 .perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.addItemMessage)).check(matches((withText(containsString("Item add successful.")))));
+        //onView(withId(R.id.addItemMessage)).check(matches((withText(containsString("Item add successful")))));
+        onView(withId(R.id.textView2)).check(matches(withText("Homepage")));
     }
 
     @Test
@@ -111,9 +112,9 @@ public class ViewAddButtonTest {
     }
 
     @Test
-    public void testViewMyAddButton_AT_06_06(){//redirect to view item list page
-        String description = "This is my test item";
-        String Title = "Test Item";
+    public void testViewMyAddButton_AT_06_06(){//redirect to homepage
+        String description = "test";
+        String Title = "TestItem";
 
         onView(withId(R.id.viewAddItemBtn)).perform(click());
         onView(withId(R.id.viewMyItemsDescription))
@@ -124,12 +125,10 @@ public class ViewAddButtonTest {
                 .perform(typeText(Title), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.viewConfirmAddItem))
                 .perform(click());
+        //onView(withId(R.id.addItemMessage)).check(matches((withText(containsString("Item add successful")))));
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withText(R.string.addItemSuccess)).inRoot(new ToastMatcher())
-                .check(matches(isDisplayed()));
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        // TO DO
-        // view item list page
+        onView(withId(R.id.textView2)).check(matches(withText("Homepage")));
+
     }
 
     @After

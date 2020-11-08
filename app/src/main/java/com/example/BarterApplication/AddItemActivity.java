@@ -78,7 +78,7 @@ public class AddItemActivity extends AppCompatActivity {
 
                     AddItemHelper addItemHelper = new AddItemHelper(title,description,uuid,ownerId);
                     dbRef.child(uuid).setValue(addItemHelper);
-                    addItemMessage.setText("Item add successful.\nUUID: "+uuid+"\nRedirecting in 5 seconds...");
+                    addItemMessage.setText("Item add successful.\nUUID: "+uuid+"\nRedirecting in 3 seconds...");
 
 
                     Handler handler = new Handler();
@@ -86,7 +86,7 @@ public class AddItemActivity extends AppCompatActivity {
                         public void run() {
                             goToMyItems(null);
                         }
-                    }, 5000);
+                    }, 3000);
                 }
 
                 @Override
