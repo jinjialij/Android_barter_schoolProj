@@ -10,6 +10,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
 import static org.hamcrest.core.StringContains.containsString;
 
+import com.example.BarterApplication.helpers.TestHelper;
 import com.example.BarterApplication.helpers.ValidationHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
