@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My First App</string>
+    <string name="app_name">Barter Application</string>
     <string name="passwordResetPageTextTitle">Reset Password</string>
     <string name="passwordTextBoxHint">password</string>
     <string name="confirmPasswordTextBoxHint">confirm password</string>
@@ -14,6 +14,8 @@
     <string name="registerInvalidEmailError">Entered email address is not valid.</string>
     <string name="registerPasswordLengthError">\"Password must be 6-24 characters \"</string>
     <string name="registerSuccessMessage">Registration Successfully, going back to login..</string>
+    <string name="locationPermissionAllowed">"Location Permission Granted"</string>
+    <string name="locationPermissionUnallowed">Please grant the location permission</string>
     <string name="search_prompt">Choose an option</string>
     <string name="confirm">confirm</string>
     <string name="title">title</string>

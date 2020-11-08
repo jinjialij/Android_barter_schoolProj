@@ -4,6 +4,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.BarterApplication.helpers.TestHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.After;
