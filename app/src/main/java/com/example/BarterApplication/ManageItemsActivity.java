@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class SearchId extends AppCompatActivity{
+public class ManageItemsActivity extends AppCompatActivity{
 
     private EditText name;
     private EditText label;
@@ -26,10 +26,11 @@ public class SearchId extends AppCompatActivity{
 
     private SearchView searchView;
     private TextView textViewSearch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find);
+        setContentView(R.layout.activity_manage_items);
 
         myRef = FirebaseDatabase.getInstance().getReference("item");
         name = findViewById(R.id.findname);
@@ -46,7 +47,7 @@ public class SearchId extends AppCompatActivity{
 
                 String List[] = refinedData.split(",");
 
-                listView.setAdapter(new ArrayAdapter<String>(SearchId.this, android.R.layout.simple_list_item_1, List));
+                listView.setAdapter(new ArrayAdapter<String>(ManageItemsActivity.this, android.R.layout.simple_list_item_1, List));
 
             }
 

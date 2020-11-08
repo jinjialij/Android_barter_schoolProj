@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.BarterApplication.helpers.ItemRequestService;
 import com.example.BarterApplication.helpers.ItemService;
-import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -80,7 +78,7 @@ public class HomepageActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void goToSearch(View v){
-        Intent intent = new Intent(this,SearchId.class);
+        Intent intent = new Intent(this, ManageItemsActivity.class);
         startActivity(intent);
 
     }
