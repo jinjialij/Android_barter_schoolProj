@@ -26,7 +26,6 @@ public class UserAccount extends User implements Serializable {
         }
     }
 
-
     public void addItems(ArrayList<Item> items){
         if(items.size() > 0){
             for(int i = 0; i < items.size(); i++){

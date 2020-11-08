@@ -20,25 +20,25 @@ public class ItemService {
     private static String dbItemListKeyName = "Items";
 
     public static void addItem(Item i){
-        listenForItemDbChanges();
-        getItemNode().child(i.getUid()).setValue(i);
+        initDbListener();
+        getKeyNode().child(i.getUid()).setValue(i);
     }
 
     public static void removeItem(Item i){
+        /* Synchronize with database */
 
         /** @todo NEEDED FOR ITERATION 3 */
-
     }
 
     /** @todo REFACTOR SO WE AREN'T LITERALLY GOING THROUGH THE ENTIRE ITEM LIST */
     public static ArrayList<Item> getUserItems(FirebaseUser u){
-
         if(u != null){
             // filter the entire database item list for just the user's items
             ArrayList<Item> userItems = new ArrayList<Item>();
+            ArrayList<Item> synchronizedItems = getItemList();
             int i;
-            for( i = 0; i < itemList.size(); i++){
-                Item current = itemList.get(i);
+            for( i = 0; i < synchronizedItems.size(); i++){
+                Item current = synchronizedItems.get(i);
                 if(current.getOwnerId().equals(u.getUid())){
                     userItems.add(current);
                 }
@@ -52,28 +52,25 @@ public class ItemService {
         }
     }
 
-
     public static ArrayList<Item> getItemList(){
         return itemList;
     }
 
-    private static void listenForItemDbChanges() {
-        getDbNode().addValueEventListener(new ValueEventListener() {
+    private static void initDbListener() {
+        getKeyNode().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot itDataSnapshot : dataSnapshot.getChildren()){
-                    if(itDataSnapshot.getKey().equals(dbItemListKeyName)){
-                        Item item = itDataSnapshot.getValue(Item.class);
-                        Log.i("DEBUG", "onDataChange: " + item);
-                        if(!itemList.contains(item)){
-                            itemList.add(item);
-                        } else {
-                            /* overwrite with the new value */
-                            itemList.set(itemList.indexOf(item), item);
-                        }
+                    Item item = itDataSnapshot.getValue(Item.class);
+                    if(!itemList.contains(item)){
+                        itemList.add(item); /* add */
                     }
+                    else{   /* update */
+                        itemList.set(itemList.indexOf(item), item);
+                    }
+                    Log.i("DEBUG", "onDataChange: " + item);
                 }
-                Log.d("TAG", "Operation is successful!");
+                Log.i("TAG", "Operation is successful!");
             }
 
             @Override
@@ -94,7 +91,7 @@ public class ItemService {
     }
 
 
-    private static DatabaseReference getItemNode(){
+    private static DatabaseReference getKeyNode(){
         return FirebaseDatabase.getInstance().getReference().child(dbItemListKeyName);
     }
 
@@ -102,5 +99,6 @@ public class ItemService {
     private static DatabaseReference getDbNode(){
         return FirebaseDatabase.getInstance().getReference();
     }
+
 
 }
