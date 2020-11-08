@@ -51,6 +51,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/viewAddItemBtn"
+        android:layout_width="100dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="294dp"
+        android:layout_marginLeft="294dp"
+        android:layout_marginTop="565dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginBottom="20dp"
+        android:text="Add Items"
+        app:layout_constraintBottom_toTopOf="@+id/viewMyRequestBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="goToAddItem"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

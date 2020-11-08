@@ -80,4 +80,9 @@ public class HomepageActivity extends AppCompatActivity {
         intent.putExtra("itemsExtra", items);
         startActivity(intent);
     }
+
+    public void goToAddItem(View view){
+        Intent intent = new Intent(this, AddItemActivity.class);
+        startActivity(intent);
+    }
 }
