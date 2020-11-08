@@ -70,7 +70,7 @@ public class ViewMyRequestTest {
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.requestRecyclerView)).check(matches(isDisplayed()));
-        onView(withId(R.id.requestRecyclerView)).check(matches(hasDescendant(withText("Request id: 38b1991f-36b0-4f9c-8f9b-2f02c9fbd1e1"+ " : item4"))));
+        onView(withId(R.id.requestRecyclerView)).check(matches(hasDescendant(withText("Request id: 38b1991f-36b0-4f9c-8f9b-2f02c9fbd1e1"+ " : item3"))));
     }
 
     @After
