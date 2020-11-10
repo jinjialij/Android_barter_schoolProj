@@ -48,12 +48,6 @@ public class Item implements Serializable {
         this.uid = UidService.newUID();
     }
 
-
-    public boolean hasLabel(String label){
-        return labels.contains(label);
-    }
-
-
     public String getUid() {
         return this.uid;
     }

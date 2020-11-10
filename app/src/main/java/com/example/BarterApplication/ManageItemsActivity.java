@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TextChangedListener;
+import com.example.BarterApplication.helpers.Toaster;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,8 +47,15 @@ public class ManageItemsActivity extends AppCompatActivity {
         myRef = FirebaseDatabase.getInstance().getReference().child(ItemService.getItemKeyName());
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         listView = findViewById(R.id.ManageItemsFilteredItemsListView);
-        userItems = ItemService.getUserItems(currentUser);
-        displayItems(listView, userItems);
+
+        int db_sync_time_ms = 1000;
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                userItems = ItemService.getUserItems(currentUser);
+                displayItems(listView, userItems);
+            }
+        }, db_sync_time_ms);
 
         ArrayList<String> filterStrings = new ArrayList<String>();
         SearchViewEditText = findViewById(R.id.ManageItemsSearchBoxEditText);
@@ -94,26 +103,27 @@ public class ManageItemsActivity extends AppCompatActivity {
 
     }
 
-
-    private boolean itemMatchesFilter(Item i, ArrayList<String> strings_to_match){
-        for(String substring : strings_to_match){
-            if(i.hasLabel(substring)){
+    private boolean itemMatchesFilter(Item i, ArrayList<String> filterStrings){
+        for(String substring : filterStrings){
+            if(itemMatchesSubstring(i, substring)){
                 return true;
-            }
-            else {
-                for(String lbl : i.getLabels()){
-                    if(lbl.contains(substring)){
-                        return true;
-                    }
-                }
-
-                if(i.getName().contains(substring)){
-                    return true;
-                }
             }
         }
         return false;
     }
+
+    private boolean itemMatchesSubstring(Item i, String sub){
+        for(String lbl : i.getLabels()){
+            if(lbl.contains(sub)){
+                return true;
+            }
+        }
+        if(i.getName().contains(sub)){
+            return true;
+        }
+        return false;
+    }
+
 
     private void displayItems(ListView view, ArrayList<Item> itemsToDisplay){
         ArrayList<String> displayStrings = new ArrayList<String>();
