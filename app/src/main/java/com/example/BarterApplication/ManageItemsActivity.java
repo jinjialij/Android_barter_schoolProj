@@ -40,7 +40,6 @@ public class ManageItemsActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         searchView = findViewById(R.id.searchViewManageItems);
         textViewSearch = findViewById(R.id.textViewSearch);
-
         items = ItemService.getItemList();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
