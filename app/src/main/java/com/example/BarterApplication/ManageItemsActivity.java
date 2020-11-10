@@ -34,6 +34,7 @@ public class ManageItemsActivity extends AppCompatActivity {
     private String refinedData;
     private ListView listView;
     private EditText SearchViewEditText;
+    FirebaseUser currentUser;
     ArrayList<Item> userItems = new ArrayList<Item>();
 
     @Override
@@ -42,8 +43,10 @@ public class ManageItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_items);
 
         myRef = FirebaseDatabase.getInstance().getReference().child(ItemService.getItemKeyName());
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         listView = findViewById(R.id.ManageItemsFilteredItemsListView);
-        userItems = ItemService.getItemList();
+        userItems = ItemService.getUserItems(currentUser);
+        displayItems(listView, userItems);
 
         ArrayList<String> filterStrings = new ArrayList<String>();
         SearchViewEditText = findViewById(R.id.ManageItemsSearchBoxEditText);
@@ -65,7 +68,6 @@ public class ManageItemsActivity extends AppCompatActivity {
                 }
 
                 /* After user is done editing the text, we go through the filter list and update the lists */
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 ArrayList<Item> userItems = ItemService.getUserItems(currentUser);
 
                 if(filterStrings.isEmpty()){
@@ -84,22 +86,6 @@ public class ManageItemsActivity extends AppCompatActivity {
                 }
             }
         });
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ValueDatabase = dataSnapshot.getValue().toString();
-                refinedData = ValueDatabase.substring(1, ValueDatabase.length() - 1);
-                String List[] = refinedData.split(",");
-                listView.setAdapter(new ArrayAdapter<String>(ManageItemsActivity.this, android.R.layout.simple_list_item_1, List));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
     }
 
     public void goToHomepage(View v) {
@@ -132,7 +118,7 @@ public class ManageItemsActivity extends AppCompatActivity {
     private void displayItems(ListView view, ArrayList<Item> itemsToDisplay){
         ArrayList<String> displayStrings = new ArrayList<String>();
         for(Item i : itemsToDisplay){
-            String displayString = "Name: " + i.getName() + "\nDescription" + i.getDescription() + "\nLabels";
+            String displayString = "Name: " + i.getName() + "\nDescription: " + i.getDescription() + "\nLabels:";
             for(String lbl : i.getLabels()){
                 displayString += "- " + lbl + "\n";
             }
