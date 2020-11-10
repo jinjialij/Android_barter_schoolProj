@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.NonNull;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -44,18 +46,18 @@ public class RegisterActivity extends AppCompatActivity {
         String pass =  passInitial.getText().toString();
 
         if(email.isEmpty() || pass.isEmpty()){
-            Toaster.generateToast(RegisterActivity.this,"Please enter both an email and password.");
+            Toaster.generateToast(RegisterActivity.this,getString(R.string.registerEmptyEmailPasswordError));
             return;
         }else if(!pass.equals(passConfirm.getText().toString()) ||
             !email.equalsIgnoreCase(emailConfirm.getText().toString())){
-            Toaster.generateToast(RegisterActivity.this,"Emails and/or passwords do not match.");
+            Toaster.generateToast(RegisterActivity.this,getString(R.string.registerFieldsMismatchError));
             return;
         }else if(!CredentialHelper.isValidEmail(email)){
-            Toaster.generateToast(RegisterActivity.this,"Entered email address is not valid.");
+            Toaster.generateToast(RegisterActivity.this,getString(R.string.registerInvalidEmailError));
             return;
         }
         else if(!CredentialHelper.isValidPassword(pass)){
-            Toaster.generateToast(RegisterActivity.this,"Password must be 4-24 characters ");
+            Toaster.generateToast(RegisterActivity.this,getString(R.string.registerPasswordLengthError));
             return;
         }
 
@@ -77,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             mAuth.signOut();
                             Toaster.generateToast(RegisterActivity.this,
-                                    "Registratin Successfully, going back to login..");
+                                    getString(R.string.registerSuccessMessage));
 
                             // redirect after 3 seconds
                             final Handler handler = new Handler();
@@ -89,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             }, 3000);
 
-                        } else // email is taken
+                        } else // TODO: handle different exceptions
                             Toaster.generateToast(RegisterActivity.this,"Sorry, that email is already taken.");
 
                     }

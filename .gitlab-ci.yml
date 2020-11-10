@@ -39,7 +39,7 @@ assembleDebug:
       - app/build/outputs/
   tags:
     - dalfcs_gitlab_docker_ci
-    
+
 unit_tests:
   stage: test
   script:

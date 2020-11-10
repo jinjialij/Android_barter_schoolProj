@@ -1,31 +1,22 @@
 package com.example.BarterApplication;
 
-import android.view.View;
-
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.action.ViewActions;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.runner.AndroidJUnit4;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import com.example.BarterApplication.helpers.TestHelper;
 import com.example.BarterApplication.helpers.ValidationHelper;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import org.hamcrest.Matcher;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,23 +29,9 @@ import static org.junit.Assert.assertNotNull;
 public class LoginFunctionTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
-    public ViewAction waitFor(final long delay) {
-        return new ViewAction() {
-            @Override public Matcher<View> getConstraints() {
-                return ViewMatchers.isRoot();
-            }
 
-            @Override public String getDescription() {
-                return "wait for " + delay + "milliseconds";
-            }
-
-            @Override public void perform(UiController uiController, View view) {
-                uiController.loopMainThreadForAtLeast(delay);
-            }
-        };
-    }
 
     @Before
     public void setup()
@@ -85,7 +62,7 @@ public class LoginFunctionTest {
         onView(withId(R.id.buttonLogin))
                 .perform(click());
 
-        onView(isRoot()).perform(waitFor(5000));
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
         assertNotNull(mAuth.getCurrentUser());
         onView(withId(R.id.buttonLogout))
                 .perform(click());

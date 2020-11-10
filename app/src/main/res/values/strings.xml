@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My First App</string>
+    <string name="app_name">Barter Application</string>
     <string name="passwordResetPageTextTitle">Reset Password</string>
     <string name="passwordTextBoxHint">password</string>
     <string name="confirmPasswordTextBoxHint">confirm password</string>
@@ -9,4 +9,37 @@
     <string name="passwordResetSendResetEmailButtonLabel">Send Reset Email</string>
     <string name="passwordResetEmailSent">A password reset email has been sent to your email if you have an account registered</string>
     <string name="passwordResetEmptyEmailError">Please enter an email first</string>
+    <string name="registerEmptyEmailPasswordError">Please enter both an email and password.</string>
+    <string name="registerFieldsMismatchError">Emails and/or passwords do not match.</string>
+    <string name="registerInvalidEmailError">Entered email address is not valid.</string>
+    <string name="registerPasswordLengthError">\"Password must be 6-24 characters \"</string>
+    <string name="registerSuccessMessage">Registration Successfully, going back to login..</string>
+    <string name="locationPermissionAllowed">"Location Permission Granted"</string>
+    <string name="locationPermissionUnallowed">Please grant the location permission</string>
+    <string name="search_prompt">Choose an option</string>
+    <string name="confirm">confirm</string>
+    <string name="title">title</string>
+    <string name="description">description</string>
+    <string name="addItemSuccess">Item add successful.</string>
+    <string name="addItemFail">Choose an option</string>
+
+
+    <string name="AddItemNameHint">Name (required)</string>
+    <string name="AddItemDescHint">Description (optional)</string>
+    <string name="AddItemLabelHint">Labels (optional)</string>
+
+    <string-array name="search_arrays">
+        <item>Label</item>
+        <item>Name</item>
+
+    </string-array>
+    <string name="itemRequestTitle">Request</string>
+    <string name="itemRequestRequestItemSection">Request Item</string>
+    <string name="itemRequestOfferedItemSection">Offered Item</string>
+    <string name="itemRequestAccept">Accept</string>
+    <string name="itemRequestRefuse">Refuse</string>
+    <string name="itemRequestClose">(Save) and Close</string>
+
+    <string name="EmptyItemListMessage">You have no items</string>
+
 </resources>

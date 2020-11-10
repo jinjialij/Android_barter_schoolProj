@@ -6,9 +6,6 @@ import android.os.Handler;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.example.BarterApplication.MainActivity;
-import com.example.BarterApplication.RegisterActivity;
-
 public class Toaster {
 
     public static void generateToast(Context context, String msg){
