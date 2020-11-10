@@ -33,9 +33,8 @@ public class ManageItemsActivity extends AppCompatActivity {
     private String ValueDatabase;
     private String refinedData;
     private ListView listView;
-    private SearchView searchView;
-    private TextView textViewSearch;
-    ArrayList<Item> items = new ArrayList<Item>();
+    private EditText SearchViewEditText;
+    ArrayList<Item> userItems = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,42 +43,48 @@ public class ManageItemsActivity extends AppCompatActivity {
 
         myRef = FirebaseDatabase.getInstance().getReference().child(ItemService.getItemKeyName());
         listView = findViewById(R.id.ManageItemsFilteredItemsListView);
+        userItems = ItemService.getItemList();
 
         ArrayList<String> filterStrings = new ArrayList<String>();
-        EditText SearchViewEditText = findViewById(R.id.ManageItemsSearchBoxEditText);
+        SearchViewEditText = findViewById(R.id.ManageItemsSearchBoxEditText);
         SearchViewEditText.addTextChangedListener(new TextChangedListener<EditText>(SearchViewEditText) {
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
             public void onTextChanged(EditText target, Editable s) {
-                String currentString = s.toString();
-                String [] searchFieldArray = currentString.split(", ");
-                filterStrings.clear();
-                for(int i = 0; i < searchFieldArray.length; i++){
-                    filterStrings.add(searchFieldArray[i]);
-                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                String [] searchFieldArray = s.toString().split("\\s+");
+                filterStrings.clear();
+                for(int i = 0; i < searchFieldArray.length; i++){
+                    filterStrings.add(searchFieldArray[i]);
+                }
 
                 /* After user is done editing the text, we go through the filter list and update the lists */
-                ArrayList<Item> userItems = ItemService.getUserItems(FirebaseAuth.getInstance().getCurrentUser());
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                ArrayList<Item> userItems = ItemService.getUserItems(currentUser);
 
-                ArrayList<Item> filteredItems = new ArrayList<Item>();
-                for(Item i : userItems){
-                    if(itemMatchesFilter(i, filterStrings)){
-                        filteredItems.add(i);
-                    }
+                if(filterStrings.isEmpty()){
+                    /* If we aren't filterig, display all the user items */
+                    displayItems(listView, userItems);
                 }
-                displayItems(listView, filteredItems);
+                else {
+                    /* Filter the items and only display matches */
+                    ArrayList<Item> filteredItems = new ArrayList<Item>();
+                    for(Item i : userItems){
+                        if(itemMatchesFilter(i, filterStrings)){
+                            filteredItems.add(i);
+                        }
+                    }
+                    displayItems(listView, filteredItems);
+                }
             }
         });
 
-        items = ItemService.getItemList();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -104,17 +109,36 @@ public class ManageItemsActivity extends AppCompatActivity {
     }
 
 
-    private boolean itemMatchesFilter(Item i, ArrayList<String> labels){
-        for(String lbl : labels){
-            if(i.hasLabel(lbl)){
+    private boolean itemMatchesFilter(Item i, ArrayList<String> strings_to_match){
+        for(String substring : strings_to_match){
+            if(i.hasLabel(substring)){
                 return true;
+            }
+            else {
+                for(String lbl : i.getLabels()){
+                    if(lbl.contains(substring)){
+                        return true;
+                    }
+                }
+
+                if(i.getName().contains(substring)){
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    private void displayItems(ListView view, ArrayList<Item> items){
-        view.setAdapter(new ArrayAdapter<Item>(ManageItemsActivity.this, android.R.layout.simple_list_item_1, items));
+    private void displayItems(ListView view, ArrayList<Item> itemsToDisplay){
+        ArrayList<String> displayStrings = new ArrayList<String>();
+        for(Item i : itemsToDisplay){
+            String displayString = "Name: " + i.getName() + "\nDescription" + i.getDescription() + "\nLabels";
+            for(String lbl : i.getLabels()){
+                displayString += "- " + lbl + "\n";
+            }
+            displayStrings.add(displayString);
+        }
+        view.setAdapter(new ArrayAdapter<String>(ManageItemsActivity.this, android.R.layout.simple_list_item_1, displayStrings));
     }
 }
 

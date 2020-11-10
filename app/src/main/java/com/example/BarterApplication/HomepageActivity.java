@@ -35,6 +35,8 @@ public class HomepageActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
 
+        ItemService.init();
+
         Button logoutBtn = (Button) findViewById(R.id.buttonLogout);
         Button viewMyRequestBtn = (Button) findViewById(R.id.viewMyRequestLogoutBtn);
          bt = (Button) findViewById(R.id.bTS);

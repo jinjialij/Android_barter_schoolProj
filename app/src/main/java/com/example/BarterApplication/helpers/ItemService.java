@@ -27,7 +27,7 @@ public class ItemService {
     public static String getItemKeyName(){
         return dbItemListKeyName;
     }
-
+    private static boolean initialized = false;
 
     public static void addItem(Item i){
         initDbListener();
@@ -45,11 +45,10 @@ public class ItemService {
         if(u != null){
             // filter the entire database item list for just the user's items
             ArrayList<Item> userItems = new ArrayList<Item>();
-            ArrayList<Item> synchronizedItems = getItemList();
-            int i;
-            for( i = 0; i < synchronizedItems.size(); i++){
-                Item current = synchronizedItems.get(i);
-                if(current.getOwnerId().equals(u.getUid())){
+            String my_uid = u.getUid();
+            for(int i = 0; i < getItemList().size(); i++){
+                Item current = getItemList().get(i);
+                if(current.getOwnerId().equals(my_uid)){
                     userItems.add(current);
                 }
             }
@@ -64,6 +63,13 @@ public class ItemService {
 
     public static ArrayList<Item> getItemList(){
         return itemList;
+    }
+
+    public static void init(){
+        if(!initialized){
+            initDbListener();
+            initialized = true;
+        }
     }
 
     private static void initDbListener() {

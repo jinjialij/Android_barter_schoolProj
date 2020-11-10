@@ -67,6 +67,7 @@ public class Item implements Serializable {
     }
 
     public ArrayList<String> getLabels() {
+        removeDuplicateLabels();
         return this.labels;
     }
 
