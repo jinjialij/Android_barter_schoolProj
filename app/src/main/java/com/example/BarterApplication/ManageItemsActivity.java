@@ -1,18 +1,23 @@
 package com.example.BarterApplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.BarterApplication.helpers.ItemService;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -33,7 +38,7 @@ public class ManageItemsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_items);
 
-        myRef = FirebaseDatabase.getInstance().getReference().child("Items");
+        myRef = FirebaseDatabase.getInstance().getReference().child(ItemService.getItemKeyName()).child("name").child("label");
 
         name = findViewById(R.id.name);
         label = findViewById(R.id.label);
@@ -59,7 +64,6 @@ public class ManageItemsActivity extends AppCompatActivity {
         });
 
 
-        /*
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -74,8 +78,6 @@ public class ManageItemsActivity extends AppCompatActivity {
 
             }
         });
-        */
-
 
     }
 
