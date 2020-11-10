@@ -23,4 +23,6 @@
 
     </string-array>
 
+    <string name="EmptyItemListMessage">You have no items</string>
+
 </resources>

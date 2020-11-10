@@ -2,25 +2,33 @@ package com.example.BarterApplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+<<<<<<< HEAD
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+=======
+>>>>>>> 55a24a0d0530a52ff51c9454462e8b60d2a63e13
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+<<<<<<< HEAD
 import androidx.annotation.NonNull;
+=======
+
+>>>>>>> 55a24a0d0530a52ff51c9454462e8b60d2a63e13
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+
+import com.example.BarterApplication.helpers.ItemService;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class ManageItemsActivity extends AppCompatActivity{
 
     private EditText name;
     private EditText label;
-    private DatabaseReference myRef;
     private String ValueDatabase;
     private String refinedData;
     private ListView listView;
@@ -28,11 +36,16 @@ public class ManageItemsActivity extends AppCompatActivity{
     private TextView textViewSearch;
   
 
+    private FirebaseDatabase myDb;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_info);
 
+<<<<<<< HEAD
         myRef = FirebaseDatabase.getInstance().getReference().child("Items");
         name = findViewById(R.id.name);
         label = findViewById(R.id.label);
@@ -69,21 +82,31 @@ public class ManageItemsActivity extends AppCompatActivity{
 
                 return false;
             }
+=======
+        mAuth = FirebaseAuth.getInstance();
+        myDb = FirebaseDatabase.getInstance();
+        currentUser = mAuth.getCurrentUser();
+    }
+>>>>>>> 55a24a0d0530a52ff51c9454462e8b60d2a63e13
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+    public void displayItems(View v){
+        displayItemList();
     }
 
-    public void InsertButton(View view){
-        try {
-            myRef.child(name.getText().toString()).setValue(label.getText().toString());
+    private void displayItemList(){
+        TextView itemDisplay = (TextView)findViewById(R.id.ItemDisplayTextBoxId);
+        ArrayList<Item> userItems = ItemService.getUserItems(currentUser);
+        String format = "";
+
+        if(userItems.size() == 0) {
+            //format = String.copyValueOf((char)R.string.EmptyItemListMessage);
         }
-        catch (Exception e){
-            e.printStackTrace();
+        else {
+            for(Item i : userItems){
+                format += "\n" + i.getName();
+            }
         }
+        itemDisplay.setText(format);
     }
 
     public void goToHomepage(View v){
