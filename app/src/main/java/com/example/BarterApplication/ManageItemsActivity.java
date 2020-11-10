@@ -17,7 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ManageItems extends AppCompatActivity {
+public class ManageItemsActivity extends AppCompatActivity {
 
     private EditText label;
     private EditText name;
@@ -47,7 +47,7 @@ public class ManageItems extends AppCompatActivity {
                 ValueDatabase = dataSnapshot.getValue().toString();
                 refinedData = ValueDatabase.substring(1, ValueDatabase.length() - 1);
                 String List[] = refinedData.split(",");
-                listView.setAdapter(new ArrayAdapter<String>(ManageItems.this, android.R.layout.simple_list_item_1, List));
+                listView.setAdapter(new ArrayAdapter<String>(ManageItemsActivity.this, android.R.layout.simple_list_item_1, List));
 
             }
 

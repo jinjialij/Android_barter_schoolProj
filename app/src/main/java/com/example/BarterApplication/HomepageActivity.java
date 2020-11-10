@@ -24,8 +24,6 @@ public class HomepageActivity extends AppCompatActivity {
     private ArrayList<ItemRequest> itemRequests;
     private ArrayList<Item> items;
 
-    private ArrayList<ItemRequest> itemRequests = new ArrayList<>();
-    private ArrayList<Item> items = new ArrayList<>();
     private Button bt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +85,7 @@ public class HomepageActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void goToManageItems(View v){
-        Intent intent = new Intent(this, ManageItems.class);
+        Intent intent = new Intent(this, ManageItemsActivity.class);
         startActivity(intent);
     }
 
