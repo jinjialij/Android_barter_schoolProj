@@ -13,7 +13,7 @@
         <activity android:name="com.example.BarterApplication.PasswordResetActivity"/>
         <activity android:name="com.example.BarterApplication.HomepageActivity"/>
         <activity android:name="com.example.BarterApplication.ViewMyRequestPageActivity"/>
-        <activity android:name="com.example.BarterApplication.ManageItemsActivity"/>
+        <activity android:name="com.example.BarterApplication.ManageItems"/>
         <activity android:name="com.example.BarterApplication.MainActivity">
         <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

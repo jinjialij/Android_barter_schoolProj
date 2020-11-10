@@ -79,7 +79,7 @@ public class HomepageActivity extends AppCompatActivity {
     }
 
     public void goToManageItems(View v){
-        Intent intent = new Intent(this, ManageItemsActivity.class);
+        Intent intent = new Intent(this, ManageItems.class);
         startActivity(intent);
     }
 
