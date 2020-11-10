@@ -36,4 +36,6 @@
     <string name="itemRequestRefuse">Refuse</string>
     <string name="itemRequestClose">(Save) and Close</string>
 
+    <string name="EmptyItemListMessage">You have no items</string>
+
 </resources>

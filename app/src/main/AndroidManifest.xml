@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.BarterApplication">
+<<<<<<< HEAD
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+=======
+>>>>>>> dongkyu
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,6 +25,7 @@
         <activity android:name="com.example.BarterApplication.ViewMyRequestPageActivity"/>
         <activity android:name="com.example.BarterApplication.AddItemActivity"/>
         <activity android:name="com.example.BarterApplication.MyRequestActivity"/>
+        <activity android:name="com.example.BarterApplication.ManageItems"/>
         <activity android:name="com.example.BarterApplication.MainActivity">
 
         <intent-filter>

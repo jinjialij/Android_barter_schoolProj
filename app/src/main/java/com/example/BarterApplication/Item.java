@@ -48,6 +48,15 @@ public class Item implements Serializable {
         this.uid = UidService.newUID();
     }
 
+
+
+
+
+
+
+
+
+
     public String getUid() {
         return this.uid;
     }
