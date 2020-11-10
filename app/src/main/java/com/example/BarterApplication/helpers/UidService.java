@@ -3,6 +3,9 @@ package com.example.BarterApplication.helpers;
 import com.example.BarterApplication.Item;
 import com.example.BarterApplication.User;
 import com.example.BarterApplication.UserAccount;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -36,4 +39,9 @@ public class UidService {
         return UUID.randomUUID().toString();
     }
 
+
+
+    public static String getCurrentUserUUID(){
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
 }

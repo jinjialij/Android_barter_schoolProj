@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.BarterApplication.helpers.ItemRequestService;
 import com.example.BarterApplication.helpers.ItemService;
-import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +24,7 @@ public class HomepageActivity extends AppCompatActivity {
     private ArrayList<ItemRequest> itemRequests;
     private ArrayList<Item> items;
 
+    private Button bt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +35,11 @@ public class HomepageActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
 
+        ItemService.init();
+
         Button logoutBtn = (Button) findViewById(R.id.buttonLogout);
         Button viewMyRequestBtn = (Button) findViewById(R.id.viewMyRequestLogoutBtn);
+         bt = (Button) findViewById(R.id.bTS);
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,8 +55,7 @@ public class HomepageActivity extends AppCompatActivity {
         ItemRequestService.readItemRequestData(itemReqDbRef, itemRequests);
 
         itemDbRef = FirebaseDatabase.getInstance().getReference("Items");
-        items = new ArrayList<>();
-        ItemService.readItemData(itemDbRef, items);
+        items = ItemService.getItemList();
     }
 
     public void onStart(){
@@ -85,4 +86,9 @@ public class HomepageActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddItemActivity.class);
         startActivity(intent);
     }
+    public void goToManageItems(View v){
+        Intent intent = new Intent(this, ManageItemsActivity.class);
+        startActivity(intent);
+    }
+
 }

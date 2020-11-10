@@ -7,11 +7,6 @@ variables:
   ANDROID_BUILD_TOOLS: "28.0.2"
   ANDROID_SDK_TOOLS: "4333796"
 
-stages:
-    - build
-    - test
-    - merge
-    
 before_script:
   # - apt-get --quiet update --yes
   # - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
@@ -44,7 +39,7 @@ assembleDebug:
       - app/build/outputs/
   tags:
     - dalfcs_gitlab_docker_ci
-    
+
 unit_tests:
   stage: test
   script:
@@ -56,12 +51,3 @@ unit_tests:
       - app/build/reports/tests/
   tags:
     - dalfcs_gitlab_docker_ci
-
-#open_merge_request:
-#    before_script: []
-#    stage: merge
-#    only:
-#        - /^.*/
-#    script:
-#        - HOST=${CI_PROJECT_URL} CI_PROJECT_ID=${CI_PROJECT_ID} CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME} GITLAB_USER_ID=${GITLAB_USER_ID} PRIVATE_TOKEN=${PRIVATE_TOKEN} ./autoMergeRequest.sh # The name of the script
-    

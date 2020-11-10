@@ -1,8 +1,9 @@
 package com.example.BarterApplication;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserAccount extends User {
+public class UserAccount extends User implements Serializable {
     private ArrayList<Item> items;
     private ArrayList<String> requestIds;
     //@todo preferences
@@ -24,7 +25,6 @@ public class UserAccount extends User {
             this.items.add(i);
         }
     }
-
 
     public void addItems(ArrayList<Item> items){
         if(items.size() > 0){

@@ -24,6 +24,10 @@
     <string name="addItemFail">Choose an option</string>
 
 
+    <string name="AddItemNameHint">Name (required)</string>
+    <string name="AddItemDescHint">Description (optional)</string>
+    <string name="AddItemLabelHint">Labels (optional)</string>
+
     <string-array name="search_arrays">
         <item>Label</item>
         <item>Name</item>
@@ -35,5 +39,7 @@
     <string name="itemRequestAccept">Accept</string>
     <string name="itemRequestRefuse">Refuse</string>
     <string name="itemRequestClose">(Save) and Close</string>
+
+    <string name="EmptyItemListMessage">You have no items</string>
 
 </resources>

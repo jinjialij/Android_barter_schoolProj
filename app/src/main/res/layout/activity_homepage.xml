@@ -2,8 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:id="@+id/viewMySearchBtn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <Button
         android:id="@+id/buttonLogout"
@@ -23,7 +24,7 @@
 
     <Button
         android:id="@+id/viewMyRequestBtn"
-        android:layout_width="100dp"
+        android:layout_width="0dp"
         android:layout_height="59dp"
         android:layout_marginStart="295dp"
         android:layout_marginLeft="295dp"
@@ -45,7 +46,7 @@
         android:layout_height="59dp"
         android:layout_marginStart="294dp"
         android:layout_marginLeft="294dp"
-        android:layout_marginTop="565dp"
+        android:layout_marginTop="500dp"
         android:layout_marginEnd="17dp"
         android:layout_marginRight="17dp"
         android:layout_marginBottom="20dp"
@@ -64,9 +65,29 @@
         android:text="Homepage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/bTS"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/bTS"
+        android:layout_width="104dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginEnd="143dp"
+        android:layout_marginRight="143dp"
+        android:layout_marginBottom="28dp"
+        android:onClick="goToManageItems"
+        android:text="Manage my items"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/viewMyRequestBtn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
