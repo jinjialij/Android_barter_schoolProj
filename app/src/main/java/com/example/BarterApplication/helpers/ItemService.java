@@ -1,6 +1,7 @@
 package com.example.BarterApplication.helpers;
 //https://stackoverflow.com/questions/32886546/how-to-get-all-child-list-from-firebase-android
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,15 @@ import java.util.ArrayList;
 public class ItemService {
     private static ArrayList<Item> itemList = new ArrayList<Item>();
     private static String dbItemListKeyName = "Items";
+
+    public static boolean hasItem(Item i){
+        return itemList.contains(i);
+    }
+
+    public static String getItemKeyName(){
+        return dbItemListKeyName;
+    }
+
 
     public static void addItem(Item i){
         initDbListener();
@@ -90,7 +100,6 @@ public class ItemService {
         return null;
     }
 
-
     private static DatabaseReference getKeyNode(){
         return FirebaseDatabase.getInstance().getReference().child(dbItemListKeyName);
     }
@@ -99,6 +108,8 @@ public class ItemService {
     private static DatabaseReference getDbNode(){
         return FirebaseDatabase.getInstance().getReference();
     }
+
+
 
 
 }

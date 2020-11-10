@@ -24,6 +24,10 @@
     <string name="addItemFail">Choose an option</string>
 
 
+    <string name="AddItemNameHint">Name (required)</string>
+    <string name="AddItemDescHint">Description (optional)</string>
+    <string name="AddItemLabelHint">Labels (optional)</string>
+
     <string-array name="search_arrays">
         <item>Label</item>
         <item>Name</item>
