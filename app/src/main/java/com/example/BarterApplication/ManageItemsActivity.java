@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -13,6 +14,9 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.BarterApplication.helpers.ItemService;
+import com.example.BarterApplication.helpers.TextChangedListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,32 +42,44 @@ public class ManageItemsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_items);
 
-        myRef = FirebaseDatabase.getInstance().getReference().child(ItemService.getItemKeyName()).child("name").child("label");
+        myRef = FirebaseDatabase.getInstance().getReference().child(ItemService.getItemKeyName());
+        listView = findViewById(R.id.ManageItemsFilteredItemsListView);
 
-        name = findViewById(R.id.name);
-        label = findViewById(R.id.label);
-        listView = findViewById(R.id.listView);
-        searchView = findViewById(R.id.searchViewManageItems);
-        textViewSearch = findViewById(R.id.textViewSearch);
-        items = ItemService.getItemList();
+        ArrayList<String> filterStrings = new ArrayList<String>();
+        EditText SearchViewEditText = findViewById(R.id.ManageItemsSearchBoxEditText);
+        SearchViewEditText.addTextChangedListener(new TextChangedListener<EditText>(SearchViewEditText) {
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                int SearchIndex = refinedData.indexOf(query);
-                String SearchResult = refinedData.substring(SearchIndex);
-                String SearchSplit[] = SearchResult.split(",");
-                textViewSearch.setText(SearchSplit[0]);
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public void onTextChanged(EditText target, Editable s) {
+                String currentString = s.toString();
+                String [] searchFieldArray = currentString.split(", ");
+                filterStrings.clear();
+                for(int i = 0; i < searchFieldArray.length; i++){
+                    filterStrings.add(searchFieldArray[i]);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                /* After user is done editing the text, we go through the filter list and update the lists */
+                ArrayList<Item> userItems = ItemService.getUserItems(FirebaseAuth.getInstance().getCurrentUser());
+
+                ArrayList<Item> filteredItems = new ArrayList<Item>();
+                for(Item i : userItems){
+                    if(itemMatchesFilter(i, filterStrings)){
+                        filteredItems.add(i);
+                    }
+                }
+                displayItems(listView, filteredItems);
             }
         });
 
-
+        items = ItemService.getItemList();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -87,6 +103,19 @@ public class ManageItemsActivity extends AppCompatActivity {
 
     }
 
+
+    private boolean itemMatchesFilter(Item i, ArrayList<String> labels){
+        for(String lbl : labels){
+            if(i.hasLabel(lbl)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void displayItems(ListView view, ArrayList<Item> items){
+        view.setAdapter(new ArrayAdapter<Item>(ManageItemsActivity.this, android.R.layout.simple_list_item_1, items));
+    }
 }
 
 

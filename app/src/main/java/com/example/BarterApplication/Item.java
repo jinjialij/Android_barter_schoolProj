@@ -49,12 +49,9 @@ public class Item implements Serializable {
     }
 
 
-
-
-
-
-
-
+    public boolean hasLabel(String label){
+        return labels.contains(label);
+    }
 
 
     public String getUid() {

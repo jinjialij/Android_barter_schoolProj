@@ -6,62 +6,6 @@
     android:layout_height="match_parent">
 
 
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="137dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="140dp"
-        android:hint="Name"
-        app:layout_constraintEnd_toStartOf="@+id/label"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/label"
-        android:layout_width="123dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="140dp"
-        android:hint="Label"
-        app:layout_constraintBottom_toTopOf="@+id/textViewSearch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.147" />
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="280dp"
-        android:layout_height="370dp"
-        android:layout_marginBottom="20dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <SearchView
-        android:id="@+id/searchViewManageItems"
-        android:layout_width="220dp"
-        android:layout_height="35dp"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewSearch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <TextView
-        android:id="@+id/textViewSearch"
-        android:layout_width="229dp"
-        android:layout_height="102dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/listView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/button2"
         android:layout_width="63dp"
@@ -73,6 +17,31 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/ManageItemsSearchBoxEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="227dp"
+        android:ems="10"
+        android:hint="Search Name or Labels"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/ManageItemsFilteredItemsListView"
+        android:layout_width="390dp"
+        android:layout_height="473dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ManageItemsSearchBoxEditText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
