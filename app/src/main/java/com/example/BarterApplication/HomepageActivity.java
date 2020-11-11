@@ -18,9 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class HomepageActivity extends AppCompatActivity {
-    private DatabaseReference dbRef;
-    private DatabaseReference itemDbRef;
-    private DatabaseReference itemReqDbRef;
     private FirebaseAuth mAuth;
     private ArrayList<ItemRequest> itemRequests;
     private ArrayList<Item> items;
@@ -32,15 +29,18 @@ public class HomepageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_homepage);
 
         mAuth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance().getReference();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
 
+        //initialize service and get items and requests
         ItemService.init();
+        ItemRequestService.init();
+        itemRequests = ItemRequestService.getItemRequestList();
+        items = ItemService.getItemList();
 
         Button logoutBtn = (Button) findViewById(R.id.buttonLogout);
         Button viewMyRequestBtn = (Button) findViewById(R.id.viewMyRequestLogoutBtn);
-         bt = (Button) findViewById(R.id.bTS);
+        bt = (Button) findViewById(R.id.bTS);
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,16 +50,9 @@ public class HomepageActivity extends AppCompatActivity {
             }
         });
 
-        //get items and requests
-        itemReqDbRef = FirebaseDatabase.getInstance().getReference("ItemRequests");
-        itemRequests = new ArrayList<>();
-        ItemRequestService.readItemRequestData(itemReqDbRef, itemRequests);
-
-        itemDbRef = FirebaseDatabase.getInstance().getReference("Items");
-        items = ItemService.getItemList();
-
-        //check if inserted is success when directs from the addItemActivity
+        //check if inserted is success when directing from the addItemActivity
         Item insertedItem = (Item) getIntent().getSerializableExtra("insertedItem");
+        boolean updateStatusFromMyRequest = getIntent().getBooleanExtra("updateStatusFromMyRequest", false);
         if (insertedItem!=null && ItemService.isLastInsertSucceed()){
             boolean insertedSuccess = false;
             for (Item item : items){
@@ -72,6 +65,14 @@ public class HomepageActivity extends AppCompatActivity {
             if (!insertedSuccess){
                 Toaster.generateToast(HomepageActivity.this, "Failed to add item " + insertedItem.getName() + ",please try again");
             }
+        }
+
+        //check if updated is success when directing from the myRequestActivity
+        if (updateStatusFromMyRequest && ItemRequestService.isLastUpdateSucceed()){
+            Toaster.generateToast(HomepageActivity.this, "Your request is updated successfully!");
+        }
+        else if (updateStatusFromMyRequest && !ItemRequestService.isLastUpdateSucceed()){
+            Toaster.generateToast(HomepageActivity.this, "Fail to update your request, please try again");
         }
     }
 
@@ -93,9 +94,6 @@ public class HomepageActivity extends AppCompatActivity {
 
     public void goToViewMyRequestPage(View v){
         Intent intent = new Intent(this, ViewMyRequestPageActivity.class);
-
-        intent.putExtra("itemRequestsExtra", itemRequests);
-        intent.putExtra("itemsExtra", items);
         startActivity(intent);
     }
 

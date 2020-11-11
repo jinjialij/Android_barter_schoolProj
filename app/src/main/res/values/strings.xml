@@ -41,7 +41,7 @@
     <string name="itemRequestOfferedItemSection">Offered Item</string>
     <string name="itemRequestAccept">Accept</string>
     <string name="itemRequestRefuse">Refuse</string>
-    <string name="itemRequestClose">(Save) and Close</string>
+    <string name="itemRequestClose">Save and Close</string>
 
     <string name="EmptyItemListMessage">You have no items</string>
 

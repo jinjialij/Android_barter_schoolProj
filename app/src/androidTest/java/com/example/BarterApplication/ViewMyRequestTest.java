@@ -76,16 +76,22 @@ public class ViewMyRequestTest {
 
     @Test
     public void testViewMyRequestButton_show_itemRequests_AT_08_02(){
-        //insert test data in firebase
-        String requesterId = "HhbguXQAWvXuCPgpVLOV3H3syQy1";
-        ArrayList<String> labels = new ArrayList<>();
-        labels.add("desc");
-        offerItem = new Item("offerItem" + UidService.newUID(), "desc", labels , requesterId);
-        requestItem = new Item("requestItem" + UidService.newUID(), "1IBtBykzk1PegTxIsABKy7dqGtx1");
-        ItemService.addItem(offerItem);
-        ItemService.addItem(requestItem);
-        request = new ItemRequest(requesterId, requestItem, offerItem);
-        ItemRequestService.addItemRequest(request);
+        if (ItemRequestService.getItemRequestList().isEmpty()){
+            //insert test data in firebase
+            String requesterId = "HhbguXQAWvXuCPgpVLOV3H3syQy1";
+            ArrayList<String> labels = new ArrayList<>();
+            labels.add("desc");
+            offerItem = new Item("offerItem" + UidService.newUID(), "desc", labels , requesterId);
+            requestItem = new Item("requestItem" + UidService.newUID(), "1IBtBykzk1PegTxIsABKy7dqGtx1");
+            ItemService.addItem(offerItem);
+            ItemService.addItem(requestItem);
+            request = new ItemRequest(requesterId, requestItem, offerItem);
+            ItemRequestService.addItemRequest(request);
+        }
+        else{
+            request = ItemRequestService.getItemRequestList().get(0);
+            requestItem = ItemService.findItemByUid(request.getRequestItemId());
+        }
 
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));

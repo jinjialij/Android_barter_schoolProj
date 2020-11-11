@@ -81,7 +81,7 @@ public class ViewAddButtonTest {
         onView(withId(R.id.AddItemDescriptionEditText))
                 .perform(click())
                 .perform(typeText(description), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.AddItemDescriptionEditText))
+        onView(withId(R.id.AddItemNameEditText))
                 .perform(clearText());
         onView(withId(R.id.AddItemNameEditText))
                 .perform(click())

@@ -134,13 +134,8 @@ public class ItemService {
         });
     }
 
-    private static Item findItemByUid(String uid){
-        for(Item i : getItemList()){
-            if(i.getUid().equals(uid)){
-                return i;
-            }
-        }
-        return null;
+    public static Item findItemByUid(String uid){
+        return UidService.findItemByItemUid(uid, getItemList());
     }
 
     private static DatabaseReference getKeyNode(){

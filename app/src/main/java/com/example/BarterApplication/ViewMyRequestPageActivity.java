@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.BarterApplication.helpers.ItemRequestService;
+import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,10 +37,8 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
-        itemRequests = new ArrayList<>();
-        items = new ArrayList<>();
-        itemRequests = (ArrayList<ItemRequest>)getIntent().getSerializableExtra("itemRequestsExtra");
-        items  = (ArrayList<Item>)getIntent().getSerializableExtra("itemsExtra");
+        itemRequests = ItemRequestService.getItemRequestList();
+        items = ItemService.getItemList();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
 
