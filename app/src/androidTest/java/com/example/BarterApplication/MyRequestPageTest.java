@@ -5,7 +5,10 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.BarterApplication.helpers.ItemRequestService;
+import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TestHelper;
+import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.hamcrest.core.IsNot;
@@ -32,6 +35,9 @@ public class MyRequestPageTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
     private FirebaseAuth mAuth;
+    private Item offerItem;
+    private Item requestItem;
+    private ItemRequest request;
 
     @Before
     public void setup()
@@ -128,10 +134,19 @@ public class MyRequestPageTest {
 
     @Test
     public void testMyRequest_AT_08_08(){
+        //insert test data in firebase
+        String requesterId = "HhbguXQAWvXuCPgpVLOV3H3syQy1";
+        offerItem = new Item("offerItem" + UidService.newUID(), requesterId);
+        requestItem = new Item("requestItem" + UidService.newUID(), "1IBtBykzk1PegTxIsABKy7dqGtx1");
+        ItemService.addItem(offerItem);
+        ItemService.addItem(requestItem);
+        request = new ItemRequest(requesterId, requestItem, offerItem);
+        ItemRequestService.addItemRequest(request);
+
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.requestID)).check(matches(withText("38b1991f-36b0-4f9c-8f9b-2f02c9fbd1e1")));
+        onView(withId(R.id.requestID)).check(matches(withText(request.getUid())));
         onView(withId(R.id.requestItemInfo)).check(matches(isDisplayed()));
         onView(withId(R.id.offeredItemInfo)).check(matches(IsNot.not(withText(""))));
         onView(withId(R.id.requestItemInfo)).check(matches(IsNot.not(withText(""))));
