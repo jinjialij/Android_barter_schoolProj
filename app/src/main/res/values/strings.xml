@@ -22,6 +22,9 @@
     <string name="description">description</string>
     <string name="addItemSuccess">Item add successful.</string>
     <string name="addItemFail">Choose an option</string>
+    <string name="addItem">Add an Item</string>
+    <string name="invalidItemNme">Invalid item name</string>
+    <string name="emptyItemName">Item name is required, Please enter Item Title/Description.</string>
 
 
     <string name="AddItemNameHint">Name (required)</string>
@@ -41,5 +44,9 @@
     <string name="itemRequestClose">(Save) and Close</string>
 
     <string name="EmptyItemListMessage">You have no items</string>
+
+    <string name="HomePageTitle">Homepage</string>
+    <string name="logout">Log out</string>
+    <string name="back">Back</string>
 
 </resources>

@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.BarterApplication.helpers.ItemRequestService;
 import com.example.BarterApplication.helpers.ItemService;
+import com.example.BarterApplication.helpers.Toaster;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -56,6 +57,22 @@ public class HomepageActivity extends AppCompatActivity {
 
         itemDbRef = FirebaseDatabase.getInstance().getReference("Items");
         items = ItemService.getItemList();
+
+        //check if inserted is success when directs from the addItemActivity
+        Item insertedItem = (Item) getIntent().getSerializableExtra("insertedItem");
+        if (insertedItem!=null && ItemService.isLastInsertSucceed()){
+            boolean insertedSuccess = false;
+            for (Item item : items){
+                if (item.getUid().equals(insertedItem.getUid())){
+                    Toaster.generateToast(HomepageActivity.this, "Add item " + insertedItem.getName() + " successfully!");
+                    insertedSuccess = true;
+                    break;
+                }
+            }
+            if (!insertedSuccess){
+                Toaster.generateToast(HomepageActivity.this, "Failed to add item " + insertedItem.getName() + ",please try again");
+            }
+        }
     }
 
     public void onStart(){

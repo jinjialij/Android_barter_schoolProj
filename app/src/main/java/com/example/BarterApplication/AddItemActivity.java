@@ -10,6 +10,7 @@ import com.example.BarterApplication.helpers.AddItemHelper;
 import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.Toaster;
 import com.example.BarterApplication.helpers.UidService;
+import com.example.BarterApplication.helpers.ValidationHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import androidx.annotation.NonNull;
@@ -27,9 +29,6 @@ import android.os.Handler;
 
 
 public class AddItemActivity extends AppCompatActivity {
-
-    FirebaseDatabase fDB;
-    DatabaseReference dbRef;
 
     private FirebaseAuth fbAuth;
 
@@ -58,55 +57,38 @@ public class AddItemActivity extends AppCompatActivity {
         }
 
         final String userId = UidService.getCurrentUserUUID();
-        boolean titleIsValid = itemName.matches("^.*[^a-zA-Z0-9 ].*$");
+
+        boolean titleIsValid = ValidationHelper.isValidItemTitle(itemName);
 
         if (itemName.isEmpty()){
-            Toaster.generateToast(AddItemActivity.this,"Please enter Item Title/Description.");
+            Toaster.generateToast(AddItemActivity.this,this.getString(R.string.emptyItemName));
         }else if(itemName.equals(R.string.AddItemNameHint)){
-            Toaster.generateToast(AddItemActivity.this,"Item title not valid.");
+            Toaster.generateToast(AddItemActivity.this, this.getString(R.string.emptyItemName));
         }
-        else if(titleIsValid){
-            Toaster.generateToast(AddItemActivity.this, "Invalid item name");
+        else if(!titleIsValid){
+            Toaster.generateToast(AddItemActivity.this, this.getString(R.string.invalidItemNme));
         }
         else {
-            fDB = FirebaseDatabase.getInstance();
-            dbRef = fDB.getReference(ItemService.getItemKeyName());
-
-            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                    Item i = new Item(itemName, itemDesc, labelArrayList, userId);
-                    ItemService.addItem(i);
-
-                    int db_sync_time_ms = 3000; /** @todo FIX THE SYNC METHOD LATER, I'M FIXING THIS AT 11:00 AM THE DAY BEFORE ITERATION */
-
-                    /* simple way to sync with db : wait 3 seconds before doing anything */
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            if(ItemService.hasItem(i)){
-                                Toaster.generateToast(AddItemActivity.this, "Add item " + itemName + " successfully. Redirecting to homepage");
-                                goBackToHomepage(view);
-                            }
-                            else{
-                                Toaster.generateToast(AddItemActivity.this, "Error adding item " + itemName);
-                            }
-                        }
-                    }, db_sync_time_ms);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toaster.generateToast(AddItemActivity.this, "Error adding item " + itemName);
-                }
-            });
+            Item i = new Item(itemName, itemDesc, labelArrayList, userId);
+            ItemService.addItem(i);
+            goToHomepage(i);
         }
     }
 
-    public void goBackToHomepage(View view){
+    public void goToHomepage(Item i) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(AddItemActivity.this, HomepageActivity.class);
+                intent.putExtra("insertedItem", i);
+                startActivity(intent);
+            }
+        }, 3000);
+    }
+
+    public void goBackToHomepage(View view) {
         Intent intent = new Intent(this, HomepageActivity.class);//need update to item list page
         startActivity(intent);
     }
-
 }
