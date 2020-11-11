@@ -169,7 +169,6 @@ public class MyRequestPageTest {
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-//        onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(request.getUid())), click()));
         onView(withId(R.id.requestID)).check(matches(withText(request.getUid())));
         onView(withId(R.id.requestItemInfo)).check(matches(isDisplayed()));
         onView(withId(R.id.offeredItemInfo)).check(matches(IsNot.not(withText(""))));
