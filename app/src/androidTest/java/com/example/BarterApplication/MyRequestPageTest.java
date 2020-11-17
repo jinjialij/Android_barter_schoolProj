@@ -19,6 +19,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
@@ -155,8 +157,10 @@ public class MyRequestPageTest {
         if (ItemRequestService.getItemRequestList().isEmpty()){
             //insert test data in firebase
             String requesterId = "HhbguXQAWvXuCPgpVLOV3H3syQy1";
-            offerItem = new Item("offerItem" + UidService.newUID(), requesterId);
-            requestItem = new Item("requestItem" + UidService.newUID(), "1IBtBykzk1PegTxIsABKy7dqGtx1");
+            ArrayList<String> labels = new ArrayList<>();
+            labels.add("testLabels");
+            offerItem = new Item("offerItem" + UidService.newUID(), "test desc", labels, requesterId);
+            requestItem = new Item("requestItem" + UidService.newUID(), "test desc", labels, "1IBtBykzk1PegTxIsABKy7dqGtx1");
             ItemService.addItem(offerItem);
             ItemService.addItem(requestItem);
             request = new ItemRequest(requesterId, requestItem, offerItem);
