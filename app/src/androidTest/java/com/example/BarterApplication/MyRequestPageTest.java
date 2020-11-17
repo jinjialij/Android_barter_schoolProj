@@ -62,6 +62,26 @@ public class MyRequestPageTest {
         onView(withId(R.id.buttonLogin))
                 .perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
+
+        //ensure firebase has data to test
+        if (ItemRequestService.getItemRequestList().isEmpty()){
+            //insert test data in firebase
+            String requesterId = "HhbguXQAWvXuCPgpVLOV3H3syQy1";
+            ArrayList<String> labels = new ArrayList<>();
+            labels.add("testLabels");
+            offerItem = new Item("offerItem" + UidService.newUID(), "test desc", labels, requesterId);
+            requestItem = new Item("requestItem" + UidService.newUID(), "test desc", labels, "1IBtBykzk1PegTxIsABKy7dqGtx1");
+            ItemService.addItem(offerItem);
+            ItemService.addItem(requestItem);
+            request = new ItemRequest(requesterId, requestItem, offerItem);
+            ItemRequestService.addItemRequest(request);
+        }
+        else{
+            request = ItemRequestService.getItemRequestList().get(0);
+        }
+        //reload homepage to reload data
+        onView(withId(R.id.viewAddItemBtn)).perform(click());
+        pressBack();
     }
 
     @Test
@@ -154,22 +174,6 @@ public class MyRequestPageTest {
 
     @Test
     public void testMyRequest_AT_08_08(){
-        if (ItemRequestService.getItemRequestList().isEmpty()){
-            //insert test data in firebase
-            String requesterId = "HhbguXQAWvXuCPgpVLOV3H3syQy1";
-            ArrayList<String> labels = new ArrayList<>();
-            labels.add("testLabels");
-            offerItem = new Item("offerItem" + UidService.newUID(), "test desc", labels, requesterId);
-            requestItem = new Item("requestItem" + UidService.newUID(), "test desc", labels, "1IBtBykzk1PegTxIsABKy7dqGtx1");
-            ItemService.addItem(offerItem);
-            ItemService.addItem(requestItem);
-            request = new ItemRequest(requesterId, requestItem, offerItem);
-            ItemRequestService.addItemRequest(request);
-        }
-        else{
-            request = ItemRequestService.getItemRequestList().get(0);
-        }
-
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));

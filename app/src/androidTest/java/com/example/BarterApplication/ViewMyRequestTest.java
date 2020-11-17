@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -58,6 +59,27 @@ public class ViewMyRequestTest {
                 .perform(click());
 
         onView(isRoot()).perform(TestHelper.waitFor(5000));
+
+        //ensure firebase has data to test
+        if (ItemRequestService.getItemRequestList().isEmpty()){
+            //insert test data in firebase
+            String requesterId = "HhbguXQAWvXuCPgpVLOV3H3syQy1";
+            ArrayList<String> labels = new ArrayList<>();
+            labels.add("testLabel");
+            offerItem = new Item("offerItem" + UidService.newUID(), "desc", labels , requesterId);
+            requestItem = new Item("requestItem" + UidService.newUID(), "1IBtBykzk1PegTxIsABKy7dqGtx1");
+            ItemService.addItem(offerItem);
+            ItemService.addItem(requestItem);
+            request = new ItemRequest(requesterId, requestItem, offerItem);
+            ItemRequestService.addItemRequest(request);
+        }
+        else{
+            request = ItemRequestService.getItemRequestList().get(0);
+            requestItem = ItemService.findItemByUid(request.getRequestItemId());
+        }
+        //reload homepage to reload data
+        onView(withId(R.id.viewAddItemBtn)).perform(click());
+        pressBack();
     }
 
     @Test
@@ -76,23 +98,6 @@ public class ViewMyRequestTest {
 
     @Test
     public void testViewMyRequestButton_show_itemRequests_AT_08_02(){
-        if (ItemRequestService.getItemRequestList().isEmpty()){
-            //insert test data in firebase
-            String requesterId = "HhbguXQAWvXuCPgpVLOV3H3syQy1";
-            ArrayList<String> labels = new ArrayList<>();
-            labels.add("desc");
-            offerItem = new Item("offerItem" + UidService.newUID(), "desc", labels , requesterId);
-            requestItem = new Item("requestItem" + UidService.newUID(), "1IBtBykzk1PegTxIsABKy7dqGtx1");
-            ItemService.addItem(offerItem);
-            ItemService.addItem(requestItem);
-            request = new ItemRequest(requesterId, requestItem, offerItem);
-            ItemRequestService.addItemRequest(request);
-        }
-        else{
-            request = ItemRequestService.getItemRequestList().get(0);
-            requestItem = ItemService.findItemByUid(request.getRequestItemId());
-        }
-
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.requestRecyclerView)).check(matches(isDisplayed()));
