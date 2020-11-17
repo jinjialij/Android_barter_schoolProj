@@ -29,7 +29,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 
-public class ViewAddButtonTest {
+public class ViewAddItemButtonTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
     FirebaseAuth mAuth;
@@ -74,6 +74,7 @@ public class ViewAddButtonTest {
     public void testViewMyAddButton_AT_06_04(){//check confirm add successful
         String description = "test";
         String Name = "TestItem";
+        String label = "testLabel";
 
         onView(withId(R.id.viewAddItemBtn)).perform(click());
         onView(withId(R.id.AddItemDescriptionEditText))
@@ -86,6 +87,34 @@ public class ViewAddButtonTest {
         onView(withId(R.id.AddItemNameEditText))
                 .perform(click())
                 .perform(typeText(Name), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.AddItemSubmitButton))
+                .perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.homepageTextView)).check(matches(withText("Homepage")));
+    }
+
+    @Test
+    public void testViewMyAddButton_AT_06_04_with_label(){
+        String description = "test";
+        String Name = "TestItem";
+        String label = "testLabel";
+
+        onView(withId(R.id.viewAddItemBtn)).perform(click());
+        onView(withId(R.id.AddItemDescriptionEditText))
+                .perform(clearText());
+        onView(withId(R.id.AddItemDescriptionEditText))
+                .perform(click())
+                .perform(typeText(description), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.AddItemNameEditText))
+                .perform(clearText());
+        onView(withId(R.id.AddItemNameEditText))
+                .perform(click())
+                .perform(typeText(Name), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.AddItemLabelsEditText))
+                .perform(clearText());
+        onView(withId(R.id.AddItemLabelsEditText))
+                .perform(click())
+                .perform(typeText(label), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.AddItemSubmitButton))
                 .perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
