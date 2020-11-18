@@ -155,7 +155,7 @@
         android:drawableLeft="@drawable/ic_back"
         android:gravity="center_vertical"
         android:onClick="goBackToLoginPage"
-        android:text="Back"
+        android:text="@string/back"
         android:textColor="#ffffff"
         android:textSize="23sp"
         android:textStyle="bold"

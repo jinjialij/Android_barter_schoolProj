@@ -2,16 +2,22 @@ package com.example.BarterApplication.helpers;
 //https://stackoverflow.com/questions/32886546/how-to-get-all-child-list-from-firebase-android
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.BarterApplication.AddItemActivity;
+import com.example.BarterApplication.HomepageActivity;
 import com.example.BarterApplication.Item;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -28,10 +34,12 @@ public class ItemService {
         return dbItemListKeyName;
     }
     private static boolean initialized = false;
+    private static boolean lastInsertSucceed = false;
 
     public static void addItem(Item i){
+        lastInsertSucceed = false;
+        insertIfNotExist(i);
         initDbListener();
-        getKeyNode().child(i.getUid()).setValue(i);
     }
 
     public static void removeItem(Item i){
@@ -72,38 +80,62 @@ public class ItemService {
         }
     }
 
+    //initialized and refresh to synchronize with database
     private static void initDbListener() {
         getKeyNode().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                itemList.clear();
                 for(DataSnapshot itDataSnapshot : dataSnapshot.getChildren()){
                     Item item = itDataSnapshot.getValue(Item.class);
-                    if(!itemList.contains(item)){
-                        itemList.add(item); /* add */
-                    }
-                    else{   /* update */
-                        itemList.set(itemList.indexOf(item), item);
-                    }
+                    itemList.add(item);
                     Log.i("DEBUG", "onDataChange: " + item);
                 }
-                Log.i("TAG", "Operation is successful!");
+                Log.i("IS_initDbListener", "Operation is successful!");
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException());
+                Log.w("IS_initDbListener", "Failed to read value.", error.toException());
             }
         });
     }
 
-    private static Item findItemByUid(String uid){
-        for(Item i : getItemList()){
-            if(i.getUid().equals(uid)){
-                return i;
+    //@todo Currently only check uid, need to check other attribute?
+    private static void insertIfNotExist(Item i) {
+        Query queryToGetData = getKeyNode().orderByChild("uid").equalTo(i.getUid());
+        queryToGetData.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    getKeyNode().child(i.getUid()).setValue(i).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Write was successful!
+                            lastInsertSucceed = true;
+                            Log.d("IS_insertIfNotExist","insertIfNotExist item " + i.getName() + " is successful!");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Write failed
+                            lastInsertSucceed = false;
+                            Log.d("IS_insertIfNotExist","Fail to insertIfNotExist item " + i.getName());
+                        }
+                    });
+                }
             }
-        }
-        return null;
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public static Item findItemByUid(String uid){
+        return UidService.findItemByItemUid(uid, getItemList());
     }
 
     private static DatabaseReference getKeyNode(){
@@ -115,7 +147,7 @@ public class ItemService {
         return FirebaseDatabase.getInstance().getReference();
     }
 
-
-
-
+    public static boolean isLastInsertSucceed() {
+        return lastInsertSucceed;
+    }
 }

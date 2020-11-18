@@ -46,6 +46,16 @@ public class ItemRequest implements Serializable {
         this.accepted = false;
     }
 
+    //constructor for inserting test data
+    public ItemRequest(String requesterId, Item requestItem, Item offerItem) {
+        this.uid = UidService.newUID();
+        this.requesterId = requesterId;
+        this.requestItemId = requestItem.getUid();
+        this.itemIdsOffered = new ArrayList<>();
+        itemIdsOffered.add(offerItem.getUid());
+        this.accepted = false;
+    }
+
     public String getRequesterId() {
         return requesterId;
     }

@@ -4,7 +4,10 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.BarterApplication.helpers.ItemRequestService;
+import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TestHelper;
+import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.After;
@@ -13,7 +16,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -30,6 +36,9 @@ public class ViewMyRequestTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
     private FirebaseAuth mAuth;
+    private Item offerItem;
+    private Item requestItem;
+    private ItemRequest request;
 
     @Before
     public void setup()
@@ -50,6 +59,27 @@ public class ViewMyRequestTest {
                 .perform(click());
 
         onView(isRoot()).perform(TestHelper.waitFor(5000));
+
+        //ensure firebase has data to test
+        if (ItemRequestService.getItemRequestList().isEmpty()){
+            //insert test data in firebase
+            String requesterId = "HhbguXQAWvXuCPgpVLOV3H3syQy1";
+            ArrayList<String> labels = new ArrayList<>();
+            labels.add("testLabel");
+            offerItem = new Item("offerItem" + UidService.newUID(), "desc", labels , requesterId);
+            requestItem = new Item("requestItem" + UidService.newUID(), "1IBtBykzk1PegTxIsABKy7dqGtx1");
+            ItemService.addItem(offerItem);
+            ItemService.addItem(requestItem);
+            request = new ItemRequest(requesterId, requestItem, offerItem);
+            ItemRequestService.addItemRequest(request);
+        }
+        else{
+            request = ItemRequestService.getItemRequestList().get(0);
+            requestItem = ItemService.findItemByUid(request.getRequestItemId());
+        }
+        //reload homepage to reload data
+        onView(withId(R.id.viewAddItemBtn)).perform(click());
+        pressBack();
     }
 
     @Test
@@ -71,7 +101,7 @@ public class ViewMyRequestTest {
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.requestRecyclerView)).check(matches(isDisplayed()));
-        onView(withId(R.id.requestRecyclerView)).check(matches(hasDescendant(withText("Request id: 38b1991f-36b0-4f9c-8f9b-2f02c9fbd1e1"+ " : item3"))));
+        onView(withId(R.id.requestRecyclerView)).check(matches(hasDescendant(withText("Request id: " + request.getUid() + " : " + requestItem.getName()))));
     }
 
     @After

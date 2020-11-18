@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity  {
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
         if(EasyPermissions.hasPermissions(this, perms)) {
             Toast.makeText(this, getString(R.string.locationPermissionAllowed), Toast.LENGTH_SHORT).show();
-            updateUI(mAuth.getCurrentUser());
+            updateUI(mAuth.getCurrentUser(), false);
         }
         else {
             EasyPermissions.requestPermissions(this, getString(R.string.locationPermissionUnallowed), REQUEST_LOCATION_PERMISSION, perms);
@@ -67,11 +67,13 @@ public class MainActivity extends AppCompatActivity  {
     /*
         Once we have location permissions, check for the redirect
      */
-    public void updateUI(FirebaseUser user) {
+    public void updateUI(FirebaseUser user, boolean justLogin) {
         // Check if user is signed in (non-null) and update UI accordingly.
         if (user != null) {
-            Toaster.generateToast(MainActivity.this,
-                    "Login successful. Welcome!");
+            if (justLogin){
+                Toaster.generateToast(MainActivity.this,
+                        "Login successful. Welcome!");
+            }
             Intent intent = new Intent(this, HomepageActivity.class);
             startActivity(intent);
         }
@@ -95,12 +97,12 @@ public class MainActivity extends AppCompatActivity  {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI(user, true);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            updateUI(null, false);
                         }
 
                         if (!task.isSuccessful()) {

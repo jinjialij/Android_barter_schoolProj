@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.BarterApplication.helpers.ItemRequestService;
 import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.MyAdapter;
+import com.example.BarterApplication.helpers.Toaster;
 import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,14 +40,14 @@ public class MyRequestActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
-        items = new ArrayList<>();
+        items = ItemService.getItemList();
 
-        ArrayList<ItemRequest> itemRequests = (ArrayList<ItemRequest>)getIntent().getSerializableExtra("itemRequestSelected");
-        if(itemRequests!=null && !itemRequests.isEmpty()) {
-            receivedItemRequest = itemRequests.get(0);
+        receivedItemRequest = (ItemRequest)getIntent().getSerializableExtra("itemRequestSelected");
+        if(receivedItemRequest == null) {
+            Toaster.generateToast(this, "Internal error, please try again");
+            goBackToMainActivity(false);
         }
 
-        items  = (ArrayList<Item>)getIntent().getSerializableExtra("itemsExtra");
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
@@ -71,7 +72,7 @@ public class MyRequestActivity extends AppCompatActivity {
             }
             HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();
             ArrayList<HashMap<String, String>> offeredItemInfoMapList = new ArrayList<>();
-            Item requestItem = UidService.findItemByItemUid(receivedItemRequest.getRequestItemId(), items);
+            Item requestItem = ItemService.findItemByUid(receivedItemRequest.getRequestItemId());
             getItemMap(requestItem, requestItemInfoMap);
 
             for(String id: receivedItemRequest.getItemIdsOffered()){
@@ -83,15 +84,14 @@ public class MyRequestActivity extends AppCompatActivity {
 
             String requestUid = receivedItemRequest.getUid();
             requestId.setText(requestUid);
-            requestItemInfo.setText(requestItemInfoMap.toString());
-            offerItemInfo.setText(offeredItemInfoMapList.toString());
+            requestItemInfo.setText(printItemMap(requestItemInfoMap));
+            offerItemInfo.setText(printItemMapList(offeredItemInfoMapList));
         }
 
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 receivedItemRequest.setAccepted(true);
-                ItemRequestService.updateItemRequest(dbRef, receivedItemRequest);
                 acceptBtn.setEnabled(false);
                 refuseBtn.setEnabled(true);
             }
@@ -101,16 +101,17 @@ public class MyRequestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 receivedItemRequest.setAccepted(false);
-                ItemRequestService.updateItemRequest(dbRef, receivedItemRequest);
                 refuseBtn.setEnabled(false);
                 acceptBtn.setEnabled(true);
             }
         });
 
+        //save changes only when save button is clicked
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goBackToMainActivity();
+                ItemRequestService.updateItemRequestStatus(receivedItemRequest);
+                goBackToMainActivity(true);
             }
         });
     }
@@ -132,14 +133,36 @@ public class MyRequestActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        goBackToMainActivity();
+    private String printItemMap(HashMap<String, String> map){
+        String mapString = "";
+        if (map!=null && !map.isEmpty()){
+            for (Map.Entry<String,String> entry : map.entrySet()) {
+                mapString += entry.getKey() + entry.getValue() + "\n";
+            }
+        }
+        return mapString;
     }
 
-    public void goBackToMainActivity(){
+    private String printItemMapList(ArrayList<HashMap<String, String>> mapList){
+        String mapListString = "";
+        if (mapList!=null && !mapList.isEmpty()){
+            for (HashMap<String, String> map:mapList){
+                String mapString = printItemMap(map);
+                mapListString += mapString + "\n";
+            }
+
+        }
+        return mapListString;
+    }
+
+    @Override
+    public void onBackPressed() {
+        goBackToMainActivity(false);
+    }
+
+    public void goBackToMainActivity(boolean updateStatusFromMyRequest){
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("fromMyRequest", true);
+        intent.putExtra("updateStatusFromMyRequest", updateStatusFromMyRequest);
         startActivity(intent);
     }
 }
