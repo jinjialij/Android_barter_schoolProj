@@ -28,7 +28,6 @@ public class LocationHelper extends Thread{
                 e.printStackTrace();
             }
         }
-
     }
 
     private void updateLocation(){
