@@ -68,7 +68,6 @@ public class BarterActivityTester {
         onView(withId(R.id.BarterActivityActivityLabel)).check(matches(isDisplayed()));
     }
 
-
     @Test
     public void itemNameDisplayCheck(){
         onView(withId(R.id.BarterActivityCurrentItemNameTextView)).check(matches(isDisplayed()));
@@ -79,10 +78,7 @@ public class BarterActivityTester {
         onView(withId(R.id.BarterActivityCurrentItemDescriptionTextView)).check(matches(isDisplayed()));
     }
 
-    @Test
-    public void itemImageDisplayCheck(){
-        //onView(withId(R.id.BarterActivityCurrentItemImageView)).check(matches(isDisplayed()));
-    }
+
 
     @Test
     public void backButtonLabelCheck(){
@@ -110,6 +106,11 @@ public class BarterActivityTester {
          * OF CODE TO WORK AS INTENDED (carl) */
         //onView(withId(R.layout.activity_homepage)).check(matches(isDisplayed()));
         onView(withId(R.id.homepageActivityLabelTextView)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void itemImageDisplayCheck(){
+        onView(withId(R.id.BarterActivityCurrentItemImageView)).check(matches(isDisplayed()));
     }
 
 }
