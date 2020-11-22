@@ -80,12 +80,7 @@ public class BarterActivityTester {
 
     @Test
     public void backButtonLabelCheck(){
-
-        /** @todo ADAM: I can't figure out why this is failing. Logcat says
-         *      Caused by: junit.framework.AssertionFailedError: 'with text: is "Back"' doesn't match the selected view.
-         *      Expected: with text: is "Back"
-         */
-        //onView(withId(R.id.BarterActivityGoToHomepageButton)).check(matches(withText("Back")));
+        onView(withId(R.id.BarterActivityGoToHomepageButton)).check(matches(withText(R.string.back)));
     }
 
     @Test
@@ -100,9 +95,10 @@ public class BarterActivityTester {
     }
 
 
-
-
-
-
+    @Test
+    public void goBackOnClickCheck(){
+        onView(withId(R.id.BarterActivityGoToHomepageButton)).perform(click());
+        onView(withId(R.layout.activity_homepage)).check(matches(isDisplayed()));
+    }
 
 }

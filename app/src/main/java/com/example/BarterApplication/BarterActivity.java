@@ -1,5 +1,6 @@
 package com.example.BarterApplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,7 +19,8 @@ public class BarterActivity extends AppCompatActivity {
      * @param v The current layout content view for the activity
      */
     public void goBackToHomepage(View v) {
-
+        Intent intent = new Intent(this, HomepageActivity.class);
+        startActivity(intent);
     }
 
     /**
