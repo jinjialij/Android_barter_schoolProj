@@ -106,4 +106,9 @@ public class HomepageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToBarterActivity(View v){
+        Intent intent = new Intent(this, BarterActivity.class);
+        startActivity(intent);
+    }
+
 }

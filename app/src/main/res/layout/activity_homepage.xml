@@ -92,6 +92,15 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
+    <Button
+        android:id="@+id/HomepageActivityGoToBarterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goToBarterActivity"
+        android:text="Barter"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="458dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
