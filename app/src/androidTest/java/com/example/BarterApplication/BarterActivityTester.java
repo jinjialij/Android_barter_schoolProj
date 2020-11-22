@@ -43,7 +43,7 @@ public class BarterActivityTester {
 
 
     @Test
-    public void backButtonDisplayTest(){
+    public void backButtonDisplayCheck(){
         //onView(withId(R.id.BarterActivityGoToHomepageButton)).check(matches(isDisplayed()));
     }
 
