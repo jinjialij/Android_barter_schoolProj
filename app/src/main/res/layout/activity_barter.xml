@@ -14,7 +14,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/back" />
+        tools:text="Back" />
 
     <Button
         android:id="@+id/BarterActivitySendRequestButton"
