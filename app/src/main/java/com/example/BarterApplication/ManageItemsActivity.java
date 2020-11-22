@@ -60,6 +60,7 @@ public class ManageItemsActivity extends AppCompatActivity {
         ArrayList<String> filterStrings = new ArrayList<String>();
         SearchViewEditText = findViewById(R.id.ManageItemsSearchBoxEditText);
         SearchViewEditText.addTextChangedListener(new TextChangedListener<EditText>(SearchViewEditText) {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }

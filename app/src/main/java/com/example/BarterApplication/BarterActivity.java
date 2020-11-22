@@ -21,6 +21,7 @@ public class BarterActivity extends AppCompatActivity {
     private TextView currentItemDescFrame;
     private EditText searchRadiusEditText;
     private int searchRadiusKm;
+    private final int DEFAULT_SEARCH_RADIUS_KM = 10;
     private ArrayList<Item> nearbyItems = new ArrayList<Item>();
 
 
@@ -36,6 +37,8 @@ public class BarterActivity extends AppCompatActivity {
         currentItemNameFrame = findViewById(R.id.BarterActivityCurrentItemNameTextView);
         searchRadiusEditText = findViewById(R.id.BarterActivityItemSearchRadiusEditText);
 
+        searchRadiusKm = DEFAULT_SEARCH_RADIUS_KM;
+
         searchRadiusEditText.addTextChangedListener(new TextChangedListener<EditText>(searchRadiusEditText) {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -48,6 +51,7 @@ public class BarterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                searchRadiusKm = Integer.parseInt(s.toString());
                 updateItemList();
             }
         });
@@ -58,10 +62,6 @@ public class BarterActivity extends AppCompatActivity {
             /* finally , reveal the item */
             currentItemImageFrame.setVisibility(View.VISIBLE);
         }
-
-        searchRadiusKm = 5; /** @todo MOVE TO USER EDITABLE NUMBER FIELD */
-
-        updateItemList();
     }
 
     /**
@@ -71,7 +71,6 @@ public class BarterActivity extends AppCompatActivity {
     public void goBackToHomepage(View v) {
         Intent intent = new Intent(this, HomepageActivity.class);
         startActivity(intent);
-
 
     }
 
