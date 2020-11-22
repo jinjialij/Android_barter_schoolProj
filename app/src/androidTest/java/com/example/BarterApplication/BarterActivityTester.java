@@ -115,7 +115,4 @@ public class BarterActivityTester {
         onView(withId(R.id.BarterActivityCurrentItemImageView)).check(matches(isDisplayed()));
     }
 
-
-
-
 }

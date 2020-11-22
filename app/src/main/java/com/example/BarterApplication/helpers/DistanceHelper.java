@@ -4,16 +4,16 @@ import android.graphics.Point;
 import android.location.Location;
 
 import com.example.BarterApplication.Item;
+import com.example.BarterApplication.SimpleLocation;
 
 public class DistanceHelper {
     private final static double DISTANCE_EPSILON = 1e-6d;
 
-    public double getDistanceToItem(Item i){
+    public static double  getDistanceToItem(Item i){
         double distance = 0;
         Location myLocation = LocationHelper.getLocation();
         SimpleLocation mySimpleLocation = new SimpleLocation(myLocation.getLongitude(), myLocation.getLatitude());
-        SimpleLocation itemLocation = i.location;
-
+        SimpleLocation itemLocation = i.getLocation();
 
         /* Account for representational rounding */
         if(doubleIsZero(distance)){
@@ -33,7 +33,7 @@ public class DistanceHelper {
      * @note [WARNING] : If you think you can just do num1 == num2 you need to work with doubles a LOT more.
      *                   please do not remove this during some kind of refactor (carl)
      */
-    private boolean doubleCmp(double d1, double d2){
+    private static boolean doubleCmp(double d1, double d2){
         if(d1 - d2 < DISTANCE_EPSILON){
             return true;
         }
@@ -51,7 +51,7 @@ public class DistanceHelper {
      * @param d1 the floating point number to compare against 0
      * @return true if within 0 +- EPSILON, otherwise false
      */
-    private boolean doubleIsZero(double d1){
+    private static boolean doubleIsZero(double d1){
         return doubleCmp(d1, 0.0d);
     }
 
