@@ -3,27 +3,25 @@ package com.example.BarterApplication.helpers;
 import android.graphics.Point;
 import android.location.Location;
 
+import com.example.BarterApplication.Item;
+
 public class DistanceHelper {
     private final static double DISTANCE_EPSILON = 1e-6d;
 
-    /**
-     * @brief Euclidean distance
-     * @param l1 first location
-     * @param l2 second location
-     * @return the euclidean distance ALONG THE SURFACE OF EARTH
-     *
-     * @note DOES NOT ACCOUNT FOR ALTITUDE
-     * @todo THIS FUNCTION NEEDS A BETTER NAME
-     */
-    private static double euclidianDistanceBetweenLocations(Location l1, Location l2){
-        double lat1 = l1.getLatitude();
-        double lat2 = l2.getLatitude();
-        double long1 = l1.getLongitude();
-        double long2 = l2.getLongitude();
-        double deltaLat = lat1 - lat2;
-        double deltaLong = long1 - long2;
-        return Math.hypot(deltaLat, deltaLong);
+    public double getDistanceToItem(Item i){
+        double distance = 0;
+        Location myLocation = LocationHelper.getLocation();
+        SimpleLocation mySimpleLocation = new SimpleLocation(myLocation.getLongitude(), myLocation.getLatitude());
+        SimpleLocation itemLocation = i.location;
+
+
+        /* Account for representational rounding */
+        if(doubleIsZero(distance)){
+            distance = 0.0d;
+        }
+        return distance;
     }
+
 
 
     /**
@@ -57,19 +55,5 @@ public class DistanceHelper {
         return doubleCmp(d1, 0.0d);
     }
 
-    /**
-     * @brief Epsilon comparison for GPS coordinates of 2 locations
-     * @param l1 first location
-     * @param l2 second location
-     * @return true if locations are equal within DISTANCE_EPSILON, else false
-     */
-    public boolean locationsAreEqual(Location l1, Location l2){
-        double distance = euclidianDistanceBetweenLocations(l1, l2);
-        if(doubleIsZero(distance)){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+
 }

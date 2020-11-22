@@ -78,6 +78,11 @@ public class BarterActivityTester {
     }
 
     @Test
+    public void searchRadiusEditTextDisplayCheck(){
+        onView(withId(R.id.BarterActivityItemSearchRadiusEditText)).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void backButtonLabelCheck(){
         onView(withId(R.id.BarterActivityGoToHomepageButton)).check(matches(withText(R.string.back)));
     }
@@ -109,5 +114,8 @@ public class BarterActivityTester {
     public void itemImageDisplayCheck(){
         onView(withId(R.id.BarterActivityCurrentItemImageView)).check(matches(isDisplayed()));
     }
+
+
+
 
 }

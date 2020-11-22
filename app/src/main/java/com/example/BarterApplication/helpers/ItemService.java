@@ -140,13 +140,16 @@ public class ItemService {
         return UidService.findItemByItemUid(uid, getItemList());
     }
 
-    public static ArrayList<Item> findItemsByRadius(int radiusKm){
+    public static ArrayList<Item> getItemsInRadius(int radiusKm){
         ArrayList<Item> itemsInRadius = new ArrayList<Item>();
         if(radiusKm > 0) {
-            ArrayList<FirebaseUser> allUsers = new ArrayList<FirebaseUser>();
             FirebaseAuth auth = FirebaseAuth.getInstance();
             for(Item i : itemList){
-
+                if(DistanceHelper.getDistanceToItem(i) < radiusKm){
+                    if(!itemsInRadius.contains(i)){
+                        itemsInRadius.add(i);
+                    }
+                }
             }
         }
         return itemsInRadius;

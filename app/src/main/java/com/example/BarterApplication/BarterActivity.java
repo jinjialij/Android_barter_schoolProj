@@ -8,11 +8,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.BarterApplication.helpers.ItemService;
+
+import java.util.ArrayList;
+
 public class BarterActivity extends AppCompatActivity {
     private ImageView currentItemImageFrame;
     private TextView currentItemNameFrame;
     private TextView currentItemDescFrame;
-
+    private int searchRadiusKm;
+    private ArrayList<Item> nearbyItems = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,10 @@ public class BarterActivity extends AppCompatActivity {
             /* finally , reveal the item */
             currentItemImageFrame.setVisibility(View.VISIBLE);
         }
+
+        searchRadiusKm = 5; /** @todo MOVE TO USER EDITABLE NUMBER FIELD */
+
+        updateItemList();
     }
 
     /**
@@ -59,5 +68,13 @@ public class BarterActivity extends AppCompatActivity {
      */
     public void nextItem(View v){
 
+    }
+
+
+    /**
+     * @brief update the item list based on the nearby users in the firebase database
+     */
+    private void updateItemList(){
+        nearbyItems = ItemService.getItemsInRadius(this.searchRadiusKm);
     }
 }
