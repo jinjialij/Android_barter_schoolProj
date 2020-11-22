@@ -40,8 +40,6 @@ public class BarterActivityTester {
 
     }
 
-
-
     @Test
     public void backButtonDisplayCheck(){
         onView(withId(R.id.BarterActivityGoToHomepageButton)).check(matches(isDisplayed()));
@@ -58,13 +56,24 @@ public class BarterActivityTester {
     }
 
     @Test
-    public void backButtonLabelCheck(){
-        //commented for now because android seems to hate me, I'll ask group - carl
-
-        //onView(withId(R.id.BarterActivityGoToHomepageButton)).check(matches(withText("back")));
+    public void activityTitleDisplayCheck(){
+        onView(withId(R.id.BarterActivityActivityLabel)).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void backButtonLabelCheck(){
+        onView(withId(R.id.BarterActivityGoToHomepageButton)).check(matches(withText(R.string.back)));
+    }
 
+    @Test
+    public void sendRequestButtonLabelCheck(){
+        onView(withId(R.id.BarterActivitySendRequestButton)).check(matches(withText(R.string.BarterActivity_SendRequestButtonLabel)));
+    }
+
+    @Test
+    public void viewNextItemButtonLabelCheck(){
+        onView(withId(R.id.BarterActivityViewNextItemButton)).check(matches(withText(R.string.BarterActivity_ViewNextItemButtonLabel)));
+    }
 
 
 
