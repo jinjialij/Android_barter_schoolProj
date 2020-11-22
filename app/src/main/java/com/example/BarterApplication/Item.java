@@ -13,6 +13,16 @@ public class Item implements Serializable {
     private ArrayList<String> labels;
     private String uid;
     private String ownerId;
+
+    public SimpleLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(SimpleLocation location) {
+        this.location = location;
+    }
+
+    private SimpleLocation location;
     //@todo PHOTO
 
     // ctor
@@ -31,13 +41,14 @@ public class Item implements Serializable {
     }
 
     // other form of ctor
-    public Item(String name, String description, ArrayList<String> labels, String ownerId) {
+    public Item(String name, String description, ArrayList<String> labels, String ownerId, SimpleLocation location) {
         this.name = name;
         this.description = description;
         this.uid = UidService.newUID();
         this.labels = labels;
         removeDuplicateLabels();
         this.ownerId = ownerId;
+        this.location = location;
     }
 
     // ctor

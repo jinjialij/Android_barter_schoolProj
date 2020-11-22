@@ -10,14 +10,12 @@ public class LocationHelper extends Thread{
     private static Location location;
     private final int REFRESH_INTERVAL = 5000;
 
-
     private FusedLocationProviderClient fusedLocationClient;
 
     public LocationHelper(FusedLocationProviderClient client){
         fusedLocationClient = client;
         this.start();
     }
-
 
     @Override
     public void run() {
