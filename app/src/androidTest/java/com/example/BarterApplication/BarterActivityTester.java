@@ -48,4 +48,13 @@ public class BarterActivityTester {
     }
 
 
+    @Test
+    public void backButtonLabelCheck(){
+        onView(withId(R.id.BarterActivityGoToHomepageButton)).check(matches(withText(R.string.back)));
+    }
+
+
+
+
+
 }
