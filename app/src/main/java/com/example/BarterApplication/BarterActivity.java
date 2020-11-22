@@ -3,15 +3,32 @@ package com.example.BarterApplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class BarterActivity extends AppCompatActivity {
+    private ImageView currentItemImageFrame;
+    private TextView currentItemNameFrame;
+    private TextView currentItemDescFrame;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barter);
+
+        currentItemImageFrame = findViewById(R.id.BarterActivityCurrentItemImageView);
+        currentItemDescFrame = findViewById(R.id.BarterActivityCurrentItemDescriptionTextView);
+        currentItemNameFrame = findViewById(R.id.BarterActivityCurrentItemNameTextView);
+
+        if(currentItemImageFrame != null) {
+            currentItemImageFrame.setImageResource(R.drawable.stickfigure);
+
+            /* finally , reveal the item */
+            currentItemImageFrame.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -21,6 +38,8 @@ public class BarterActivity extends AppCompatActivity {
     public void goBackToHomepage(View v) {
         Intent intent = new Intent(this, HomepageActivity.class);
         startActivity(intent);
+
+
     }
 
     /**
