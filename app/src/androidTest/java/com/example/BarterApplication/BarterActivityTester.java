@@ -19,23 +19,32 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 public class BarterActivityTester {
 
     @Rule
-    public ActivityScenarioRule<PasswordResetActivity> activityRule =
-            new ActivityScenarioRule<>(PasswordResetActivity.class);
+    public ActivityScenarioRule<BarterActivity> activityRule =
+            new ActivityScenarioRule<>(BarterActivity.class);
 
     @Before
-    public void setup()
-    {
+    public void setup() {
 
     }
 
 
     @After
-    public void teardown()
-    {
+    public void teardown() {
 
+    }
+
+
+
+    @Test
+    public void backButtonDisplayTest(){
+        //onView(withId(R.id.BarterActivityGoToHomepageButton)).check(matches(isDisplayed()));
     }
 
 
