@@ -23,8 +23,6 @@ public class BarterActivity extends AppCompatActivity {
     private int searchRadiusKm;
     private final int DEFAULT_SEARCH_RADIUS_KM = 10;
     private ArrayList<Item> nearbyItems = new ArrayList<Item>();
-
-
     private static int itemDisplayIndex = 0;
 
     @Override
@@ -39,6 +37,7 @@ public class BarterActivity extends AppCompatActivity {
 
         searchRadiusKm = DEFAULT_SEARCH_RADIUS_KM;
 
+        /*
         searchRadiusEditText.addTextChangedListener(new TextChangedListener<EditText>(searchRadiusEditText) {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -55,6 +54,7 @@ public class BarterActivity extends AppCompatActivity {
                 updateItemList();
             }
         });
+         */
 
         if(currentItemImageFrame != null) {
             currentItemImageFrame.setImageResource(R.drawable.stickfigure);
@@ -62,6 +62,9 @@ public class BarterActivity extends AppCompatActivity {
             /* finally , reveal the item */
             currentItemImageFrame.setVisibility(View.VISIBLE);
         }
+
+
+        updateItemList();
     }
 
     /**

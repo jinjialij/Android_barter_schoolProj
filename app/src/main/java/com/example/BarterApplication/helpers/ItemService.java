@@ -143,7 +143,7 @@ public class ItemService {
     public static ArrayList<Item> getItemsInRadius(int radiusKm){
         ArrayList<Item> itemsInRadius = new ArrayList<Item>();
         if(radiusKm > 0) {
-            FirebaseAuth auth = FirebaseAuth.getInstance();
+
             for(Item i : itemList){
                 if(DistanceHelper.getDistanceToItem(i) < radiusKm){
                     if(!itemsInRadius.contains(i)){
