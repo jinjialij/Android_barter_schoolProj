@@ -49,8 +49,7 @@ public class BarterActivityTester {
 
     @Test
     public void sendRequestButtonDisplayCheck(){
-        //onView(withId(R.id.BarterActivitySendRequestButton)).check(matches(isDisplayed()));
-        assertEquals(1,0);
+        onView(withId(R.id.BarterActivitySendRequestButton)).check(matches(isDisplayed()));
     }
 
     @Test
