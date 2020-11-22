@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TextChangedListener;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -23,12 +24,12 @@ public class BarterActivity extends AppCompatActivity {
     private final int DEFAULT_SEARCH_RADIUS_KM = 10;
     private ArrayList<Item> nearbyItems = new ArrayList<Item>();
     private static int itemDisplayIndex = 0;
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barter);
-
+        mAuth = FirebaseAuth.getInstance();
         currentItemImageFrame = findViewById(R.id.BarterActivityCurrentItemImageView);
         currentItemDescFrame = findViewById(R.id.BarterActivityCurrentItemDescriptionTextView);
         currentItemNameFrame = findViewById(R.id.BarterActivityCurrentItemNameTextView);
@@ -113,7 +114,11 @@ public class BarterActivity extends AppCompatActivity {
      * @brief update the item list based on the nearby users in the firebase database
      */
     private void updateItemList(int radius){
+
+        // get nearby items
         nearbyItems = ItemService.getItemsInRadius(radius);
+        // remove the user's items
+        nearbyItems.removeAll(ItemService.getUserItems(mAuth.getCurrentUser()));
     }
 
 
