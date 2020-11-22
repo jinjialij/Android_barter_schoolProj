@@ -35,8 +35,7 @@ public class Item implements Serializable {
         this.labels = new ArrayList<String>();
         this.ownerId = null;
         this.uid = UidService.newUID();
-        Location loc = LocationHelper.getLocation();
-        this.location = new SimpleLocation(loc.getLongitude(), loc.getLatitude());
+        this.location = new SimpleLocation(0, 0);
     }
 
     public Item(String name, String ownerId) {
@@ -44,8 +43,8 @@ public class Item implements Serializable {
         this.labels = new ArrayList<String>();
         this.ownerId = ownerId;
         this.uid = UidService.newUID();
-        Location loc = LocationHelper.getLocation();
-        this.location = new SimpleLocation(loc.getLongitude(), loc.getLatitude());
+        this.location = new SimpleLocation(0, 0);
+
     }
 
     // other form of ctor
@@ -56,8 +55,8 @@ public class Item implements Serializable {
         this.labels = labels;
         removeDuplicateLabels();
         this.ownerId = ownerId;
-        Location loc = LocationHelper.getLocation();
-        this.location = new SimpleLocation(loc.getLongitude(), loc.getLatitude());
+        this.location = new SimpleLocation(0, 0);
+
     }
 
     // ctor
@@ -66,8 +65,8 @@ public class Item implements Serializable {
         this.description = description;
         this.ownerId = ownerId;
         this.uid = UidService.newUID();
-        Location loc = LocationHelper.getLocation();
-        this.location = new SimpleLocation(loc.getLongitude(), loc.getLatitude());
+        this.location = new SimpleLocation(0, 0);
+
     }
 
     // other form of ctor

@@ -24,6 +24,10 @@ public class LocationHelper extends Thread{
 
     public LocationHelper(FusedLocationProviderClient client){
         fusedLocationClient = client;
+        location = new Location(LocationManager.GPS_PROVIDER);
+        location.setLatitude(0);
+        location.setLongitude(0);
+
         this.start();
     }
 
