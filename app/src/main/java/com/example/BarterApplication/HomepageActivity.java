@@ -106,4 +106,9 @@ public class HomepageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToViewItems(View v) {
+        Intent intent = new Intent(this, ViewItemsActivity.class);
+        startActivity(intent);
+    }
+
 }

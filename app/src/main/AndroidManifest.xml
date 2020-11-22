@@ -18,6 +18,7 @@
         <activity android:name="com.example.BarterApplication.PasswordResetActivity"/>
         <activity android:name="com.example.BarterApplication.HomepageActivity"/>
         <activity android:name="com.example.BarterApplication.ViewMyRequestPageActivity"/>
+        <activity android:name="com.example.BarterApplication.ViewItemsActivity"/>
         <activity android:name="com.example.BarterApplication.AddItemActivity"/>
         <activity android:name="com.example.BarterApplication.MyRequestActivity"/>
         <activity android:name="com.example.BarterApplication.ManageItemsActivity"/>

@@ -21,6 +21,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class ViewItemsPageTest {
@@ -58,10 +59,10 @@ public class ViewItemsPageTest {
     @Test
     public void testViewItemButton_AT_16_01_redirecting(){//check add button
         onView(withId(R.id.viewItemBtn)).perform(click());
-        onView(withId(R.id.viewItemTitle)).check(matches(isDisplayed()));
+        onView(withId(R.id.viewItemTitleText)).check(matches(withText(R.string.viewItemTitle)));
     }
 
-    
+
 
     @After
     public void teardown()

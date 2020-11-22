@@ -49,4 +49,6 @@
     <string name="logout">Log out</string>
     <string name="back">Back</string>
 
+    <string name="viewItemTitle">View Items</string>
+
 </resources>
