@@ -27,6 +27,7 @@ public class ViewItemsActivity extends AppCompatActivity {
     private ListView listView;
     private EditText SearchViewEditText;
     ArrayList<Item> otherUserItems = new ArrayList<Item>();
+    ArrayList<Item> currentUserItems = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +37,15 @@ public class ViewItemsActivity extends AppCompatActivity {
         myRef = FirebaseDatabase.getInstance().getReference().child(ItemService.getItemKeyName());
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         listView = findViewById(R.id.ViewItemsFilteredItemsListView);
+        currentUserItems = ItemService.getUserItems(currentUser);
 
         int db_sync_time_ms = 1000;
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-                otherUserItems = ItemService.getOtherUserItems(currentUser);
-                ItemListViewAdapter adapter = new ItemListViewAdapter(ViewItemsActivity.this, otherUserItems);
+
+                otherUserItems = ItemService.getOtherUserItems(currentUserItems);
+                ItemListViewAdapter adapter = new ItemListViewAdapter(ViewItemsActivity.this, otherUserItems, currentUserItems.isEmpty());
                 listView.setAdapter(adapter);
             }
         }, db_sync_time_ms);
@@ -67,11 +70,11 @@ public class ViewItemsActivity extends AppCompatActivity {
                 }
 
                 /* After user is done editing the text, we go through the filter list and update the lists */
-                otherUserItems = ItemService.getOtherUserItems(currentUser);
+                otherUserItems = ItemService.getOtherUserItems(currentUserItems);
 
                 if(filterStrings.isEmpty()){
                     /* If we aren't filterig, display all the user items */
-                    ItemListViewAdapter adapter = new ItemListViewAdapter(ViewItemsActivity.this, otherUserItems);
+                    ItemListViewAdapter adapter = new ItemListViewAdapter(ViewItemsActivity.this, otherUserItems, currentUserItems.isEmpty());
                     listView.setAdapter(adapter);
                 }
                 else {
@@ -82,7 +85,7 @@ public class ViewItemsActivity extends AppCompatActivity {
                             filteredItems.add(i);
                         }
                     }
-                    ItemListViewAdapter adapter = new ItemListViewAdapter(ViewItemsActivity.this, otherUserItems);
+                    ItemListViewAdapter adapter = new ItemListViewAdapter(ViewItemsActivity.this, otherUserItems, currentUserItems.isEmpty());
                     listView.setAdapter(adapter);
                 }
             }

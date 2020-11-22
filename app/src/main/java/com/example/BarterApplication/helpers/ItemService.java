@@ -71,8 +71,7 @@ public class ItemService {
         }
     }
 
-    public static ArrayList<Item> getOtherUserItems(FirebaseUser u){
-        ArrayList<Item> currentUserItems = getUserItems(u);
+    public static ArrayList<Item> getOtherUserItems(ArrayList<Item> currentUserItems){
         ArrayList<String> currentUserItemUids = new ArrayList<>();
         ArrayList<Item> otherUserItems = new ArrayList<>();
 

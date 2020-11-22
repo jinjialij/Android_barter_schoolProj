@@ -9,6 +9,7 @@ import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TestHelper;
 import com.google.android.gms.common.internal.Asserts;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.hamcrest.core.IsNot;
 import org.junit.After;
@@ -20,6 +21,7 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -37,14 +39,14 @@ import static org.hamcrest.core.IsAnything.anything;
 public class ViewItemsPageTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
     @Before
     public void setup()
     {
         FirebaseAuth.getInstance().signOut();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String email = "yc270707@dal.ca";
+        String email = "jl548339@dal.ca";
         String pass = "123456";
         mAuth = FirebaseAuth.getInstance();
 
@@ -86,21 +88,16 @@ public class ViewItemsPageTest {
     public void testViewItemButton_AT_16_01_check_enabled_request_button(){
         onView(withId(R.id.viewItemBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        if (ItemService.getUserItems(mAuth.getCurrentUser()).isEmpty()){
-            onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).check(matches(IsNot.not(isEnabled())));
-        } else {
             onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).check(matches(isEnabled()));
-        }
     }
 
     @Test
     public void testViewItemButton_AT_16_01_check_disabled_request_button(){
         //sign in with an empty account that has no offering items
-        FirebaseAuth.getInstance().signOut();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        onView(withId(R.id.buttonLogout))
+                .perform(click());
         String email = "jialijin0@gmail.com";
         String pass = "123456";
-        mAuth = FirebaseAuth.getInstance();
 
         onView(withId(R.id.editTextTextEmailAddress))
                 .perform(click())
@@ -116,8 +113,6 @@ public class ViewItemsPageTest {
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).check(matches(IsNot.not(isEnabled())));
     }
-
-
 
     @After
     public void teardown()

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 public class ItemListViewAdapter extends ArrayAdapter<Item> {
     private static final String LOG_TAG = "ItemListViewAdapter";
+    private boolean isEmptyOfferingItems;
 
     /**
      * This is a customized constructor.
@@ -24,8 +26,9 @@ public class ItemListViewAdapter extends ArrayAdapter<Item> {
      * @param context  The current context. Used to inflate the layout file.
      * @param items A List of Item objects to display in a list
      */
-    public ItemListViewAdapter(Activity context, ArrayList<Item> items) {
+    public ItemListViewAdapter(Activity context, ArrayList<Item> items, boolean isEmptyOfferingItems) {
         super(context, 0, items);
+        this.isEmptyOfferingItems = isEmptyOfferingItems;
     }
 
     /**
@@ -50,6 +53,10 @@ public class ItemListViewAdapter extends ArrayAdapter<Item> {
         String displayString = "Name: " + currentItem.getName() + "\nDescription: " + currentItem.getDescription() + "\nLabels:" + currentItem.getLabels().toString();
         TextView itemTextView = (TextView) listItemView.findViewById(R.id.ViewItemsInfoTextView);
         itemTextView.setText(displayString);
+        if (isEmptyOfferingItems){
+            Button requestBtn = (Button) listItemView.findViewById(R.id.ViewItemsMakeRequestBtn);
+            requestBtn.setEnabled(false);
+        }
 
         return listItemView;
     }

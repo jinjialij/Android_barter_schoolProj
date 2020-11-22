@@ -111,4 +111,9 @@ public class HomepageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, HomepageActivity.class);
+        startActivity(intent);
+    }
 }
