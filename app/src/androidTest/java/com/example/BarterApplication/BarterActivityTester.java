@@ -4,6 +4,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +25,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class BarterActivityTester {
+    private final String testerEmail = "cmattatall2@gmail.com";
+    private final String testerPassword = "test123";
 
     @Rule
     public ActivityScenarioRule<BarterActivity> activityRule =
@@ -31,13 +34,18 @@ public class BarterActivityTester {
 
     @Before
     public void setup() {
-
+        /** @todo WE NEED TO LOGIN TO THE APPLICATION THE VERY FIRST TIME */
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser u = auth.getCurrentUser();
+        if(u == null){
+            auth.createUserWithEmailAndPassword(testerEmail, testerPassword);
+            auth.signInWithEmailAndPassword(testerEmail, testerPassword);
+        }
     }
 
 
     @After
     public void teardown() {
-
     }
 
     @Test
@@ -73,8 +81,6 @@ public class BarterActivityTester {
 
     @Test
     public void itemImageDisplayCheck(){
-
-
         //onView(withId(R.id.BarterActivityCurrentItemImageView)).check(matches(isDisplayed()));
     }
 
@@ -94,11 +100,16 @@ public class BarterActivityTester {
         onView(withId(R.id.BarterActivityViewNextItemButton)).check(matches(withText(R.string.BarterActivity_ViewNextItemButtonLabel)));
     }
 
-
     @Test
     public void goBackOnClickCheck(){
         onView(withId(R.id.BarterActivityGoToHomepageButton)).perform(click());
-        onView(withId(R.layout.activity_homepage)).check(matches(isDisplayed()));
+
+        /** @todo REFACTOR / Fix
+         * I HAVE USED CHECKING FOR THE HOMEPAGE TITLE AS A PROXY FOR CHECKING
+         * IF THE CURRENT ACTIVITY IS THE HOMEPAGE. I CANT GET THE COMMENTED LINE
+         * OF CODE TO WORK AS INTENDED (carl) */
+        //onView(withId(R.layout.activity_homepage)).check(matches(isDisplayed()));
+        onView(withId(R.id.homepageActivityLabelTextView)).check(matches(isDisplayed()));
     }
 
 }
