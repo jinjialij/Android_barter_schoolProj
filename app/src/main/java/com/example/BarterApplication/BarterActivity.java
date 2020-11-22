@@ -2,13 +2,16 @@ package com.example.BarterApplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.BarterApplication.helpers.ItemService;
+import com.example.BarterApplication.helpers.TextChangedListener;
 
 import java.util.ArrayList;
 
@@ -16,8 +19,12 @@ public class BarterActivity extends AppCompatActivity {
     private ImageView currentItemImageFrame;
     private TextView currentItemNameFrame;
     private TextView currentItemDescFrame;
+    private EditText searchRadiusEditText;
     private int searchRadiusKm;
     private ArrayList<Item> nearbyItems = new ArrayList<Item>();
+
+
+    private static int itemDisplayIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,23 @@ public class BarterActivity extends AppCompatActivity {
         currentItemImageFrame = findViewById(R.id.BarterActivityCurrentItemImageView);
         currentItemDescFrame = findViewById(R.id.BarterActivityCurrentItemDescriptionTextView);
         currentItemNameFrame = findViewById(R.id.BarterActivityCurrentItemNameTextView);
+        searchRadiusEditText = findViewById(R.id.BarterActivityItemSearchRadiusEditText);
+
+        searchRadiusEditText.addTextChangedListener(new TextChangedListener<EditText>(searchRadiusEditText) {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                updateItemList();
+            }
+
+            @Override
+            public void onTextChanged(EditText target, Editable s) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateItemList();
+            }
+        });
 
         if(currentItemImageFrame != null) {
             currentItemImageFrame.setImageResource(R.drawable.stickfigure);
@@ -57,7 +81,13 @@ public class BarterActivity extends AppCompatActivity {
      * @note ANALOGOUS TO SWIPE RIGHT (or click the green heart button) in tinder - carl
      */
     public void sendRequest(View v) {
-
+        boolean sendReqWasSuccessful = true; /** @todo SEND THE REQUEST AND CHECK ERROR CODE */
+        if(sendReqWasSuccessful){
+            displayNextItem();
+        }
+        else {
+            /** @todo ERROR HANDLE */
+        }
     }
 
 
@@ -67,14 +97,35 @@ public class BarterActivity extends AppCompatActivity {
      * @note ANALOGOUS TO SWIPE LEFT (or click the red X button) in tinder - carl
      */
     public void nextItem(View v){
-
+        displayNextItem();
     }
-
 
     /**
      * @brief update the item list based on the nearby users in the firebase database
      */
     private void updateItemList(){
         nearbyItems = ItemService.getItemsInRadius(this.searchRadiusKm);
+    }
+
+
+    /**
+     * @brief Display the next item from the list of nearby items
+     */
+    private void displayNextItem(){
+        if(nearbyItems.size() > 0){
+            itemDisplayIndex++;
+            itemDisplayIndex = itemDisplayIndex % nearbyItems.size();
+            displayItem(nearbyItems.get(itemDisplayIndex));
+        }
+    }
+
+    /**
+     * @brief Display an item in the item display window
+     * @param i the item to display
+     */
+    private void displayItem(Item i){
+        this.currentItemNameFrame.setText(i.getName());
+        this.currentItemDescFrame.setText(i.getDescription());
+        /**@todo DISPLAY ITEM IMAGE BY URL */
     }
 }
