@@ -4,6 +4,11 @@ import android.location.Location;
 import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ValueEventListener;
 
 public class LocationHelper extends Thread{
 
@@ -31,6 +36,11 @@ public class LocationHelper extends Thread{
     }
 
     private void updateLocation(){
+
+//        Task<Location> x = fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, new cancel(){
+//
+//        });
+//        x.addOnCanceledListener()
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener( location-> {
 

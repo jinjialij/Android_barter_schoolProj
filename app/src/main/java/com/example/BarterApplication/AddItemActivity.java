@@ -71,9 +71,8 @@ public class AddItemActivity extends AppCompatActivity {
             Toaster.generateToast(AddItemActivity.this, this.getString(R.string.invalidItemNme));
         }
         else {
-            Location location = LocationHelper.getLocation();
-            SimpleLocation currLocation = new SimpleLocation(location.getLongitude(), location.getLatitude());
-            Item i = new Item(itemName, itemDesc, labelArrayList, userId, currLocation);
+            Location currLoc = LocationHelper.getLocation();
+            Item i = new Item(itemName, itemDesc, labelArrayList, userId, new SimpleLocation(currLoc.getLongitude(), currLoc.getLatitude()));
             ItemService.addItem(i);
             goToHomepage(i);
         }

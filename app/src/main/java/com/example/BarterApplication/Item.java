@@ -1,5 +1,7 @@
 package com.example.BarterApplication;
 
+import android.location.Location;
+
 import com.example.BarterApplication.helpers.UidService;
 
 import java.io.Serializable;
@@ -13,6 +15,7 @@ public class Item implements Serializable {
     private ArrayList<String> labels;
     private String uid;
     private String ownerId;
+    private SimpleLocation location;
 
     public SimpleLocation getLocation() {
         return location;
@@ -22,7 +25,6 @@ public class Item implements Serializable {
         this.location = location;
     }
 
-    private SimpleLocation location;
     //@todo PHOTO
 
     // ctor
