@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity  {
 
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
+
         fromMyRequest = getIntent().getBooleanExtra("fromMyRequest", false);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocationPermission();

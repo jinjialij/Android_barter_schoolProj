@@ -2,7 +2,7 @@ package com.example.BarterApplication;
 
 import com.example.BarterApplication.helpers.CredentialHelper;
 
-public class User {
+public class User  {
     public String email;
     public String uid;
 
