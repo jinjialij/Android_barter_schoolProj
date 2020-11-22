@@ -54,7 +54,7 @@ public class BarterActivityTester {
 
     @Test
     public void viewNextItemButtonDisplayCheck(){
-        assertEquals(1, 0); // have to put this here to manually fail the test because I can't use onView for a layout resource ID that literally does not exist yet.
+        onView(withId(R.id.BarterActivityViewNextItemButton)).check(matches(isDisplayed()));
     }
 
     @Test
