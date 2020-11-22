@@ -3,6 +3,7 @@ package com.example.BarterApplication.helpers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -136,6 +137,16 @@ public class ItemService {
 
     public static Item findItemByUid(String uid){
         return UidService.findItemByItemUid(uid, getItemList());
+    }
+
+    public static ArrayList<Item> findItemByRadius(int radiusKm){
+        ArrayList<Item> itemsInRadius = new ArrayList<Item>();
+        if(radiusKm > 0) {
+            for(Item i : itemList){
+
+            }
+        }
+        return itemsInRadius;
     }
 
     private static DatabaseReference getKeyNode(){
