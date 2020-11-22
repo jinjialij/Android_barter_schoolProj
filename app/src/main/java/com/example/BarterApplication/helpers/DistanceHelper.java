@@ -18,17 +18,11 @@ public class DistanceHelper {
     private static double euclidianDistanceBetweenLocations(Location l1, Location l2){
         double lat1 = l1.getLatitude();
         double lat2 = l2.getLatitude();
-
         double long1 = l1.getLongitude();
         double long2 = l2.getLongitude();
-
         double deltaLat = lat1 - lat2;
         double deltaLong = long1 - long2;
-
-        double distance = 0;
-
-
-        return distance;
+        return Math.hypot(deltaLat, deltaLong);
     }
 
 

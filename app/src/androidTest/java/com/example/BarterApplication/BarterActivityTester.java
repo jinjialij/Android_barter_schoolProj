@@ -43,7 +43,6 @@ public class BarterActivityTester {
         }
     }
 
-
     @After
     public void teardown() {
     }
@@ -77,8 +76,6 @@ public class BarterActivityTester {
     public void itemDescriptionDisplayCheck(){
         onView(withId(R.id.BarterActivityCurrentItemDescriptionTextView)).check(matches(isDisplayed()));
     }
-
-
 
     @Test
     public void backButtonLabelCheck(){
