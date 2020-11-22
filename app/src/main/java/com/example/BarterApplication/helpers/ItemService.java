@@ -13,6 +13,7 @@ import com.example.BarterApplication.HomepageActivity;
 import com.example.BarterApplication.Item;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -139,9 +140,11 @@ public class ItemService {
         return UidService.findItemByItemUid(uid, getItemList());
     }
 
-    public static ArrayList<Item> findItemByRadius(int radiusKm){
+    public static ArrayList<Item> findItemsByRadius(int radiusKm){
         ArrayList<Item> itemsInRadius = new ArrayList<Item>();
         if(radiusKm > 0) {
+            ArrayList<FirebaseUser> allUsers = new ArrayList<FirebaseUser>();
+            FirebaseAuth auth = FirebaseAuth.getInstance();
             for(Item i : itemList){
 
             }
