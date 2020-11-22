@@ -15,6 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -26,6 +27,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.IsAnything.anything;
 
 @RunWith(AndroidJUnit4.class)
 public class ViewItemsPageTest {
@@ -70,8 +72,10 @@ public class ViewItemsPageTest {
     public void testViewItemButton_AT_16_01_check_lists(){
         onView(withId(R.id.viewItemBtn)).perform(click());
         onView(withId(R.id.ViewItemsSearchBoxEditText)).check(matches(withHint("Search Name or Labels")));
-        onView(withId(R.id.ViewItemsFilteredItemsListView)).check(isDisplayed());
-        onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.MakeRequestBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.ViewItemsFilteredItemsListView)).check(matches(isDisplayed()));
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).check(matches(isDisplayed()));
+        onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).check(matches(isClickable()));
     }
 
 

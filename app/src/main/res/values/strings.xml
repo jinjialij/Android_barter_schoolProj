@@ -50,5 +50,7 @@
     <string name="back">Back</string>
 
     <string name="viewItemTitle">View Items</string>
+    <string name="viewItemSearchHint">Search Name or Labels</string>
+    <string name="makeRequest">Request</string>
 
 </resources>

@@ -21,6 +21,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemService {
     private static ArrayList<Item> itemList = new ArrayList<Item>();
@@ -67,6 +69,24 @@ public class ItemService {
             /* return empty list instead of crashing */
             return new ArrayList<Item>();
         }
+    }
+
+    public static ArrayList<Item> getOtherUserItems(FirebaseUser u){
+        ArrayList<Item> currentUserItems = getUserItems(u);
+        ArrayList<String> currentUserItemUids = new ArrayList<>();
+        ArrayList<Item> otherUserItems = new ArrayList<>();
+
+        for (Item item: currentUserItems) {
+            currentUserItemUids.add(item.getUid());
+        }
+
+        for (Item item : itemList){
+            if (!currentUserItemUids.contains(item.getUid())){
+                otherUserItems.add(item);
+            }
+        }
+
+        return otherUserItems;
     }
 
     public static ArrayList<Item> getItemList(){
