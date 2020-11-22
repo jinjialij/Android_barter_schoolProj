@@ -62,21 +62,18 @@ public class BarterActivityTester {
 
     @Test
     public void backButtonLabelCheck(){
-        //onView(withId(R.id.BarterActivityGoToHomepageButton)).check(matches(withText(R.string.back)));
-        assertFalse(true);
+        onView(withId(R.id.BarterActivityGoToHomepageButton)).check(matches(withText(R.string.back)));
     }
 
     @Test
     public void sendRequestButtonLabelCheck(){
-        //onView(withId(R.id.BarterActivitySendRequestButton)).check(matches(withText(R.string.BarterActivity_SendRequestButtonLabel)));
-        assertFalse(true);
+        onView(withId(R.id.BarterActivitySendRequestButton)).check(matches(withText(R.string.BarterActivity_SendRequestButtonLabel)));
 
     }
 
     @Test
     public void viewNextItemButtonLabelCheck(){
-        //onView(withId(R.id.BarterActivityViewNextItemButton)).check(matches(withText(R.string.BarterActivity_ViewNextItemButtonLabel)));
-        assertFalse(true);
+        onView(withId(R.id.BarterActivityViewNextItemButton)).check(matches(withText(R.string.BarterActivity_ViewNextItemButtonLabel)));
     }
 
 
