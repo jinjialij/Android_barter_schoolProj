@@ -1,7 +1,9 @@
 package com.example.BarterApplication;
 
 import android.location.Location;
+import android.location.LocationManager;
 
+import com.example.BarterApplication.helpers.LocationHelper;
 import com.example.BarterApplication.helpers.UidService;
 
 import java.io.Serializable;
@@ -33,6 +35,8 @@ public class Item implements Serializable {
         this.labels = new ArrayList<String>();
         this.ownerId = null;
         this.uid = UidService.newUID();
+        Location loc = LocationHelper.getLocation();
+        this.location = new SimpleLocation(loc.getLongitude(), loc.getLatitude());
     }
 
     public Item(String name, String ownerId) {
@@ -40,6 +44,30 @@ public class Item implements Serializable {
         this.labels = new ArrayList<String>();
         this.ownerId = ownerId;
         this.uid = UidService.newUID();
+        Location loc = LocationHelper.getLocation();
+        this.location = new SimpleLocation(loc.getLongitude(), loc.getLatitude());
+    }
+
+    // other form of ctor
+    public Item(String name, String description, ArrayList<String> labels, String ownerId) {
+        this.name = name;
+        this.description = description;
+        this.uid = UidService.newUID();
+        this.labels = labels;
+        removeDuplicateLabels();
+        this.ownerId = ownerId;
+        Location loc = LocationHelper.getLocation();
+        this.location = new SimpleLocation(loc.getLongitude(), loc.getLatitude());
+    }
+
+    // ctor
+    public Item(String name, String description, String ownerId) {
+        this.name = name;
+        this.description = description;
+        this.ownerId = ownerId;
+        this.uid = UidService.newUID();
+        Location loc = LocationHelper.getLocation();
+        this.location = new SimpleLocation(loc.getLongitude(), loc.getLatitude());
     }
 
     // other form of ctor
@@ -52,15 +80,6 @@ public class Item implements Serializable {
         this.ownerId = ownerId;
         this.location = location;
     }
-
-    // ctor
-    public Item(String name, String description, String ownerId) {
-        this.name = name;
-        this.description = description;
-        this.ownerId = ownerId;
-        this.uid = UidService.newUID();
-    }
-
     public String getUid() {
         return this.uid;
     }
