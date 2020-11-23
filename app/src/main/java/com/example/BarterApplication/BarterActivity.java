@@ -71,7 +71,6 @@ public class BarterActivity extends AppCompatActivity {
                         }
                         catch (Exception e) {
                             /* I've just logged it because I have no idea how to do exception handling in java (carl) */
-                            Log.e("[BARTER ACTIVITY]", "searchRadiusEditText.addTextChangedListener threw exception on afterTextChanged event. Exception: " + e.toString());
                             dist = DEFAULT_SEARCH_RADIUS_KM;
                         }
                     }
