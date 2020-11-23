@@ -7,6 +7,7 @@ import androidx.test.runner.AndroidJUnit4;
 
 import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TestHelper;
+import com.example.BarterApplication.helpers.ToastMatcher;
 import com.google.android.gms.common.internal.Asserts;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -126,6 +127,13 @@ public class CreateRequestTest {
         } catch (Exception e){
             Assert.assertNotNull(e);
         }
+    }
+
+    @Test
+    public void testCreateRequest_AT_16_11_submit_without_offeringItem(){
+        onView(withId(R.id.CreateNewRequestOfferingItemSubmitBtn)).perform(click());
+        onView(withText(R.string.NewRequestSubmisionError)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
     }
 
     @After

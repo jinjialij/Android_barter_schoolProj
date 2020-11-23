@@ -84,6 +84,7 @@
             android:id="@+id/CreateNewRequestOfferingItemCancelBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="goToViewItems"
             android:text="@android:string/cancel" />
     </LinearLayout>
 
