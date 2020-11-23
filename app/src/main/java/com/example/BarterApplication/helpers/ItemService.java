@@ -60,8 +60,9 @@ public class ItemService {
      */
     public static void updateItem(Item old_item, Item new_item){
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(old_item.getUid() == currentUser.getUid()){
-
+        if(old_item.getOwnerId() == currentUser.getUid()){
+            removeItem(old_item);
+            addItem(new_item);
         }
         else {
             Log.e("[ITEM SERVICE]", "updateItem: user tried to update item ");
