@@ -81,14 +81,14 @@ public class CreateRequestTest {
     }
 
     @Test
-    public void testCreateRequest_AT_16_02_display_requestedItem(){
+    public void testCreateRequest_AT_16_05_display_requestedItem(){
         onView(withId(R.id.CreateNewRequestRequestedItemTitle)).check(matches(isDisplayed()));
         onView(withId(R.id.CreateNewRequestRequestedItemInfo)).check(matches(isDisplayed()));
         onView(withId(R.id.CreateNewRequestRequestedItemInfo)).check(matches(withText(containsString("Name"))));
     }
 
     @Test
-    public void testCreateRequest_AT_16_02_display_offeringItemSection_and_buttons(){
+    public void testCreateRequest_AT_16_05_07_display_offeringItemSection_and_buttons(){
         onView(withId(R.id.CreateNewRequestOfferingItemSectionTitle)).check(matches(isDisplayed()));
         onView(withId(R.id.CreateNewRequestAddedItemsList)).check(matches(isDisplayed()));
         onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).check(matches(isDisplayed()));
@@ -101,7 +101,7 @@ public class CreateRequestTest {
     }
 
     @Test
-    public void testCreateRequest_AT_16_02_add_offeringItem(){
+    public void testCreateRequest_AT_16_08_09_add_offeringItem(){
         onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).perform(click());
         onData(anyOf(is(instanceOf(String.class)))).perform(click());
         onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).perform(click());
@@ -109,7 +109,7 @@ public class CreateRequestTest {
     }
 
     @Test
-    public void testCreateRequest_AT_16_02_delete_added_offeringItem(){
+    public void testCreateRequest_AT_16_10_delete_added_offeringItem(){
         onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).perform(click());
         onData(anyOf(is(instanceOf(String.class)))).perform(click());
         onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).perform(click());

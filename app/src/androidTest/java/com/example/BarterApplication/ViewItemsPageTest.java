@@ -85,14 +85,7 @@ public class ViewItemsPageTest {
     }
 
     @Test
-    public void testViewItemButton_AT_16_01_check_enabled_request_button(){
-        onView(withId(R.id.viewItemBtn)).perform(click());
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-            onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).check(matches(isEnabled()));
-    }
-
-    @Test
-    public void testViewItemButton_AT_16_01_check_disabled_request_button(){
+    public void testViewItemButton_AT_16_02_check_disabled_request_button(){
         //sign in with an empty account that has no offering items
         onView(withId(R.id.buttonLogout))
                 .perform(click());
@@ -115,7 +108,14 @@ public class ViewItemsPageTest {
     }
 
     @Test
-    public void testViewItemButton_AT_16_02_request_button_redirecting(){
+    public void testViewItemButton_AT_16_03_check_enabled_request_button(){
+        onView(withId(R.id.viewItemBtn)).perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).check(matches(isEnabled()));
+    }
+
+    @Test
+    public void testViewItemButton_AT_16_04_request_button_redirecting(){
         onView(withId(R.id.viewItemBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).perform(click());
