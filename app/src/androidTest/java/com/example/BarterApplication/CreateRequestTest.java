@@ -76,15 +76,13 @@ public class CreateRequestTest {
 
     @Test
     public void testCreateRequest_AT_16_02_display_offeringItemSection_and_buttons(){
-        onView(withId(R.id.CreateNewRequestOfferingItemTitle)).check(matches(isDisplayed()));
-        onView(withId(R.id.CreateNewRequestOfferingSection)).check(matches(isDisplayed()));
-        onView(withId(R.id.CreateNewRequestOfferingItemDropdownBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.CreateNewRequestOfferingItemSectionTitle)).check(matches(isDisplayed()));
+        onView(withId(R.id.CreateNewRequestAddedItemsList)).check(matches(isDisplayed()));
+        onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).check(matches(isDisplayed()));
         onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).check(matches(isDisplayed()));
-        onView(withId(R.id.CreateNewRequestOfferingItemDeleteBtn)).check(matches(isDisplayed()));
         onView(withId(R.id.CreateNewRequestOfferingItemSubmitBtn)).check(matches(isDisplayed()));
         onView(withId(R.id.CreateNewRequestOfferingItemCancelBtn)).check(matches(isDisplayed()));
         onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).check(matches(isClickable()));
-        onView(withId(R.id.CreateNewRequestOfferingItemDeleteBtn)).check(matches(isClickable()));
         onView(withId(R.id.CreateNewRequestOfferingItemSubmitBtn)).check(matches(isClickable()));
         onView(withId(R.id.CreateNewRequestOfferingItemCancelBtn)).check(matches(isClickable()));
     }

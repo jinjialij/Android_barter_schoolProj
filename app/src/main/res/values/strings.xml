@@ -38,7 +38,7 @@
     </string-array>
     <string name="itemRequestTitle">Request</string>
     <string name="RequestItemTitle">Request Item</string>
-    <string name="itemRequestOfferedItemSection">Offered Item</string>
+    <string name="OfferingItemSectionTitle">Offering Item(s)</string>
     <string name="itemRequestAccept">Accept</string>
     <string name="itemRequestRefuse">Refuse</string>
     <string name="itemRequestClose">Save and Close</string>
@@ -53,5 +53,8 @@
     <string name="viewItemSearchHint">Search Name or Labels</string>
     <string name="makeRequest">Request</string>
     <string name="CreateRequestTitle">Create New Request</string>
+
+    <string name="Add">Add</string>
+    <string name="Submit">Submit</string>
 
 </resources>
