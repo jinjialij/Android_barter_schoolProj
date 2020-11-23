@@ -1,6 +1,5 @@
 package com.example.BarterApplication;
 
-import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
@@ -8,7 +7,6 @@ import androidx.test.runner.AndroidJUnit4;
 import com.example.BarterApplication.helpers.TestHelper;
 import com.example.BarterApplication.helpers.ToastMatcher;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -26,28 +24,18 @@ import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anyOf;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasToString;
-import static org.hamcrest.Matchers.iterableWithSize;
 import static org.hamcrest.core.IsAnything.anything;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.not;
-
 
 @RunWith(AndroidJUnit4.class)
 public class CreateRequestTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
     private FirebaseAuth mAuth;
-    private static FirebaseUser currentUser;
-    private static String requestedItemOnViewItemsPage;
-    private static DataInteraction requestedItemData;
 
     @Before
     public void setup()
@@ -57,7 +45,6 @@ public class CreateRequestTest {
         String email = "jl548339@dal.ca";
         String pass = "123456";
         mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
 
         onView(withId(R.id.editTextTextEmailAddress))
                 .perform(click())
@@ -69,10 +56,10 @@ public class CreateRequestTest {
                 .perform(click());
 
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.viewItemBtn)).perform(click());
+        onView(withId(R.id.HomepageActivityGoToBarterButton)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        requestedItemData = onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsInfoTextView));
         onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).perform(click());
+        onView(withId(R.id.BarterActivitySendRequestButton)).perform(click());
     }
 
     @Test
@@ -140,7 +127,7 @@ public class CreateRequestTest {
         onView(isRoot()).perform(TestHelper.waitFor(3000));
         onView(withText(R.string.NewRequestSubmissionSuccessMessage)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
-        onView(withId(R.id.homepageTextView)).check(matches(withText(R.string.HomePageTitle)));
+        onView(withId(R.id.homepageActivityLabelTextView)).check(matches(withText(R.string.HomePageTitle)));
     }
 
     @After

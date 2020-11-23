@@ -5,10 +5,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
-import static org.hamcrest.core.StringContains.containsString;
 
 import com.example.BarterApplication.helpers.TestHelper;
-import com.example.BarterApplication.helpers.ToastMatcher;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.After;
@@ -25,8 +23,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 
 
 public class ViewAddItemButtonTest {
@@ -90,7 +86,7 @@ public class ViewAddItemButtonTest {
         onView(withId(R.id.AddItemSubmitButton))
                 .perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.homepageTextView)).check(matches(withText("Homepage")));
+        onView(withId(R.id.homepageActivityLabelTextView)).check(matches(withText("Homepage")));
     }
 
     @Test
@@ -118,7 +114,7 @@ public class ViewAddItemButtonTest {
         onView(withId(R.id.AddItemSubmitButton))
                 .perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.homepageTextView)).check(matches(withText("Homepage")));
+        onView(withId(R.id.homepageActivityLabelTextView)).check(matches(withText("Homepage")));
     }
 
     @Test
@@ -154,7 +150,7 @@ public class ViewAddItemButtonTest {
         onView(withId(R.id.AddItemSubmitButton))
                 .perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.homepageTextView)).check(matches(withText("Homepage")));
+        onView(withId(R.id.homepageActivityLabelTextView)).check(matches(withText("Homepage")));
     }
 
     @After

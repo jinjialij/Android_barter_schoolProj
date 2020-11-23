@@ -1,6 +1,7 @@
 package com.example.BarterApplication;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.BarterApplication.helpers.AddItemHelper;
 import com.example.BarterApplication.helpers.ItemService;
+import com.example.BarterApplication.helpers.LocationHelper;
 import com.example.BarterApplication.helpers.Toaster;
 import com.example.BarterApplication.helpers.UidService;
 import com.example.BarterApplication.helpers.ValidationHelper;
@@ -69,7 +71,8 @@ public class AddItemActivity extends AppCompatActivity {
             Toaster.generateToast(AddItemActivity.this, this.getString(R.string.invalidItemNme));
         }
         else {
-            Item i = new Item(itemName, itemDesc, labelArrayList, userId);
+            Location currLoc = LocationHelper.getLocation();
+            Item i = new Item(itemName, itemDesc, labelArrayList, userId, new SimpleLocation(currLoc.getLongitude(), currLoc.getLatitude()));
             ItemService.addItem(i);
             goToHomepage(i);
         }

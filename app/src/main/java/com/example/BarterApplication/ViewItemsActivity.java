@@ -120,7 +120,11 @@ public class ViewItemsActivity extends AppCompatActivity {
     }
 
     public void goToCreateRequest(View v) {
-        Intent intent = new Intent(this, CreateRequestActivity.class);
+
+    }
+
+    public void goToBarterActivity(View v){
+        Intent intent = new Intent(this, BarterActivity.class);
         startActivity(intent);
     }
 }

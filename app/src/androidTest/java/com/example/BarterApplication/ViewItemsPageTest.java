@@ -1,19 +1,14 @@
 package com.example.BarterApplication;
 
-import androidx.core.widget.ListViewAutoScrollHelper;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TestHelper;
-import com.google.android.gms.common.internal.Asserts;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.hamcrest.core.IsNot;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,10 +16,8 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -58,25 +51,24 @@ public class ViewItemsPageTest {
                 .perform(typeText(pass), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.buttonLogin))
                 .perform(click());
-
         onView(isRoot()).perform(TestHelper.waitFor(5000));
     }
 
     @Test
     public void testViewItemButton_AT_16_01(){
-        onView(withId(R.id.viewItemBtn)).check(matches(isDisplayed()));
-        onView(withId(R.id.viewItemBtn)).check(matches(isClickable()));
+        onView(withId(R.id.HomepageActivityGoToBarterButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.HomepageActivityGoToBarterButton)).check(matches(isClickable()));
     }
 
     @Test
     public void testViewItemButton_AT_16_01_redirecting(){
-        onView(withId(R.id.viewItemBtn)).perform(click());
+        onView(withId(R.id.HomepageActivityGoToBarterButton)).perform(click());
         onView(withId(R.id.viewItemTitleText)).check(matches(withText(R.string.viewItemTitle)));
     }
 
     @Test
     public void testViewItemButton_AT_16_01_check_lists(){
-        onView(withId(R.id.viewItemBtn)).perform(click());
+        onView(withId(R.id.HomepageActivityGoToBarterButton)).perform(click());
         onView(withId(R.id.ViewItemsSearchBoxEditText)).check(matches(withHint("Search Name or Labels")));
         onView(withId(R.id.ViewItemsFilteredItemsListView)).check(matches(isDisplayed()));
         onView(isRoot()).perform(TestHelper.waitFor(5000));
@@ -102,24 +94,24 @@ public class ViewItemsPageTest {
                 .perform(click());
 
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.viewItemBtn)).perform(click());
+        onView(withId(R.id.HomepageActivityGoToBarterButton)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).check(matches(IsNot.not(isEnabled())));
     }
 
     @Test
     public void testViewItemButton_AT_16_03_check_enabled_request_button(){
-        onView(withId(R.id.viewItemBtn)).perform(click());
+        onView(withId(R.id.HomepageActivityGoToBarterButton)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).check(matches(isEnabled()));
     }
 
     @Test
     public void testViewItemButton_AT_16_04_request_button_redirecting(){
-        onView(withId(R.id.viewItemBtn)).perform(click());
+        onView(withId(R.id.HomepageActivityGoToBarterButton)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).perform(click());
-        onView(withId(R.id.CreateRequestTitleText)).check(matches(withText(R.string.CreateRequestTitle)));
+        onView(withId(R.id.BarterActivityActivityLabel)).check(matches(withText(R.string.BarterActivity_ActivityTitle)));
     }
 
     @After

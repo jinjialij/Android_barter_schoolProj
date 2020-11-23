@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.BarterApplication.BarterActivity;
 import com.example.BarterApplication.CreateRequestActivity;
 import com.example.BarterApplication.Item;
 import com.example.BarterApplication.MyRequestActivity;
@@ -67,7 +68,7 @@ public class ItemListViewAdapter extends ArrayAdapter<Item> {
         requestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, CreateRequestActivity.class);
+                Intent intent = new Intent(context, BarterActivity.class);
                 intent.putExtra("requestedItem", currentItem);
                 context.startActivity(intent);
             }

@@ -1,23 +1,35 @@
 package com.example.BarterApplication.helpers;
 
 import android.location.Location;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnTokenCanceledListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ValueEventListener;
+
+import androidx.annotation.NonNull;
 
 public class LocationHelper extends Thread{
 
     private static Location location;
     private final int REFRESH_INTERVAL = 5000;
 
-
     private FusedLocationProviderClient fusedLocationClient;
 
     public LocationHelper(FusedLocationProviderClient client){
         fusedLocationClient = client;
+        location = new Location(LocationManager.GPS_PROVIDER);
+        location.setLatitude(0);
+        location.setLongitude(0);
+
         this.start();
     }
-
 
     @Override
     public void run() {
@@ -30,19 +42,25 @@ public class LocationHelper extends Thread{
                 e.printStackTrace();
             }
         }
-
     }
 
     private void updateLocation(){
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener( location-> {
+        Task<Location> locTask = fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, new CancellationToken() {
+            @Override
+            public boolean isCancellationRequested() {
+                return false;
+            }
 
-                    if (location != null) {
-                        setLocation(location);
-                        // Logic to handle location object
-                    }
+            @NonNull
+            @Override
+            public CancellationToken onCanceledRequested(@NonNull OnTokenCanceledListener onTokenCanceledListener) {
+                return null;
+            }
+        });
+        locTask.addOnSuccessListener(task ->{
+            location = task;
+        });
 
-                });
 
     }
 
