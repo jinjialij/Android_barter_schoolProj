@@ -114,6 +114,14 @@ public class ViewItemsPageTest {
         onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).check(matches(IsNot.not(isEnabled())));
     }
 
+    @Test
+    public void testViewItemButton_AT_16_02_request_button_redirecting(){
+        onView(withId(R.id.viewItemBtn)).perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).perform(click());
+        onView(withId(R.id.CreateRequestTitleText)).check(matches(withText(R.string.CreateRequestTitle)));
+    }
+
     @After
     public void teardown()
     {
