@@ -65,6 +65,7 @@ public class CreateRequestActivity extends AppCompatActivity {
         this.offeringItemsList();
         listView = findViewById(R.id.CreateNewRequestAddedItemsList);
         Button add = (Button) findViewById(R.id.CreateNewRequestOfferingItemAddBtn);
+        Button cancel = (Button) findViewById(R.id.CreateNewRequestOfferingItemCancelBtn);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +76,13 @@ public class CreateRequestActivity extends AppCompatActivity {
                 AddedOfferingItems.add(selectedItem);
                 OfferingItemListViewAdapter adapter = new OfferingItemListViewAdapter(CreateRequestActivity.this, AddedOfferingItems);
                 listView.setAdapter(adapter);
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                onBackPressed();
             }
         });
     }
