@@ -28,10 +28,16 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.core.IsAnything.anything;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.not;
+
 
 @RunWith(AndroidJUnit4.class)
 public class CreateRequestTest {
@@ -89,10 +95,11 @@ public class CreateRequestTest {
     }
 
     @Test
-    public void testCreateRequest_AT_16_02_check_spinner_after_select_an_option(){
+    public void testCreateRequest_AT_16_02_add_offeringItem(){
         onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).perform(click());
-        onData(anything()).inAdapterView(withId(R.id.CreateNewRequestOfferingItemSpinner)).atPosition(0).perform(click());
-        onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).check(matches(withSpinnerText(containsString("Item"))));
+        onData(anyOf(is(instanceOf(String.class)))).perform(click());
+        onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.CreateNewRequestAddedItemsList)).atPosition(0).onChildView(withId(R.id.ViewItemsInfoTextView)).check(matches(withText(containsString("Name"))));
     }
 
     @After

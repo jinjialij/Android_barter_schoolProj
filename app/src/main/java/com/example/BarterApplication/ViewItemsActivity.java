@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class ViewItemsActivity extends AppCompatActivity {
 
     private DatabaseReference myRef;
-    FirebaseUser currentUser;
+    private FirebaseUser currentUser;
     private ListView listView;
     private EditText SearchViewEditText;
     ArrayList<Item> otherUserItems = new ArrayList<Item>();
@@ -44,7 +44,6 @@ public class ViewItemsActivity extends AppCompatActivity {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-
                 otherUserItems = ItemService.getOtherUserItems(currentUserItems);
                 ItemListViewAdapter adapter = new ItemListViewAdapter(ViewItemsActivity.this, otherUserItems, currentUserItems.isEmpty());
                 listView.setAdapter(adapter);

@@ -55,6 +55,7 @@
     <string name="CreateRequestTitle">Create New Request</string>
 
     <string name="Add">Add</string>
+    <string name="Delete">Delete</string>
     <string name="Submit">Submit</string>
 
 </resources>
