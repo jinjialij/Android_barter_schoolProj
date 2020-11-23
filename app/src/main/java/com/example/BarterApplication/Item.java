@@ -127,6 +127,9 @@ public class Item implements Serializable {
         return null;
     }
 
+    /**
+     * @brief remove duplicate labels from an item
+     */
     private void removeDuplicateLabels(){
         ArrayList<String> singles = new ArrayList<String>();
         for(int i = 0; i < this.labels.size(); i++){
@@ -137,4 +140,36 @@ public class Item implements Serializable {
         this.labels = singles;
     }
 
+
+    public String toString(){
+        String str = new String();
+        str += "name: "  + this.name + " ";
+        str += "ownerId: " + this.ownerId + " ";
+        str += "UID: " + this.uid + " ";
+        str += "Location: " + this.location.toString();
+        str += "desc: ";
+        if(this.description != null){
+            str += this.description;
+        }
+        else {
+            str += "null";
+        }
+        str += " ";
+        str += "labels: ";
+        if(this.labels.size() > 0){
+            str += "[";
+            for(int i = 0; i < this.labels.size(); i++){
+                String l = this.labels.get(i);
+                str += l;
+                if(i != this.labels.size() -1){
+                    str += ", ";
+                }
+            }
+            str += "] ";
+        }
+        else {
+            str += "[ ] (Empty)";
+        }
+        return str;
+    }
 }
