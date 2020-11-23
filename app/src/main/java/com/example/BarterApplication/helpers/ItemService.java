@@ -7,11 +7,13 @@ import android.location.LocationProvider;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.BarterApplication.Item;
 import com.example.BarterApplication.SimpleLocation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,11 +26,7 @@ import java.util.ArrayList;
 
 public class ItemService {
     private static ArrayList<Item> itemList = new ArrayList<Item>();
-    private static String dbItemListKeyName = "Items";
-
-    public static boolean hasItem(Item i){
-        return itemList.contains(i);
-    }
+    private static final String dbItemListKeyName = "Items";
 
     public static String getItemKeyName(){
         return dbItemListKeyName;
@@ -52,15 +50,32 @@ public class ItemService {
      * @param i item to remove
      */
     public static void removeItem(Item i){
-        /* Synchronize with database */
+        removeIfExists(i);
+    }
 
-        /** @todo NEEDED FOR ITERATION 3 */
+    /**
+     * @brief update an item
+     * @param old_item the old item
+     * @param new_item
+     */
+    public static void updateItem(Item old_item, Item new_item){
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(old_item.getUid() == currentUser.getUid()){
+
+        }
+        else {
+            Log.e("[ITEM SERVICE]", "updateItem: user tried to update item ");
+        }
     }
 
     /** @todo REFACTOR SO WE AREN'T LITERALLY GOING THROUGH THE ENTIRE ITEM LIST */
     public static ArrayList<Item> getUserItems(FirebaseUser u){
+        ArrayList<Item> items = new ArrayList<Item>();
+
+        /* Need to null check because sometimes callback
+        functions occur after FirebaseUser.signout() */
         if(u != null){
-            // filter the entire database item list for just the user's items
+            /** @note I know this is not ideal but we're working on a deadline here - carl */
             ArrayList<Item> userItems = new ArrayList<Item>();
             String my_uid = u.getUid();
             for(int i = 0; i < getItemList().size(); i++){
@@ -69,13 +84,8 @@ public class ItemService {
                     userItems.add(current);
                 }
             }
-            return userItems;
         }
-        else
-        {
-            /* return empty list instead of crashing */
-            return new ArrayList<Item>();
-        }
+        return items;
     }
 
     /**
@@ -109,18 +119,27 @@ public class ItemService {
     /**
      * @brief the the subset of the item list that is within a given radius of the current user
      * @param radiusKm the radius in kilometers
-     * @return subset of item list within the radius being searched
+     * @return subset of items THAT ARE NOT OWNED BY CURRENT USER within the radius being searched
      */
-    public static ArrayList<Item> getItemsInRadius(int radiusKm){
+    public static ArrayList<Item> getOtherItemsInRadius(int radiusKm){
         ArrayList<Item> itemsInRadius = new ArrayList<Item>();
         if(radiusKm > 0) {
-
-            for(Item i : itemList){
-                double distanceKm = getDistanceToItemKm(i);
-                int distanceKmInt = (int)distanceKm;
-                if(distanceKmInt < radiusKm){
-                    if(!itemsInRadius.contains(i)){
-                        itemsInRadius.add(i);
+            FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
+            if(u != null) {
+                /*
+                FOR each item in the list,
+                IF it is within radius and NOT owned by current user
+                THEN add it to the list of nearby items
+                */
+                for(Item i : itemList){
+                    if(i.getUid() != u.getUid()) {
+                        double distanceKm = getDistanceToItemKm(i);
+                        int distanceKmInt = (int)distanceKm;
+                        if(distanceKmInt < radiusKm){
+                            if(!itemsInRadius.contains(i)){
+                                itemsInRadius.add(i);
+                            }
+                        }
                     }
                 }
             }
@@ -136,6 +155,26 @@ public class ItemService {
         return lastInsertSucceed;
     }
 
+
+    /**
+     * @brief update the user items to the user's new location
+     * @param u the firebase user
+     *
+     * @note Due to database structure, this is NOT efficient but it is a working fix for now
+     */
+    public static void updateUserItems(FirebaseUser u){
+        if(u != null){
+            ArrayList<Item> userItems = getUserItems(u);
+            for(Item i : userItems){
+                Item tmp = i;
+                tmp.setLocation(new SimpleLocation(LocationHelper.getLocation()));
+                updateItem(i, tmp);
+            }
+        }
+    }
+
+
+
     /**
      * @brief helper method to access the database child node for the item list
      * @return database reference to the item node
@@ -144,28 +183,32 @@ public class ItemService {
         return FirebaseDatabase.getInstance().getReference().child(dbItemListKeyName);
     }
 
-    /**
-     * @brief helper method to access the database root reference
-     * @return database reference to the db root
-     */
-    private static DatabaseReference getDbNode(){
-        return FirebaseDatabase.getInstance().getReference();
-    }
-
 
     /**
      * @brief get the distance to an item (from the current user) in kilometers
-      * @param i the item to seek
-     * @return the ditsance to the item in kilometers
+     * @param i the item to seek
+     * @return the distance to the item in kilometers
      */
-    private static double getDistanceToItemKm(Item i){
-        Location myLocation = LocationHelper.getLocation();
-        SimpleLocation SimpleItemLocation = i.getLocation();
+    public static double getDistanceToItemKm(Item i){
+        Location myLocation = LocationHelper.getLocation();   /* user's location */
+        SimpleLocation SimpleItemLocation = i.getLocation();  /* item location   */
+
+        //The reason why this is so complicated is because
+        // manually performing the trigonometry along the surface of the earth
+        // IS REALLY DIFFICULT to do without bugs. Floating point rounding errors
+        // and epsilon errors are occurring EVERYWHERE because GPS precision (num decimals)
+        // is much less than required to accurately represent doubles or floats
+        // (double representation is 14 places (decimal rep) and float is 7 places (decimal rep)
+        // but gps fine grained coordinates for lat and long are 4 decimals each
+        //
+        // As a solution, we are leveraging the Android.location::distanceTo API - Carl
         Location itemLocation = new Location(LocationManager.GPS_PROVIDER);
         itemLocation.setLatitude(SimpleItemLocation.Latitude);
         itemLocation.setLongitude(SimpleItemLocation.Longitude);
         double distance = myLocation.distanceTo(itemLocation);
-        distance = distance/1000.0d; /* convert to Km because distanceTo returns metres */
+
+        /* convert to Km because Android.location::distanceTo returns metres */
+        distance = distance/1000.0d;
 
         /* Account for epsilon rounding */
         if(Math.abs(distance) < 1e-6d){
@@ -176,10 +219,9 @@ public class ItemService {
 
 
     /**
-     * @todo JIALI JIN : need you to write javadoc, I'm not certain what this function does - Carl
-     *
-     * @todo Currently only check uid, need to check other attribute? - Jiali
+     * @brief Insert an item into the child list of database items if it isn't already there
      * @param i the item to insert if not exist
+     * @note item "existence" is determined by checking if NO other item shares the same UID
      */
     private static void insertIfNotExist(Item i) {
         Query queryToGetData = getKeyNode().orderByChild("uid").equalTo(i.getUid());
@@ -212,8 +254,23 @@ public class ItemService {
         });
     }
 
+
     /**
-     * @brief helper method to launc the database datachange event listener for item service
+     * @brief remove an item from the database if it exists
+     * @param i the item to remove
+     * @note if item is not in DB nothing will happen
+     */
+    private static void removeIfExists(Item i){
+        if(getKeyNode().orderByChild("uid").equalTo(i.getUid()) != null){
+            getKeyNode().child(i.getUid()).getRef().removeValue((databaseError, databaseReference) -> itemList.remove(i));
+        }
+        else {
+            Log.d("[ITEM SERVICE]", "removeIfExists: getKeyNode().orderByChild(\"uid\").equalTo(i.getUid()) was null for UID:" + i.getUid());
+        }
+    }
+
+    /**
+     * @brief helper method to launch the database data change event listener for item service
      */
     private static void initDbListener() {
         getKeyNode().addValueEventListener(new ValueEventListener() {

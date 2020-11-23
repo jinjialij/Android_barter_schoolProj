@@ -60,8 +60,6 @@ public class LocationHelper extends Thread{
         locTask.addOnSuccessListener(task ->{
             location = task;
         });
-
-
     }
 
     public static Location getLocation() { return location; }

@@ -2,7 +2,9 @@ package com.example.BarterApplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,14 +19,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 
 public class BarterActivity extends AppCompatActivity {
+    private final int DEFAULT_SEARCH_RADIUS_KM = 10;
+    private final int PERIODIC_SEARCH_INTERVAL_MS = 5000;
+    private static int itemDisplayIndex = 0;
+    private ArrayList<Item> nearbyItems = new ArrayList<Item>();
     private ImageView currentItemImageFrame;
     private TextView currentItemNameFrame;
     private TextView currentItemDescFrame;
+    private TextView itemDistanceDisplayFrame;
     private EditText searchRadiusEditText;
-    private final int DEFAULT_SEARCH_RADIUS_KM = 10;
-    private ArrayList<Item> nearbyItems = new ArrayList<Item>();
-    private static int itemDisplayIndex = 0;
     private FirebaseAuth mAuth;
+    private Handler refreshHandler;
+
+    private int searchRadius;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +41,12 @@ public class BarterActivity extends AppCompatActivity {
         currentItemDescFrame = findViewById(R.id.BarterActivityCurrentItemDescriptionTextView);
         currentItemNameFrame = findViewById(R.id.BarterActivityCurrentItemNameTextView);
         searchRadiusEditText = findViewById(R.id.BarterActivityItemSearchRadiusEditText);
+        itemDistanceDisplayFrame = findViewById(R.id.BarterActivityitemDistanceDisplayTextView);
 
         /* Get initial default list of items */
-        updateItemList(DEFAULT_SEARCH_RADIUS_KM);
+        searchRadius = DEFAULT_SEARCH_RADIUS_KM;
+        refreshHandler = new Handler();
+        updateItemList();
 
         if(searchRadiusEditText != null){
             searchRadiusEditText.addTextChangedListener(new TextChangedListener<EditText>(searchRadiusEditText) {
@@ -51,28 +61,26 @@ public class BarterActivity extends AppCompatActivity {
                 @Override
                 public void afterTextChanged(Editable s) {
                     String str = s.toString();
+                    int dist;
                     if(str.isEmpty()) {
-                        updateItemList(DEFAULT_SEARCH_RADIUS_KM);
+                        dist = DEFAULT_SEARCH_RADIUS_KM;
                     }
                     else {
                         try {
-                            int dist = Integer.parseInt(str);
-                            updateItemList(dist);
+                            dist = Integer.parseInt(str);
                         }
                         catch (Exception e) {
-                            /* Do nothing because java is based on faulty paradigms */
+                            /* I've just logged it because I have no idea how to do exception handling in java (carl) */
+                            Log.e("[BARTER ACTIVITY]", "searchRadiusEditText.addTextChangedListener threw exception on afterTextChanged event. Exception: " + e.toString());
+                            dist = DEFAULT_SEARCH_RADIUS_KM;
                         }
                     }
+                    searchRadius = dist;
+                    updateItemList();
                 }
             });
         }
-
-        if(currentItemImageFrame != null) {
-            currentItemImageFrame.setImageResource(R.drawable.stickfigure);
-
-            /* finally , reveal the item */
-            currentItemImageFrame.setVisibility(View.VISIBLE);
-        }
+        refreshHandler.postDelayed(periodicNearbyItemRefreshCallback, 0);
     }
 
     /**
@@ -102,44 +110,75 @@ public class BarterActivity extends AppCompatActivity {
 
 
     /**
-     * @brief go to the next item
+     * @brief display the next item from the item feed on click
      * @param v The current layout content view for the activity
-     * @note ANALOGOUS TO SWIPE LEFT (or click the red X button) in tinder - carl
      */
-    public void nextItem(View v){
+    public void nextItemOnClick(View v){
         displayNextItem();
     }
 
     /**
-     * @brief update the item list based on the nearby users in the firebase database
+     * @brief update the barter activity item feed
      */
-    private void updateItemList(int radius){
+    private void updateItemList(){
+        /* Get all nearby items that are NOT owned by current user */
+        this.nearbyItems = ItemService.getOtherItemsInRadius(this.searchRadius);
+        displayCurrentItem();
+    }
 
-        // get nearby items
-        nearbyItems = ItemService.getItemsInRadius(radius);
-        // remove the user's items
-        nearbyItems.removeAll(ItemService.getUserItems(mAuth.getCurrentUser()));
+    /**
+     * @brief Display the next item in the item feed
+     */
+    private void displayNextItem(){
+        itemDisplayIndex++;
+        itemDisplayIndex = itemDisplayIndex % nearbyItems.size();
+        displayCurrentItem();
     }
 
 
     /**
-     * @brief Display the next item from the list of nearby items
+     * @brief display the current item in the nearby item feed
      */
-    private void displayNextItem(){
+    private void displayCurrentItem(){
         if(nearbyItems.size() > 0){
-            itemDisplayIndex++;
-            itemDisplayIndex = itemDisplayIndex % nearbyItems.size();
             displayItem(nearbyItems.get(itemDisplayIndex));
+        }
+        else {
+            displayItem(null);
         }
     }
 
     /**
      * @brief Display an item in the item display window
      * @param i the item to display
+     * @note if i is null (the frame will display as if there are NO nearby items)
      */
     private void displayItem(Item i){
-        this.currentItemNameFrame.setText(i.getName());
-        this.currentItemDescFrame.setText(i.getDescription());
-        /**@todo DISPLAY ITEM IMAGE BY URL */
+        if(i == null){
+            this.currentItemDescFrame.setText("");
+            this.itemDistanceDisplayFrame.setText("");
+            this.currentItemNameFrame.setText("There are no items within that search radius");
+            this.currentItemImageFrame.setVisibility(View.INVISIBLE);
+        }
+        else {
+            this.currentItemNameFrame.setText(i.getName());
+            this.currentItemDescFrame.setText(i.getDescription());
+
+            /* Update the distance */
+            String distanceString = new String();
+            int dist = (int)ItemService.getDistanceToItemKm(i);
+            distanceString += Integer.toString(dist);
+            distanceString += " Km away";
+            this.itemDistanceDisplayFrame.setText(distanceString);
+            /**@todo DISPLAY ITEM IMAGE BY URL */
+        }
     }
+
+    private Runnable periodicNearbyItemRefreshCallback = new Runnable() {
+        public void run() {
+            updateItemList();
+            refreshHandler.postDelayed(this, PERIODIC_SEARCH_INTERVAL_MS);
+            Log.i("[BARTER ACTIVITY]", "run: updated nearby item list");
+        }
+    };
 }
