@@ -36,7 +36,7 @@ public class CreateRequestActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
     private FirebaseAuth mAuth;
     private ArrayList<Item> userItems;
-    private ArrayList<Item> AddedOfferingItems;
+    private ArrayList<Item> addedOfferingItems;
     private Map<String, String> spinnerItemListMap;
     private Item requestItem;
     private Spinner offeringItemsList;
@@ -61,11 +61,12 @@ public class CreateRequestActivity extends AppCompatActivity {
         TextView requestItemInfo = (TextView) findViewById(R.id.CreateNewRequestRequestedItemInfo);
         HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();
         requestItemInfo.setText(ItemService.printItemMap(ItemService.getItemMap(requestItem, requestItemInfoMap)));
-        AddedOfferingItems = new ArrayList<>();
+        addedOfferingItems = new ArrayList<>();
         this.offeringItemsList();
         listView = findViewById(R.id.CreateNewRequestAddedItemsList);
         Button add = (Button) findViewById(R.id.CreateNewRequestOfferingItemAddBtn);
         Button cancel = (Button) findViewById(R.id.CreateNewRequestOfferingItemCancelBtn);
+        Button submit = (Button) findViewById(R.id.CreateNewRequestOfferingItemSubmitBtn);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +74,8 @@ public class CreateRequestActivity extends AppCompatActivity {
                 offeringItemsList = (Spinner) findViewById(R.id.CreateNewRequestOfferingItemSpinner);
                 String offeringItemSelected = offeringItemsList.getSelectedItem().toString();
                 Item selectedItem = getSelectedItem(offeringItemSelected);
-                AddedOfferingItems.add(selectedItem);
-                OfferingItemListViewAdapter adapter = new OfferingItemListViewAdapter(CreateRequestActivity.this, AddedOfferingItems);
+                addedOfferingItems.add(selectedItem);
+                OfferingItemListViewAdapter adapter = new OfferingItemListViewAdapter(CreateRequestActivity.this, addedOfferingItems);
                 listView.setAdapter(adapter);
             }
         });
@@ -83,6 +84,15 @@ public class CreateRequestActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 onBackPressed();
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                if (addedOfferingItems == null || addedOfferingItems.isEmpty()){
+                    Toaster.generateToast(CreateRequestActivity.this,getString(R.string.NewRequestSubmissionError));
+                }
             }
         });
     }

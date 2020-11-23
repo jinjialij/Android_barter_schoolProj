@@ -5,14 +5,11 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TestHelper;
 import com.example.BarterApplication.helpers.ToastMatcher;
-import com.google.android.gms.common.internal.Asserts;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.hamcrest.core.IsNot;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,8 +22,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasContentDescription;
-import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -36,7 +31,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.hamcrest.core.IsAnything.anything;
@@ -132,7 +126,7 @@ public class CreateRequestTest {
     @Test
     public void testCreateRequest_AT_16_11_submit_without_offeringItem(){
         onView(withId(R.id.CreateNewRequestOfferingItemSubmitBtn)).perform(click());
-        onView(withText(R.string.NewRequestSubmisionError)).inRoot(new ToastMatcher())
+        onView(withText(R.string.NewRequestSubmissionError)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
 

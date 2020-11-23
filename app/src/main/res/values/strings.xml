@@ -57,5 +57,7 @@
     <string name="Add">Add</string>
     <string name="Delete">Delete</string>
     <string name="Submit">Submit</string>
+    <string name="NewRequestSubmissionError">Cannot submit without offering items</string>
+
 
 </resources>
