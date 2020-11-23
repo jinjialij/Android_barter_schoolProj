@@ -2,6 +2,8 @@ package com.example.BarterApplication.helpers;
 //https://stackoverflow.com/questions/32886546/how-to-get-all-child-list-from-firebase-android
 
 import android.location.Location;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -158,8 +160,12 @@ public class ItemService {
      */
     private static double getDistanceToItemKm(Item i){
         Location myLocation = LocationHelper.getLocation();
-        SimpleLocation itemLocation = i.getLocation();
+        SimpleLocation SimpleItemLocation = i.getLocation();
+        Location itemLocation = new Location(LocationManager.GPS_PROVIDER);
+        itemLocation.setLatitude(SimpleItemLocation.Latitude);
+        itemLocation.setLongitude(SimpleItemLocation.Longitude);
         double distance = myLocation.distanceTo(itemLocation);
+        distance = distance/1000.0d; /* convert to Km because distanceTo returns metres */
 
         /* Account for epsilon rounding */
         if(Math.abs(distance) < 1e-6d){
