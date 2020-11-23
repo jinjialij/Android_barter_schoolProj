@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity  {
 
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
+
         fromMyRequest = getIntent().getBooleanExtra("fromMyRequest", false);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocationPermission();
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity  {
 
     @AfterPermissionGranted(REQUEST_LOCATION_PERMISSION)
     public void requestLocationPermission() {
-        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
         if(EasyPermissions.hasPermissions(this, perms)) {
             Toast.makeText(this, getString(R.string.locationPermissionAllowed), Toast.LENGTH_SHORT).show();
             updateUI(mAuth.getCurrentUser(), false);

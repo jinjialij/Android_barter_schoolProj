@@ -5,10 +5,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
-import static org.hamcrest.core.StringContains.containsString;
 
 import com.example.BarterApplication.helpers.TestHelper;
-import com.example.BarterApplication.helpers.ToastMatcher;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.After;
@@ -90,7 +88,7 @@ public class ViewAddItemButtonTest {
         onView(withId(R.id.AddItemSubmitButton))
                 .perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.homepageTextView)).check(matches(withText("Homepage")));
+        onView(withId(R.id.homepageActivityLabelTextView)).check(matches(withText("Homepage")));
     }
 
     @Test
@@ -118,7 +116,7 @@ public class ViewAddItemButtonTest {
         onView(withId(R.id.AddItemSubmitButton))
                 .perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.homepageTextView)).check(matches(withText("Homepage")));
+        onView(withId(R.id.homepageActivityLabelTextView)).check(matches(withText("Homepage")));
     }
 
     @Test
@@ -154,7 +152,7 @@ public class ViewAddItemButtonTest {
         onView(withId(R.id.AddItemSubmitButton))
                 .perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.homepageTextView)).check(matches(withText("Homepage")));
+        onView(withId(R.id.homepageActivityLabelTextView)).check(matches(withText("Homepage")));
     }
 
     @After

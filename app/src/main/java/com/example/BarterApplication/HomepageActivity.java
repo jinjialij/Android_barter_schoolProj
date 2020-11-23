@@ -1,6 +1,7 @@
 package com.example.BarterApplication;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -49,7 +50,6 @@ public class HomepageActivity extends AppCompatActivity {
                 updateUI(null);
             }
         });
-
         //check if inserted is success when directing from the addItemActivity
         Item insertedItem = (Item) getIntent().getSerializableExtra("insertedItem");
         boolean updateStatusFromMyRequest = getIntent().getBooleanExtra("updateStatusFromMyRequest", false);
@@ -103,6 +103,11 @@ public class HomepageActivity extends AppCompatActivity {
     }
     public void goToManageItems(View v){
         Intent intent = new Intent(this, ManageItemsActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToBarterActivity(View v){
+        Intent intent = new Intent(this, BarterActivity.class);
         startActivity(intent);
     }
 

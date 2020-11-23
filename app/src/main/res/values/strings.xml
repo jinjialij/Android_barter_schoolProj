@@ -49,4 +49,11 @@
     <string name="logout">Log out</string>
     <string name="back">Back</string>
 
+
+
+    <!-- BARTER ACTIVITY LABELS AND LAYOUT VALUE STUFF -->
+    <string name="BarterActivity_ActivityTitle">Barter Activity</string>
+    <string name="BarterActivity_SendRequestButtonLabel">send request</string>
+    <string name="BarterActivity_ViewNextItemButtonLabel">next item</string>
+
 </resources>
