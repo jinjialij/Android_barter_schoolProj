@@ -21,7 +21,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ItemService {
@@ -168,5 +170,39 @@ public class ItemService {
 
     public static boolean isLastInsertSucceed() {
         return lastInsertSucceed;
+    }
+
+    public static HashMap<String, String> getItemMap(Item item, HashMap<String, String> map){
+        if (item!=null){
+            map.put("Name: ", item.getName());
+            map.put("Labels: ", item.getLabels().toString());
+            map.put("Description: ", item.getDescription());
+            //@todo use uid to get owner name
+            map.put("Owner Name: ", item.getOwnerId());
+        }
+
+        return map;
+    }
+
+    public static String printItemMap(HashMap<String, String> map){
+        String mapString = "";
+        if (map!=null && !map.isEmpty()){
+            for (Map.Entry<String,String> entry : map.entrySet()) {
+                mapString += entry.getKey() + entry.getValue() + "\n";
+            }
+        }
+        return mapString;
+    }
+
+    public static String printItemMapList(ArrayList<HashMap<String, String>> mapList){
+        String mapListString = "";
+        if (mapList!=null && !mapList.isEmpty()){
+            for (HashMap<String, String> map:mapList){
+                String mapString = printItemMap(map);
+                mapListString += mapString + "\n";
+            }
+
+        }
+        return mapListString;
     }
 }

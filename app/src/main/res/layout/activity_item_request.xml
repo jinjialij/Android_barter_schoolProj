@@ -19,7 +19,7 @@
         android:id="@+id/requestItem"
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:text="@string/itemRequestRequestItemSection"
+        android:text="@string/RequestItemTitle"
         android:textSize="18sp" />
 
     <TextView

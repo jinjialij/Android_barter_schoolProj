@@ -37,7 +37,7 @@
 
     </string-array>
     <string name="itemRequestTitle">Request</string>
-    <string name="itemRequestRequestItemSection">Request Item</string>
+    <string name="RequestItemTitle">Request Item</string>
     <string name="itemRequestOfferedItemSection">Offered Item</string>
     <string name="itemRequestAccept">Accept</string>
     <string name="itemRequestRefuse">Refuse</string>

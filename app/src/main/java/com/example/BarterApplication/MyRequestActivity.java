@@ -73,19 +73,19 @@ public class MyRequestActivity extends AppCompatActivity {
             HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();
             ArrayList<HashMap<String, String>> offeredItemInfoMapList = new ArrayList<>();
             Item requestItem = ItemService.findItemByUid(receivedItemRequest.getRequestItemId());
-            getItemMap(requestItem, requestItemInfoMap);
+            requestItemInfoMap = ItemService.getItemMap(requestItem, requestItemInfoMap);
 
             for(String id: receivedItemRequest.getItemIdsOffered()){
                 Item offeredItem = UidService.findItemByItemUid(id, items);
                 HashMap<String, String> map = new LinkedHashMap<>();
-                getItemMap(offeredItem, map);
+                map = ItemService.getItemMap(offeredItem, map);
                 offeredItemInfoMapList.add(map);
             }
 
             String requestUid = receivedItemRequest.getUid();
             requestId.setText(requestUid);
-            requestItemInfo.setText(printItemMap(requestItemInfoMap));
-            offerItemInfo.setText(printItemMapList(offeredItemInfoMapList));
+            requestItemInfo.setText(ItemService.printItemMap(requestItemInfoMap));
+            offerItemInfo.setText(ItemService.printItemMapList(offeredItemInfoMapList));
         }
 
         acceptBtn.setOnClickListener(new View.OnClickListener() {
@@ -121,38 +121,6 @@ public class MyRequestActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
-    }
-
-    private void getItemMap(Item item, HashMap<String, String> map){
-        if (item!=null){
-            map.put("Name: ", item.getName());
-            map.put("Labels: ", item.getLabels().toString());
-            map.put("Description: ", item.getDescription());
-            //@todo use uid to get owner name
-            map.put("Owner Name: ", item.getOwnerId());
-        }
-    }
-
-    private String printItemMap(HashMap<String, String> map){
-        String mapString = "";
-        if (map!=null && !map.isEmpty()){
-            for (Map.Entry<String,String> entry : map.entrySet()) {
-                mapString += entry.getKey() + entry.getValue() + "\n";
-            }
-        }
-        return mapString;
-    }
-
-    private String printItemMapList(ArrayList<HashMap<String, String>> mapList){
-        String mapListString = "";
-        if (mapList!=null && !mapList.isEmpty()){
-            for (HashMap<String, String> map:mapList){
-                String mapString = printItemMap(map);
-                mapListString += mapString + "\n";
-            }
-
-        }
-        return mapListString;
     }
 
     @Override

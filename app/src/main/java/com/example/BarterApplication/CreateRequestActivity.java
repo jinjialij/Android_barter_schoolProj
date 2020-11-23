@@ -28,12 +28,28 @@ public class CreateRequestActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
     private FirebaseAuth mAuth;
     private ArrayList<Item> items;
-    private ItemRequest receivedItemRequest;
+    private Item requestItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_request);
+
+        mAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance().getReference();
+        items = ItemService.getItemList();
+
+        requestItem = (Item)getIntent().getSerializableExtra("requestedItem");
+        if(requestItem == null) {
+            Toaster.generateToast(this, "Internal error, please try again");
+            onBackPressed();
+        }
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        TextView requestItemInfo = (TextView) findViewById(R.id.CreateNewRequestRequestedItemInfo);
+        HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();
+        requestItemInfo.setText(ItemService.printItemMap(ItemService.getItemMap(requestItem, requestItemInfoMap)));
     }
 
     @Override

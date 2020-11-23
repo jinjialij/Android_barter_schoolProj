@@ -1,5 +1,6 @@
 package com.example.BarterApplication;
 
+import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
@@ -25,7 +26,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.core.IsAnything.anything;
 
 @RunWith(AndroidJUnit4.class)
@@ -34,6 +37,8 @@ public class CreateRequestTest {
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
     private FirebaseAuth mAuth;
     private static FirebaseUser currentUser;
+    private static String requestedItemOnViewItemsPage;
+    private static DataInteraction requestedItemData;
 
     @Before
     public void setup()
@@ -57,14 +62,15 @@ public class CreateRequestTest {
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.viewItemBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
+        requestedItemData = onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsInfoTextView));
         onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).perform(click());
     }
 
     @Test
     public void testCreateRequest_AT_16_02_display_requestedItem(){
         onView(withId(R.id.CreateNewRequestRequestedItemTitle)).check(matches(isDisplayed()));
-        Item requestedItem = ItemService.getOtherUserItems(ItemService.getUserItems(currentUser)).get(0);
-        onView(withId(R.id.CreateNewRequestRequestedItemInfo)).check(matches(withText(containsString(requestedItem.getName()))));
+        onView(withId(R.id.CreateNewRequestRequestedItemInfo)).check(matches(isDisplayed()));
+        onView(withId(R.id.CreateNewRequestRequestedItemInfo)).check(matches(withText(containsString("Name"))));
     }
 
     @After

@@ -68,6 +68,7 @@ public class ItemListViewAdapter extends ArrayAdapter<Item> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CreateRequestActivity.class);
+                intent.putExtra("requestedItem", currentItem);
                 context.startActivity(intent);
             }
         });
