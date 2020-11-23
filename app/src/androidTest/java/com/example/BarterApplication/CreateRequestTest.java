@@ -26,6 +26,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
@@ -85,6 +86,13 @@ public class CreateRequestTest {
         onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).check(matches(isClickable()));
         onView(withId(R.id.CreateNewRequestOfferingItemSubmitBtn)).check(matches(isClickable()));
         onView(withId(R.id.CreateNewRequestOfferingItemCancelBtn)).check(matches(isClickable()));
+    }
+
+    @Test
+    public void testCreateRequest_AT_16_02_check_spinner_after_select_an_option(){
+        onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.CreateNewRequestOfferingItemSpinner)).atPosition(0).perform(click());
+        onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).check(matches(withSpinnerText(containsString("Item"))));
     }
 
     @After
