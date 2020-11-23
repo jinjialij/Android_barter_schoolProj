@@ -20,7 +20,6 @@ public class BarterActivity extends AppCompatActivity {
     private TextView currentItemNameFrame;
     private TextView currentItemDescFrame;
     private EditText searchRadiusEditText;
-    private int searchRadiusKm;
     private final int DEFAULT_SEARCH_RADIUS_KM = 10;
     private ArrayList<Item> nearbyItems = new ArrayList<Item>();
     private static int itemDisplayIndex = 0;
@@ -35,26 +34,37 @@ public class BarterActivity extends AppCompatActivity {
         currentItemNameFrame = findViewById(R.id.BarterActivityCurrentItemNameTextView);
         searchRadiusEditText = findViewById(R.id.BarterActivityItemSearchRadiusEditText);
 
-        searchRadiusKm = DEFAULT_SEARCH_RADIUS_KM;
+        /* Get initial default list of items */
+        updateItemList(DEFAULT_SEARCH_RADIUS_KM);
 
-        /*
-        searchRadiusEditText.addTextChangedListener(new TextChangedListener<EditText>(searchRadiusEditText) {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                updateItemList();
-            }
+        if(searchRadiusEditText != null){
+            searchRadiusEditText.addTextChangedListener(new TextChangedListener<EditText>(searchRadiusEditText) {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
-            @Override
-            public void onTextChanged(EditText target, Editable s) {
-            }
+                @Override
+                public void onTextChanged(EditText target, Editable s) {
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                searchRadiusKm = Integer.parseInt(s.toString());
-                updateItemList();
-            }
-        });
-         */
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String str = s.toString();
+                    if(str.isEmpty()) {
+                        updateItemList(DEFAULT_SEARCH_RADIUS_KM);
+                    }
+                    else {
+                        try {
+                            int dist = Integer.parseInt(str);
+                            updateItemList(dist);
+                        }
+                        catch (Exception e) {
+                            /* Do nothing because java is based on faulty paradigms */
+                        }
+                    }
+                }
+            });
+        }
 
         if(currentItemImageFrame != null) {
             currentItemImageFrame.setImageResource(R.drawable.stickfigure);
@@ -62,9 +72,6 @@ public class BarterActivity extends AppCompatActivity {
             /* finally , reveal the item */
             currentItemImageFrame.setVisibility(View.VISIBLE);
         }
-
-
-        updateItemList();
     }
 
     /**
@@ -105,8 +112,8 @@ public class BarterActivity extends AppCompatActivity {
     /**
      * @brief update the item list based on the nearby users in the firebase database
      */
-    private void updateItemList(){
-        nearbyItems = ItemService.getItemsInRadius(this.searchRadiusKm);
+    private void updateItemList(int radius){
+        nearbyItems = ItemService.getItemsInRadius(radius);
     }
 
 
