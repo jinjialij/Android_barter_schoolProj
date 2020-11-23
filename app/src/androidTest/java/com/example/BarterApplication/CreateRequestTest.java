@@ -22,6 +22,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasContentDescription;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -71,6 +72,21 @@ public class CreateRequestTest {
         onView(withId(R.id.CreateNewRequestRequestedItemTitle)).check(matches(isDisplayed()));
         onView(withId(R.id.CreateNewRequestRequestedItemInfo)).check(matches(isDisplayed()));
         onView(withId(R.id.CreateNewRequestRequestedItemInfo)).check(matches(withText(containsString("Name"))));
+    }
+
+    @Test
+    public void testCreateRequest_AT_16_02_display_offeringItemSection_and_buttons(){
+        onView(withId(R.id.CreateNewRequestOfferingItemTitle)).check(matches(isDisplayed()));
+        onView(withId(R.id.CreateNewRequestOfferingSection)).check(matches(isDisplayed()));
+        onView(withId(R.id.CreateNewRequestOfferingItemDropdownBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.CreateNewRequestOfferingItemDeleteBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.CreateNewRequestOfferingItemSubmitBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.CreateNewRequestOfferingItemCancelBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).check(matches(isClickable()));
+        onView(withId(R.id.CreateNewRequestOfferingItemDeleteBtn)).check(matches(isClickable()));
+        onView(withId(R.id.CreateNewRequestOfferingItemSubmitBtn)).check(matches(isClickable()));
+        onView(withId(R.id.CreateNewRequestOfferingItemCancelBtn)).check(matches(isClickable()));
     }
 
     @After
