@@ -1,6 +1,8 @@
 package com.example.BarterApplication.helpers;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.BarterApplication.CreateRequestActivity;
 import com.example.BarterApplication.Item;
+import com.example.BarterApplication.MyRequestActivity;
 import com.example.BarterApplication.R;
 
 import java.util.ArrayList;
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 public class ItemListViewAdapter extends ArrayAdapter<Item> {
     private static final String LOG_TAG = "ItemListViewAdapter";
     private boolean isEmptyOfferingItems;
+    private static Context context;
 
     /**
      * This is a customized constructor.
@@ -48,15 +53,24 @@ public class ItemListViewAdapter extends ArrayAdapter<Item> {
             listItemView = LayoutInflater.from(getContext()).inflate(
                     R.layout.text_button_row_items, parent, false);
         }
+        context = parent.getContext();
 
         Item currentItem = getItem(position);
         String displayString = "Name: " + currentItem.getName() + "\nDescription: " + currentItem.getDescription() + "\nLabels:" + currentItem.getLabels().toString();
         TextView itemTextView = (TextView) listItemView.findViewById(R.id.ViewItemsInfoTextView);
         itemTextView.setText(displayString);
+        Button requestBtn = (Button) listItemView.findViewById(R.id.ViewItemsMakeRequestBtn);
         if (isEmptyOfferingItems){
-            Button requestBtn = (Button) listItemView.findViewById(R.id.ViewItemsMakeRequestBtn);
             requestBtn.setEnabled(false);
         }
+
+        requestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CreateRequestActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
         return listItemView;
     }

@@ -30,5 +30,6 @@
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="727dp"
+        android:onClick="goToCreateRequest"
         android:text="@string/makeRequest" />
 </FrameLayout>

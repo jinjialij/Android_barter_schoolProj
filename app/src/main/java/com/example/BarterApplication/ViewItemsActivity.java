@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -116,6 +117,11 @@ public class ViewItemsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, HomepageActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToCreateRequest(View v) {
+        Intent intent = new Intent(this, CreateRequestActivity.class);
         startActivity(intent);
     }
 }
