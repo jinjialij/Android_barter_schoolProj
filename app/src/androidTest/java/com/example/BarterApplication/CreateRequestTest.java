@@ -101,6 +101,12 @@ public class CreateRequestTest {
     }
 
     @Test
+    public void testCreateRequest_AT_16_06_cancel(){
+        onView(withId(R.id.CreateNewRequestOfferingItemCancelBtn)).perform(click());
+        onView(withId(R.id.viewItemTitleText)).check(matches(withText(R.string.viewItemTitle)));
+    }
+
+    @Test
     public void testCreateRequest_AT_16_08_09_add_offeringItem(){
         onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).perform(click());
         onData(anyOf(is(instanceOf(String.class)))).perform(click());
