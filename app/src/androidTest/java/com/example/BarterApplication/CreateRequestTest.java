@@ -7,9 +7,11 @@ import androidx.test.runner.AndroidJUnit4;
 
 import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TestHelper;
+import com.google.android.gms.common.internal.Asserts;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.hamcrest.core.IsNot;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,6 +24,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasContentDescription;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -31,7 +34,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.iterableWithSize;
 import static org.hamcrest.core.IsAnything.anything;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.allOf;
@@ -100,6 +105,17 @@ public class CreateRequestTest {
         onData(anyOf(is(instanceOf(String.class)))).perform(click());
         onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).perform(click());
         onData(anything()).inAdapterView(withId(R.id.CreateNewRequestAddedItemsList)).atPosition(0).onChildView(withId(R.id.ViewItemsInfoTextView)).check(matches(withText(containsString("Name"))));
+    }
+
+    @Test
+    public void testCreateRequest_AT_16_02_delete_added_offeringItem(){
+        onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).perform(click());
+        onData(anyOf(is(instanceOf(String.class)))).perform(click());
+        onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(1000));
+        onData(anything()).inAdapterView(withId(R.id.CreateNewRequestAddedItemsList)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).perform(click());
+        Asserts.checkNull(onData(anything()).inAdapterView(withId(R.id.CreateNewRequestAddedItemsList)).atPosition(0));
+
     }
 
     @After
