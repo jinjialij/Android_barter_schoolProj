@@ -58,6 +58,7 @@
     <string name="Delete">Delete</string>
     <string name="Submit">Submit</string>
     <string name="NewRequestSubmissionError">Cannot submit without offering items</string>
-
+    <string name="NewRequestSubmissionFailure">Your request fails to create, please try again</string>
+    <string name="NewRequestSubmissionSuccessMessage">Your request has been created successful</string>
 
 </resources>

@@ -21,11 +21,11 @@ public class ItemRequest implements Serializable {
         this.accepted = false;
     }
 
-    public ItemRequest(UserAccount u, Item wanted, ArrayList<Item> offered ) {
+    public ItemRequest(String userUID, Item wanted, ArrayList<Item> offered ) {
         this.uid = UidService.newUID();
         this.accepted = false;
         if(offered.size() != 0){
-            this.requesterId = u.getUid();
+            this.requesterId = userUID;
             this.requestItemId = wanted.getUid();
             this.itemIdsOffered = new ArrayList<String>();
             int i = 0;

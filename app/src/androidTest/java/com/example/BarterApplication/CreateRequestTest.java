@@ -135,10 +135,12 @@ public class CreateRequestTest {
         onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).perform(click());
         onData(anyOf(is(instanceOf(String.class)))).perform(click());
         onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(1000));
         onView(withId(R.id.CreateNewRequestOfferingItemSubmitBtn)).perform(click());
-        onView(withId(R.id.homepageTextView)).check(matches(withText(R.string.HomePageTitle)));
+        onView(isRoot()).perform(TestHelper.waitFor(3000));
         onView(withText(R.string.NewRequestSubmissionSuccessMessage)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
+        onView(withId(R.id.homepageTextView)).check(matches(withText(R.string.HomePageTitle)));
     }
 
     @After

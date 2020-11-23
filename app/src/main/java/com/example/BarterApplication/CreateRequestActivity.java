@@ -3,6 +3,7 @@ package com.example.BarterApplication;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -92,6 +93,10 @@ public class CreateRequestActivity extends AppCompatActivity {
             public void onClick(View view){
                 if (addedOfferingItems == null || addedOfferingItems.isEmpty()){
                     Toaster.generateToast(CreateRequestActivity.this,getString(R.string.NewRequestSubmissionError));
+                } else{
+                    ItemRequest newRequest = new ItemRequest(currentUser.getUid(), requestItem, addedOfferingItems);
+                    ItemRequestService.addItemRequest(newRequest);
+                    goToHomepage(newRequest);
                 }
             }
         });
@@ -124,4 +129,15 @@ public class CreateRequestActivity extends AppCompatActivity {
         return selectedItem;
     }
 
+    public void goToHomepage(ItemRequest itReq) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(CreateRequestActivity.this, HomepageActivity.class);
+                intent.putExtra("insertedItemReq", itReq);
+                startActivity(intent);
+            }
+        }, 3000);
+    }
 }
