@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,7 @@ import androidx.annotation.NonNull;
 public class LocationHelper extends Thread{
 
     private static Location location;
-    private final int REFRESH_INTERVAL = 5000;
+    private final int REFRESH_INTERVAL = 15*1000;
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -37,6 +38,7 @@ public class LocationHelper extends Thread{
             try {
                 updateLocation();
                 Log.i("Location", location +"");
+                ItemService.updateUserItems(FirebaseAuth.getInstance().getCurrentUser());
                 Thread.sleep(REFRESH_INTERVAL);
             } catch (InterruptedException e) {
                 e.printStackTrace();

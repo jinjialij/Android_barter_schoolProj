@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class BarterActivity extends AppCompatActivity {
     private final int DEFAULT_SEARCH_RADIUS_KM = 10;
-    private final int PERIODIC_SEARCH_INTERVAL_MS = 5000;
+    private final int PERIODIC_SEARCH_INTERVAL_MS = 60*1000; /* once per minute */
     private static int itemDisplayIndex = 0;
     private ArrayList<Item> nearbyItems = new ArrayList<Item>();
     private ImageView currentItemImageFrame;
