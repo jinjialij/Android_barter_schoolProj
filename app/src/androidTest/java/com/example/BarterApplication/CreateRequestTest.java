@@ -130,6 +130,17 @@ public class CreateRequestTest {
                 .check(matches(isDisplayed()));
     }
 
+    @Test
+    public void testCreateRequest_AT_16_11_submit_success(){
+        onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).perform(click());
+        onData(anyOf(is(instanceOf(String.class)))).perform(click());
+        onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).perform(click());
+        onView(withId(R.id.CreateNewRequestOfferingItemSubmitBtn)).perform(click());
+        onView(withId(R.id.homepageTextView)).check(matches(withText(R.string.HomePageTitle)));
+        onView(withText(R.string.NewRequestSubmissionSuccessMessage)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
     @After
     public void teardown()
     {
