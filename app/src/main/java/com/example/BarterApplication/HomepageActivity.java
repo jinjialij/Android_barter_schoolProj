@@ -74,6 +74,22 @@ public class HomepageActivity extends AppCompatActivity {
         else if (updateStatusFromMyRequest && !ItemRequestService.isLastUpdateSucceed()){
             Toaster.generateToast(HomepageActivity.this, "Fail to update your request, please try again");
         }
+
+        //check if inserted is success when directing from the createRequestActivity
+        ItemRequest insertedItemReq = (ItemRequest) getIntent().getSerializableExtra("insertedItemReq");
+        if (insertedItemReq!=null && ItemRequestService.isLastInsertSucceed()){
+            boolean insertedSuccess = false;
+            for (ItemRequest itemRequest : itemRequests){
+                if (itemRequest.getUid().equals(insertedItemReq.getUid())){
+                    Toaster.generateToast(HomepageActivity.this, getString(R.string.NewRequestSubmissionSuccessMessage));
+                    insertedSuccess = true;
+                    break;
+                }
+            }
+            if (!insertedSuccess){
+                Toaster.generateToast(HomepageActivity.this, getString(R.string.NewRequestSubmissionFailure));
+            }
+        }
     }
 
     public void onStart(){
@@ -111,4 +127,9 @@ public class HomepageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, HomepageActivity.class);
+        startActivity(intent);
+    }
 }

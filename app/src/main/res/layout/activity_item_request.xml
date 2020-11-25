@@ -19,7 +19,7 @@
         android:id="@+id/requestItem"
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:text="@string/itemRequestRequestItemSection"
+        android:text="@string/RequestItemTitle"
         android:textSize="18sp" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:id="@+id/offeredItem"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:text="@string/itemRequestOfferedItemSection"
+        android:text="@string/OfferingItemSectionTitle"
         android:textSize="18sp" />
 
     <TextView
