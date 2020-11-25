@@ -4,6 +4,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.BarterApplication.helpers.OfferingItemListViewAdapter;
 import com.example.BarterApplication.helpers.TestHelper;
 import com.example.BarterApplication.helpers.ToastMatcher;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +21,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.CursorMatchers.withRowString;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -27,6 +29,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.IsAnything.anything;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.instanceOf;
@@ -58,8 +61,8 @@ public class CreateRequestTest {
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.HomepageActivityGoToBarterButton)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onData(anything()).inAdapterView(withId(R.id.ViewItemsFilteredItemsListView)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).perform(click());
         onView(withId(R.id.BarterActivitySendRequestButton)).perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(3000));
     }
 
     @Test
@@ -85,21 +88,17 @@ public class CreateRequestTest {
     @Test
     public void testCreateRequest_AT_16_06_cancel(){
         onView(withId(R.id.CreateNewRequestOfferingItemCancelBtn)).perform(click());
-        onView(withId(R.id.viewItemTitleText)).check(matches(withText(R.string.viewItemTitle)));
+        onView(withId(R.id.BarterActivityActivityLabel)).check(matches(withText(R.string.BarterActivity_ActivityTitle)));
     }
 
     @Test
     public void testCreateRequest_AT_16_08_09_add_offeringItem(){
-        onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).perform(click());
-        onData(anyOf(is(instanceOf(String.class)))).perform(click());
         onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).perform(click());
         onData(anything()).inAdapterView(withId(R.id.CreateNewRequestAddedItemsList)).atPosition(0).onChildView(withId(R.id.ViewItemsInfoTextView)).check(matches(withText(containsString("Name"))));
     }
 
     @Test
     public void testCreateRequest_AT_16_10_delete_added_offeringItem(){
-        onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).perform(click());
-        onData(anyOf(is(instanceOf(String.class)))).perform(click());
         onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(1000));
         onData(anything()).inAdapterView(withId(R.id.CreateNewRequestAddedItemsList)).atPosition(0).onChildView(withId(R.id.ViewItemsMakeRequestBtn)).perform(click());
@@ -119,8 +118,6 @@ public class CreateRequestTest {
 
     @Test
     public void testCreateRequest_AT_16_11_submit_success(){
-        onView(withId(R.id.CreateNewRequestOfferingItemSpinner)).perform(click());
-        onData(anyOf(is(instanceOf(String.class)))).perform(click());
         onView(withId(R.id.CreateNewRequestOfferingItemAddBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(1000));
         onView(withId(R.id.CreateNewRequestOfferingItemSubmitBtn)).perform(click());

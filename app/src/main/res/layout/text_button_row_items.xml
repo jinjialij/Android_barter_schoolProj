@@ -31,5 +31,5 @@
         android:layout_marginRight="15dp"
         android:layout_marginBottom="727dp"
         android:onClick="goToCreateRequest"
-        android:text="@string/Detail" />
+        android:text="@string/Delete" />
 </FrameLayout>

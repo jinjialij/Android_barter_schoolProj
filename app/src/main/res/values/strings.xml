@@ -49,11 +49,8 @@
     <string name="HomePageTitle">Homepage</string>
     <string name="logout">Log out</string>
     <string name="back">Back</string>
-    <string name="backToHomepage">Back To Homepage</string>
-
     <string name="viewItemTitle">View Items</string>
     <string name="viewItemSearchHint">Search Name or Labels</string>
-    <string name="Detail">Detail</string>
     <string name="CreateRequestTitle">Create New Request</string>
 
     <string name="Add">Add</string>

@@ -97,7 +97,7 @@
         android:layout_width="120dp"
         android:layout_height="55dp"
         android:layout_marginTop="460dp"
-        android:onClick="goToViewItems"
+        android:onClick="goToBarterActivity"
         android:text="Barter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.054"

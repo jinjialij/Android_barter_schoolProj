@@ -13,12 +13,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.BarterApplication.helpers.ItemListViewAdapter;
 import com.example.BarterApplication.helpers.ItemRequestService;
 import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.OfferingItemListViewAdapter;
 import com.example.BarterApplication.helpers.Toaster;
-import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -84,7 +82,7 @@ public class CreateRequestActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                onBackPressed();
+                goToBarterPage();
             }
         });
 
@@ -104,7 +102,12 @@ public class CreateRequestActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, ViewItemsActivity.class);
+        goToBarterPage();
+    }
+
+    public void goToBarterPage() {
+        Intent intent = new Intent(this, BarterActivity.class);
+        intent.putExtra("requestedItem", requestItem);
         startActivity(intent);
     }
 
@@ -117,6 +120,7 @@ public class CreateRequestActivity extends AppCompatActivity {
             String info = "Item: " + count + " Name: " + item.getName();
             offeringItemInfo.add(info);
             spinnerItemListMap.put(info, item.getUid());
+            count++;
         }
         @SuppressLint("ResourceType") ArrayAdapter<String> itemListAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, offeringItemInfo);
         itemListAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);

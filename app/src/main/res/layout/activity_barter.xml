@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:onClick="goBackToHomepage"
-        android:text="@string/backToHomepage"
+        android:text="@string/back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,26 +20,25 @@
 
     <Button
         android:id="@+id/BarterActivitySendRequestButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="65dp"
+        android:layout_width="125dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="123dp"
         android:onClick="sendRequest"
         android:text="@string/BarterActivity_SendRequestButtonLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.232"
+        app:layout_constraintHorizontal_bias="0.236"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/BarterActivityViewNextItemButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="65dp"
-        android:onClick="nextItem"
+        android:layout_marginBottom="50dp"
+        android:onClick="nextItemOnClick"
         android:text="@string/BarterActivity_ViewNextItemButtonLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.804"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -60,7 +59,7 @@
         android:layout_height="206dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="288dp"
         android:layout_marginEnd="69dp"
         android:layout_marginRight="69dp"
         android:adjustViewBounds="true"
@@ -76,7 +75,7 @@
         android:layout_height="47dp"
         android:layout_marginStart="97dp"
         android:layout_marginLeft="97dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="224dp"
         android:layout_marginEnd="98dp"
         android:layout_marginRight="98dp"
         android:ems="10"
@@ -84,23 +83,7 @@
         android:text="@string/itemName"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/BarterActivityCurrentItemDescriptionTextView"
-        android:layout_width="216dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="94dp"
-        android:layout_marginLeft="94dp"
-        android:layout_marginTop="404dp"
-        android:layout_marginEnd="101dp"
-        android:layout_marginRight="101dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:text="@string/description"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -108,13 +91,35 @@
         android:id="@+id/BarterActivityItemSearchRadiusEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="500dp"
+        android:layout_marginTop="112dp"
         android:ems="10"
         android:hint="Search Radius In Km"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/BarterActivityitemDistanceDisplayTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="176dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/BarterActivityDescBtn"
+        android:layout_width="125dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="123dp"
+        android:text="@string/description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
