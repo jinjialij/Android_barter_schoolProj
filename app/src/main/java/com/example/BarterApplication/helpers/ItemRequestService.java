@@ -1,5 +1,6 @@
 package com.example.BarterApplication.helpers;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -37,13 +38,10 @@ public class ItemRequestService {
     public static void updateItemRequestStatus(ItemRequest itemReq) {
         if (itemReq.isDeleted()){
             getKeyNode().child(itemReq.getUid()).child("deleted").setValue(true)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            // Write was successful!
-                            lastUpdateSucceed = true;
-                            Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest " + itemReq.getUid() + " is successful!");
-                        }
+                    .addOnSuccessListener(aVoid -> {
+                        // Write was successful!
+                        lastUpdateSucceed = true;
+                        Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest " + itemReq.getUid() + " is successful!");
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -54,13 +52,10 @@ public class ItemRequestService {
             });
         }else {
             getKeyNode().child(itemReq.getUid()).child("accepted").setValue(itemReq.isAccepted())
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            // Write was successful!
-                            lastUpdateSucceed = true;
-                            Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest " + itemReq.getUid() + " is successful!");
-                        }
+                    .addOnSuccessListener(aVoid -> {
+                        // Write was successful!
+                        lastUpdateSucceed = true;
+                        Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest " + itemReq.getUid() + " is successful!");
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {

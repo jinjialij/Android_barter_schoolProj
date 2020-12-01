@@ -119,6 +119,7 @@ public class MyRequestActivity extends AppCompatActivity {
                 receivedItemRequest.setDeleted(true);
                 refuseBtn.setEnabled(false);
                 acceptBtn.setEnabled(false);
+                deleteBtn.setEnabled(false);
             }
 
         });
