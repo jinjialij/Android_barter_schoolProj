@@ -75,6 +75,7 @@ public class MyRequestActivity extends AppCompatActivity {
             else{
                 refuseBtn.setEnabled(false);
                 acceptBtn.setEnabled(true);
+                deleteBtn.setEnabled(false);
             }
             HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();
             ArrayList<HashMap<String, String>> offeredItemInfoMapList = new ArrayList<>();
@@ -119,6 +120,7 @@ public class MyRequestActivity extends AppCompatActivity {
                 refuseBtn.setEnabled(false);
                 acceptBtn.setEnabled(false);
             }
+
         });
 
         //save changes only when save button is clicked
