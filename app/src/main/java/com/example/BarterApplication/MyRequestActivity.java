@@ -60,11 +60,17 @@ public class MyRequestActivity extends AppCompatActivity {
         Button acceptBtn = (Button) findViewById(R.id.acceptRequestBtn);
         Button refuseBtn = (Button) findViewById(R.id.refuseRequestBtn);
         Button closeBtn = (Button) findViewById(R.id.closeBtn);
+        Button deleteBtn = findViewById(R.id.deleteMatchButton);
 
         if (receivedItemRequest!=null && items!=null && !items.isEmpty()){
-            if (receivedItemRequest.isAccepted()){
+            if (receivedItemRequest.isDeleted()){
+                refuseBtn.setEnabled(false);
+                acceptBtn.setEnabled(false);
+                deleteBtn.setEnabled(false);
+            }else if (receivedItemRequest.isAccepted()){
                 refuseBtn.setEnabled(true);
                 acceptBtn.setEnabled(false);
+                deleteBtn.setEnabled(true);
             }
             else{
                 refuseBtn.setEnabled(false);
@@ -103,6 +109,15 @@ public class MyRequestActivity extends AppCompatActivity {
                 receivedItemRequest.setAccepted(false);
                 refuseBtn.setEnabled(false);
                 acceptBtn.setEnabled(true);
+            }
+        });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                receivedItemRequest.setDeleted(true);
+                refuseBtn.setEnabled(false);
+                acceptBtn.setEnabled(false);
             }
         });
 

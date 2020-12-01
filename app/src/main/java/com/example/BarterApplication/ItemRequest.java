@@ -11,6 +11,7 @@ public class ItemRequest implements Serializable {
     private String requestItemId;
     private String uid;
     private boolean accepted;
+    private boolean deleted;
 
     //This constructor is used for Firebase
     public ItemRequest() {
@@ -77,7 +78,16 @@ public class ItemRequest implements Serializable {
         return accepted;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
     }
+
+    public void setDeleted(boolean deleted){
+        this.deleted = deleted;
+    }
+
 }

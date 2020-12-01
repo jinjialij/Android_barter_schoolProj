@@ -52,15 +52,15 @@
         android:text="@string/itemRequestRefuse" />
 
     <Button
-        android:id="@+id/closeBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/itemRequestClose" />
-
-    <Button
         android:id="@+id/deleteMatchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Delete" />
+
+    <Button
+        android:id="@+id/closeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itemRequestClose" />
 
 </LinearLayout>
