@@ -64,7 +64,7 @@ public class DeleteMatchTest {
     }
 
     @Test
-    public void testViewMyAddButton_AT_12_02(){//check if the message will be shown and redirect to request view page.
+    public void testViewMyAddButton_AT_12_02(){//check if the accepted request has been deleted and redirect to request view page.
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -72,8 +72,7 @@ public class DeleteMatchTest {
         onView(withId(R.id.deleteMatchButton)).check(matches(isClickable()));
         onView(withId(R.id.deleteMatchButton)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withText("The match has been deleted")).check(matches(isDisplayed()));
-        onView(withId(R.id.requestRecyclerView)).check((matches(isDisplayed())));
+        onView(withId(R.id.viewMyRequestTitle)).check(matches(withText("My Requests")));
     }
 
     @After

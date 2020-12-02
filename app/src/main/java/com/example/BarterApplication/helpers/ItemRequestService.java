@@ -1,16 +1,22 @@
 package com.example.BarterApplication.helpers;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.BarterApplication.Item;
 import com.example.BarterApplication.ItemRequest;
+import com.example.BarterApplication.MainActivity;
+import com.example.BarterApplication.R;
 import com.example.BarterApplication.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,6 +56,7 @@ public class ItemRequestService {
                     Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest " + itemReq.getUid());
                 }
             });
+
         }else {
             getKeyNode().child(itemReq.getUid()).child("accepted").setValue(itemReq.isAccepted())
                     .addOnSuccessListener(aVoid -> {

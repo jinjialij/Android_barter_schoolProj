@@ -61,6 +61,7 @@ public class MyRequestActivity extends AppCompatActivity {
         Button refuseBtn = (Button) findViewById(R.id.refuseRequestBtn);
         Button closeBtn = (Button) findViewById(R.id.closeBtn);
         Button deleteBtn = findViewById(R.id.deleteMatchButton);
+        TextView itemRequestTitle = findViewById(R.id.itemRequestTitle);
 
         if (receivedItemRequest!=null && items!=null && !items.isEmpty()){
             if (receivedItemRequest.isDeleted()){
@@ -120,6 +121,8 @@ public class MyRequestActivity extends AppCompatActivity {
                 refuseBtn.setEnabled(false);
                 acceptBtn.setEnabled(false);
                 deleteBtn.setEnabled(false);
+                itemRequestTitle.setText("Request has been deleted");
+                goBackToMyRequestActivity(true);
             }
 
         });
@@ -180,6 +183,12 @@ public class MyRequestActivity extends AppCompatActivity {
 
     public void goBackToMainActivity(boolean updateStatusFromMyRequest){
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("updateStatusFromMyRequest", updateStatusFromMyRequest);
+        startActivity(intent);
+    }
+
+    public void goBackToMyRequestActivity(boolean updateStatusFromMyRequest){
+        Intent intent = new Intent(this, ViewMyRequestPageActivity.class);
         intent.putExtra("updateStatusFromMyRequest", updateStatusFromMyRequest);
         startActivity(intent);
     }
