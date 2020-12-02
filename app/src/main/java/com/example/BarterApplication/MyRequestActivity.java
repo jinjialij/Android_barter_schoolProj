@@ -2,9 +2,11 @@ package com.example.BarterApplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -122,6 +124,9 @@ public class MyRequestActivity extends AppCompatActivity {
                 acceptBtn.setEnabled(false);
                 deleteBtn.setEnabled(false);
                 itemRequestTitle.setText("Request has been deleted");
+                Toast toast=Toast.makeText(MyRequestActivity.this, "The accepted request has been deleted！", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL| Gravity.BOTTOM, 0, 10);
+                toast.show();
                 goBackToMyRequestActivity(true);
             }
 
