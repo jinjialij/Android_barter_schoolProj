@@ -37,7 +37,7 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
-        itemRequests = ItemRequestService.getItemRequestList();
+        itemRequests = ItemRequestService.getNotDeletedItemRequestList();
         items = ItemService.getItemList();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);

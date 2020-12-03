@@ -74,8 +74,13 @@ public class MyRequestActivity extends AppCompatActivity {
                 refuseBtn.setEnabled(false);
                 acceptBtn.setEnabled(false);
                 deleteBtn.setEnabled(true);
+            }else if (!receivedItemRequest.isAccepted()){
+                refuseBtn.setEnabled(false);
+                acceptBtn.setEnabled(false);
+                deleteBtn.setEnabled(false);
             }
-            else{
+            else
+                {
                 refuseBtn.setEnabled(true);
                 acceptBtn.setEnabled(true);
                 deleteBtn.setEnabled(false);

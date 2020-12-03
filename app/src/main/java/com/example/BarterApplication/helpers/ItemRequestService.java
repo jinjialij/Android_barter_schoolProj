@@ -161,5 +161,15 @@ public class ItemRequestService {
         });
     }
 
+    public static ArrayList<ItemRequest> getNotDeletedItemRequestList(){
+
+        ArrayList<ItemRequest> notDeletedRequestList = new ArrayList<ItemRequest>();
+        for (ItemRequest request:itemRequestList){
+            if (!request.isDeleted()){
+                notDeletedRequestList.add(request);
+            }
+        }
+        return notDeletedRequestList;
+    }
 
 }
