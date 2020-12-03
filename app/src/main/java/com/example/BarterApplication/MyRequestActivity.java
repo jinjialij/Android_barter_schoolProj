@@ -70,13 +70,13 @@ public class MyRequestActivity extends AppCompatActivity {
                 refuseBtn.setEnabled(false);
                 acceptBtn.setEnabled(false);
                 deleteBtn.setEnabled(false);
-            }else if (receivedItemRequest.isAccepted()){
-                refuseBtn.setEnabled(true);
+            }else if (receivedItemRequest.isAccepted()&& !receivedItemRequest.isDeleted()){
+                refuseBtn.setEnabled(false);
                 acceptBtn.setEnabled(false);
                 deleteBtn.setEnabled(true);
             }
             else{
-                refuseBtn.setEnabled(false);
+                refuseBtn.setEnabled(true);
                 acceptBtn.setEnabled(true);
                 deleteBtn.setEnabled(false);
             }
@@ -127,6 +127,7 @@ public class MyRequestActivity extends AppCompatActivity {
                 Toast toast=Toast.makeText(MyRequestActivity.this, "The accepted request has been deleted！", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER_HORIZONTAL| Gravity.BOTTOM, 0, 10);
                 toast.show();
+                ItemRequestService.updateItemRequestStatus(receivedItemRequest);
                 goBackToMyRequestActivity(true);
             }
 
