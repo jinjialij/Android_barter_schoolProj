@@ -169,6 +169,23 @@ public class MyRequestPageTest {
         pressBack();
     }
 
+    @Test
+    public void testMyRequest_AT_19_05_06_check_matched_request(){
+        onView(withId(R.id.viewMyRequestBtn)).perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
+        onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.refuseRequestBtn)).perform(click());
+        onView(withId(R.id.BarterMyRequestSaveBtn)).perform(click());
+        onView(withId(R.id.acceptRequestBtn)).check(matches(IsNot.not(isEnabled())));
+        onView(withId(R.id.BarterMyRequestSaveBtn)).check(matches(IsNot.not(isEnabled())));
+        onView(withId(R.id.refuseRequestBtn)).check(matches(IsNot.not(isEnabled())));
+//        pressBack();
+//        onView(withId(R.id.acceptRequestBtn)).check(matches(IsNot.not(isEnabled())));
+//        onView(withId(R.id.BarterMyRequestSaveBtn)).check(matches(IsNot.not(isEnabled())));
+//        onView(withId(R.id.refuseRequestBtn)).check(matches(IsNot.not(isEnabled())));
+    }
+
     @After
     public void teardown()
     {
