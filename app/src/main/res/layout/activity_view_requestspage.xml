@@ -9,17 +9,18 @@
         android:id="@+id/viewMyRequestLogoutBtn"
         android:layout_width="85dp"
         android:layout_height="45dp"
-        android:layout_marginStart="310dp"
-        android:layout_marginLeft="310dp"
+        android:layout_marginStart="312dp"
+        android:layout_marginLeft="312dp"
         android:layout_marginTop="45dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
         android:layout_marginBottom="664dp"
         android:text="@string/logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.478" />
 
     <TextView
         android:id="@+id/viewMyRequestTitle"
@@ -35,22 +36,90 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.478" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/requestRecyclerView"
-        android:layout_width="357dp"
-        android:layout_height="560dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="98dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="78dp"
+        android:layout_width="367dp"
+        android:layout_height="557dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/viewAllRequestsBtn"
+        android:layout_width="50dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="93dp"
+        android:layout_marginEnd="345dp"
+        android:layout_marginRight="345dp"
+        android:layout_marginBottom="583dp"
+        android:text="@string/BarterActivity_viewAllMyRequestButtonLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/viewSentRequestBtn"
+        android:layout_width="75dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="77dp"
+        android:layout_marginLeft="77dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="259dp"
+        android:layout_marginRight="259dp"
+        android:layout_marginBottom="582dp"
+        android:text="@string/BarterActivity_ViewMyOwnRequestButtonLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/viewReceivedRequestBtn"
+        android:layout_width="95dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="171dp"
+        android:layout_marginLeft="171dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="145dp"
+        android:layout_marginRight="145dp"
+        android:layout_marginBottom="582dp"
+        android:text="@string/BarterActivity_ViewReceivedRequestButtonLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/ViewMyRequestCompletedBtn"
+        android:layout_width="105dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="275dp"
+        android:layout_marginLeft="275dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="582dp"
+        android:text="@string/itemRequestMatchStatusComplete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

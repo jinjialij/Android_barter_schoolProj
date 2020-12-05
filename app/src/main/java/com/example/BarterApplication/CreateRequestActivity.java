@@ -92,7 +92,7 @@ public class CreateRequestActivity extends AppCompatActivity {
                 if (addedOfferingItems == null || addedOfferingItems.isEmpty()){
                     Toaster.generateToast(CreateRequestActivity.this,getString(R.string.NewRequestSubmissionError));
                 } else{
-                    ItemRequest newRequest = new ItemRequest(currentUser.getUid(), requestItem, addedOfferingItems);
+                    ItemRequest newRequest = new ItemRequest(currentUser.getUid(), requestItem, addedOfferingItems, currentUser.getEmail());
                     ItemRequestService.addItemRequest(newRequest);
                     goToHomepage(newRequest);
                 }

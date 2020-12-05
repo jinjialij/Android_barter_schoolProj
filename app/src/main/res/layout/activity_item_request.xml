@@ -52,6 +52,12 @@
         android:text="@string/itemRequestRefuse" />
 
     <Button
+        android:id="@+id/BarterMyRequestSaveBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itemRequestSave" />
+
+    <Button
         android:id="@+id/closeBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -104,6 +104,20 @@ public class ViewMyRequestTest {
         onView(withId(R.id.requestRecyclerView)).check(matches(hasDescendant(withText("Request id: " + request.getUid() + " : " + requestItem.getName()))));
     }
 
+    @Test
+    public void testViewMyRequestButton_show_request_from_others_AT_1901(){
+        onView(withId(R.id.viewMyRequestBtn)).perform(click());
+        onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.viewAllRequestsBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.viewSentRequestBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.viewReceivedRequestBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.viewAllRequestsBtn)).check(matches(isClickable()));
+        onView(withId(R.id.viewSentRequestBtn)).check(matches(isClickable()));
+        onView(withId(R.id.viewReceivedRequestBtn)).check(matches(isClickable()));
+        onView(withId(R.id.ViewMyRequestCompletedBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.ViewMyRequestCompletedBtn)).check(matches(isClickable()));
+    }
+
     @After
     public void teardown()
     {
