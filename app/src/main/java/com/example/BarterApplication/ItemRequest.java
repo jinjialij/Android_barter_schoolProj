@@ -42,16 +42,6 @@ public class ItemRequest implements Serializable {
         }
     }
 
-//    //This constructor is only used for Firebase insert dummy data for test
-//    public ItemRequest(String requesterId, String requestItemId, String uid, String requesterEmail) {
-//        this.uid = uid;
-//        this.requesterId = requesterId;
-//        this.requestItemId = requestItemId;
-//        this.itemIdsOffered = new ArrayList<>();
-//        this.accepted = false;
-//        this.requesterEmail = requesterEmail;
-//    }
-
     //constructor for inserting test data
     public ItemRequest(String requesterId, Item requestItem, Item offerItem) {
         this.uid = UidService.newUID();
