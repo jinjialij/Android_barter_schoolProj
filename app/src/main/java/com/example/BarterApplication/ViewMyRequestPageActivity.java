@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,6 +43,10 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
 
         Button logoutBtn = (Button) findViewById(R.id.viewMyRequestLogoutBtn);
 
+        Button viewAllBtn = (Button) findViewById(R.id.viewAllRequestsBtn);
+        Button viewReceivedBtn = (Button) findViewById(R.id.viewSentRequestBtn);
+        Button viewSentBtn = (Button) findViewById(R.id.viewReceivedRequestBtn);
+
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,10 +54,60 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
                 updateUI(null);
             }
         });
+
+        viewAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemRequests = ItemRequestService.getItemRequestList();
+                updateList();
+            }
+        });
+
+        viewSentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<ItemRequest> requestFromOthers = new ArrayList<>();
+                itemRequests = ItemRequestService.getItemRequestList();
+                for (ItemRequest itemRequest:itemRequests){
+                    if (!itemRequest.getRequesterId().equals(currentUser.getUid())){
+                        requestFromOthers.add(itemRequest);
+                    }
+                }
+                itemRequests = requestFromOthers;
+                updateList();
+            }
+        });
+
+        viewReceivedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<ItemRequest> requestOfOneself = new ArrayList<>();
+                itemRequests = ItemRequestService.getItemRequestList();
+                for (ItemRequest itemRequest:itemRequests){
+                    if (itemRequest.getRequesterId().equals(currentUser.getUid())){
+                        requestOfOneself.add(itemRequest);
+                    }
+                }
+                itemRequests = requestOfOneself;
+                updateList();
+            }
+        });
+
     }
 
     public void onStart(){
         super.onStart();
+        updateList();
+    }
+
+    private void updateUI(FirebaseUser user) {
+        if (user == null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void updateList() {
         ArrayList<String> data = new ArrayList<>();
         ArrayList<ItemRequest> itemRequestsData = new ArrayList<>();
         for (ItemRequest itemRequest:itemRequests){
@@ -72,13 +125,6 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
         mData = data.toArray(mData);
         mAdapter = new MyAdapter(mData, itemRequestsData, items);
         recyclerView.setAdapter(mAdapter);
-    }
-
-    private void updateUI(FirebaseUser user) {
-        if (user == null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
     }
 
     private void signOut() {

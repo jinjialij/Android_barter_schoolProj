@@ -109,11 +109,11 @@ public class ViewMyRequestTest {
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.viewAllRequestsBtn)).check(matches(isDisplayed()));
-        onView(withId(R.id.viewRequestOfOneselfBtn)).check(matches(isDisplayed()));
-        onView(withId(R.id.viewRequestOfOthersBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.viewSentRequestBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.viewReceivedRequestBtn)).check(matches(isDisplayed()));
         onView(withId(R.id.viewAllRequestsBtn)).check(matches(isClickable()));
-        onView(withId(R.id.viewRequestOfOneselfBtn)).check(matches(isClickable()));
-        onView(withId(R.id.viewRequestOfOthersBtn)).check(matches(isClickable()));
+        onView(withId(R.id.viewSentRequestBtn)).check(matches(isClickable()));
+        onView(withId(R.id.viewReceivedRequestBtn)).check(matches(isClickable()));
     }
 
     @After

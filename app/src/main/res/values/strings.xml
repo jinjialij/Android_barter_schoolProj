@@ -64,4 +64,8 @@
     <string name="BarterActivity_SendRequestButtonLabel">send request</string>
     <string name="BarterActivity_ViewNextItemButtonLabel">Next Nearby item</string>
 
+    <string name="BarterActivity_viewAllMyRequestButtonLabel">All</string>
+    <string name="BarterActivity_ViewMyOwnRequestButtonLabel">Sent request(s)</string>
+    <string name="BarterActivity_ViewReceivedRequestButtonLabel">Received request(s)</string>
+
 </resources>
