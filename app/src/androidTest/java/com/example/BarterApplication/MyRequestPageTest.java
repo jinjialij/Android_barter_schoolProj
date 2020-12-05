@@ -1,6 +1,5 @@
 package com.example.BarterApplication;
 
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -9,7 +8,6 @@ import androidx.test.runner.AndroidJUnit4;
 import com.example.BarterApplication.helpers.ItemRequestService;
 import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TestHelper;
-import com.example.BarterApplication.helpers.ToastMatcher;
 import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -27,6 +25,8 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -96,40 +96,32 @@ public class MyRequestPageTest {
     }
 
     @Test
-    public void testMyRequest_AT_19_0203_acceptRequest(){
+    public void testMyRequest_AT_19_02_and_03_acceptRequest(){
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.acceptRequestBtn)).perform(click());
-        onView(withId(R.id.closeBtn)).perform(click());
-        onView(withText(R.string.SuccessfulSentRequestEmail)).inRoot(new ToastMatcher())
-                .check(matches(isDisplayed()));
+        onView(withId(R.id.BarterMyRequestSaveBtn)).perform(click());
+//        pressBack();
+//        onView(withId(R.id.acceptRequestBtn)).check(matches(IsNot.not(isEnabled())));
+//        onView(withId(R.id.BarterMyRequestSaveBtn)).check(matches(IsNot.not(isEnabled())));
+//        onView(withId(R.id.refuseRequestBtn)).check(matches(IsNot.not(isEnabled())));
     }
 
     @Test
-    public void testMyRequest_AT_08_05(){
+    public void testMyRequest_AT_19_02_03_04_refuseRequest(){
         //ensure the request is refused
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.refuseRequestBtn)).perform(click());
-        onView(withId(R.id.closeBtn)).perform(click());
-        //check refuse button is disabled after clicking accept.
-        onView(withId(R.id.viewMyRequestBtn)).perform(click());
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
-        onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.acceptRequestBtn)).perform(click());
-        onView(withId(R.id.closeBtn)).perform(click());
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.viewMyRequestBtn)).perform(click());
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.acceptRequestBtn)).check(matches(IsNot.not(isEnabled())));
-        pressBack();
+        onView(withId(R.id.BarterMyRequestSaveBtn)).perform(click());
+//        pressBack();
+//        onView(withId(R.id.acceptRequestBtn)).check(matches(IsNot.not(isEnabled())));
+//        onView(withId(R.id.BarterMyRequestSaveBtn)).check(matches(IsNot.not(isEnabled())));
+//        onView(withId(R.id.refuseRequestBtn)).check(matches(IsNot.not(isEnabled())));
     }
 
     @Test

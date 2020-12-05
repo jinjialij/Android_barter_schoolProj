@@ -42,7 +42,8 @@
     <string name="OfferingItemSectionTitle">Offering Item(s)</string>
     <string name="itemRequestAccept">Accept</string>
     <string name="itemRequestRefuse">Refuse</string>
-    <string name="itemRequestClose">Save and Close</string>
+    <string name="itemRequestSave">Save</string>
+    <string name="itemRequestClose">Close</string>
     <string name="itemRequestCloseOnly">Close</string>
 
     <string name="EmptyItemListMessage">You have no items</string>
@@ -68,5 +69,8 @@
     <string name="BarterActivity_viewAllMyRequestButtonLabel">All</string>
     <string name="BarterActivity_ViewMyOwnRequestButtonLabel">Sent request(s)</string>
     <string name="BarterActivity_ViewReceivedRequestButtonLabel">Received request(s)</string>
+
+    <string name="BarterActivity_SaveRequestSuccess">Request has been saved successfully!</string>
+    <string name="BarterActivity_SuccessfulSentRequestEmail">An email has been sent to the requester.</string>
 
 </resources>
