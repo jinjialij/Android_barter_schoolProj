@@ -37,7 +37,7 @@
     <TextView
         android:id="@+id/offeredItemInfo"
         android:layout_width="match_parent"
-        android:layout_height="309dp" />
+        android:layout_height="250dp" />
 
     <Button
         android:id="@+id/acceptRequestBtn"
@@ -56,6 +56,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/itemRequestSave" />
+
+    <Button
+        android:id="@+id/deleteMatchButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itemRequestDelete" />
 
     <Button
         android:id="@+id/closeBtn"

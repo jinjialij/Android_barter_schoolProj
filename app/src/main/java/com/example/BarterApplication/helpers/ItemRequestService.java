@@ -1,14 +1,22 @@
 package com.example.BarterApplication.helpers;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.BarterApplication.Item;
 import com.example.BarterApplication.ItemRequest;
+import com.example.BarterApplication.MainActivity;
+import com.example.BarterApplication.R;
 import com.example.BarterApplication.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,22 +42,33 @@ public class ItemRequestService {
     }
 
     public static void updateItemRequestStatus(ItemRequest itemReq) {
-        getKeyNode().child(itemReq.getUid()).child("accepted").setValue(itemReq.isAccepted())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Write was successful!
-                        lastUpdateSucceed = true;
-                        Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest accepted " + itemReq.getUid() + " is successful!");
-                    }
+        getKeyNode().child(itemReq.getUid()).child("deleted").setValue(itemReq.isDeleted())
+                .addOnSuccessListener(aVoid -> {
+                    // Write was successful!
+                    lastUpdateSucceed = true;
+                    Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest to be deleted " + itemReq.getUid() + " is successful!");
                 }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Write failed
-                        lastUpdateSucceed = false;
-                        Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest accepted " + itemReq.getUid() + " is failed");
-                    }
-                });
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Write failed
+                lastUpdateSucceed = false;
+                Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest to be deleted " + itemReq.getUid() + " is failed");
+            }
+        });
+
+        getKeyNode().child(itemReq.getUid()).child("accepted").setValue(itemReq.isAccepted())
+                .addOnSuccessListener(aVoid -> {
+                    // Write was successful!
+                    lastUpdateSucceed = true;
+                    Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest accepted " + itemReq.getUid() + " is successful!");
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Write failed
+                lastUpdateSucceed = false;
+                Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest accepted " + itemReq.getUid() + " is failed");
+            }
+        });
 
         getKeyNode().child(itemReq.getUid()).child("completed").setValue(itemReq.isCompleted())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -57,14 +76,14 @@ public class ItemRequestService {
                     public void onSuccess(Void aVoid) {
                         // Write was successful!
                         lastUpdateSucceed = true;
-                        Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest match status " + itemReq.getUid() + " is successful!");
+                        Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest match status " + itemReq.getUid() + " is successful!");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 // Write failed
                 lastUpdateSucceed = false;
-                Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest match status " + itemReq.getUid() + " is failed");
+                Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest match status " + itemReq.getUid() + " is failed");
             }
         });
         initDbListener();
@@ -156,5 +175,15 @@ public class ItemRequestService {
         });
     }
 
+    public static ArrayList<ItemRequest> getNotDeletedItemRequestList(){
+
+        ArrayList<ItemRequest> notDeletedRequestList = new ArrayList<ItemRequest>();
+        for (ItemRequest request:itemRequestList){
+            if (!request.isDeleted()){
+                notDeletedRequestList.add(request);
+            }
+        }
+        return notDeletedRequestList;
+    }
 
 }

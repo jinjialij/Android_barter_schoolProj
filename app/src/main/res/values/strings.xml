@@ -45,6 +45,7 @@
     <string name="itemRequestAccept">Accept</string>
     <string name="itemRequestRefuse">Refuse</string>
     <string name="itemRequestSave">Save</string>
+    <string name="itemRequestDelete">Delete</string>
     <string name="itemRequestClose">Close</string>
     <string name="itemRequestAccepted">Status: Accepted</string>
     <string name="itemRequestRefused">Status: Refused</string>

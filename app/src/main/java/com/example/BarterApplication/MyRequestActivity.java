@@ -2,6 +2,7 @@ package com.example.BarterApplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -63,11 +64,15 @@ public class MyRequestActivity extends AppCompatActivity {
         Button refuseBtn = (Button) findViewById(R.id.refuseRequestBtn);
         Button closeBtn = (Button) findViewById(R.id.closeBtn);
         Button saveBtn = (Button) findViewById(R.id.BarterMyRequestSaveBtn);
+        Button deleteBtn = findViewById(R.id.deleteMatchButton);
 
         if (receivedItemRequest.isCompleted()){
-            requestTitle.setText(getString(R.string.itemRequestTitle) + ":\t" + getString(R.string.itemRequestMatchStatusComplete));
+            String title = getString(R.string.itemRequestTitle) + ":\t" + getString(R.string.itemRequestMatchStatusComplete);
+            requestTitle.setText(title);
             saveBtn.setVisibility(View.INVISIBLE);
             saveBtn.setEnabled(false);
+            deleteBtn.setVisibility(View.VISIBLE);
+            deleteBtn.setEnabled(true);
             if (receivedItemRequest.isAccepted()) {
                 acceptBtn.setVisibility(View.VISIBLE);
                 acceptBtn.setEnabled(false);
@@ -82,7 +87,12 @@ public class MyRequestActivity extends AppCompatActivity {
                 acceptBtn.setEnabled(false);
             }
         } else {
-            requestTitle.setText(getString(R.string.itemRequestTitle) + ":\t" + getString(R.string.itemRequestMatchStatusNew));
+            String title = getString(R.string.itemRequestTitle) + ":\t" + getString(R.string.itemRequestMatchStatusNew);
+            requestTitle.setText(title);
+            saveBtn.setVisibility(View.VISIBLE);
+            saveBtn.setEnabled(true);
+            deleteBtn.setVisibility(View.INVISIBLE);
+            deleteBtn.setEnabled(false);
         }
 
         //for requests sent by current user, only show close button
@@ -171,6 +181,21 @@ public class MyRequestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 goBackToHomepageActivity(updateStatusFromMyRequest, emailSentSuccess);
+            }
+        });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                receivedItemRequest.setDeleted(true);
+                ItemRequestService.updateItemRequestStatus(receivedItemRequest);
+                saveBtn.setEnabled(false);
+                deleteBtn.setEnabled(false);
+                Toast toast=Toast.makeText(MyRequestActivity.this, "The request has been deleted!", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL| Gravity.BOTTOM, 0, 10);
+                toast.show();
+                updateStatusFromMyRequest = true;
+                emailSentSuccess = false;
             }
         });
     }

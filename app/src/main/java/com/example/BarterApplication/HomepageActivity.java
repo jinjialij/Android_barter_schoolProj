@@ -54,6 +54,7 @@ public class HomepageActivity extends AppCompatActivity {
         Item insertedItem = (Item) getIntent().getSerializableExtra("insertedItem");
         boolean updateStatusFromMyRequest = getIntent().getBooleanExtra("updateStatusFromMyRequest", false);
         boolean emailSentSuccess = getIntent().getBooleanExtra("emailSentSuccess", false);
+//        ItemRequest updatedItemRequest = (ItemRequest) getIntent().getSerializableExtra("receivedItemRequest");
         if (insertedItem!=null && ItemService.isLastInsertSucceed()){
             boolean insertedSuccess = false;
             for (Item item : items){

@@ -11,6 +11,7 @@ public class ItemRequest implements Serializable {
     private String requestItemId;
     private String uid;
     private boolean accepted;
+    private boolean deleted;
     private String requesterEmail;
     private boolean completed;
 
@@ -74,8 +75,16 @@ public class ItemRequest implements Serializable {
         return accepted;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public void setDeleted(boolean deleted){
+        this.deleted = deleted;
     }
 
     public String getRequesterEmail(){return this.requesterEmail;}

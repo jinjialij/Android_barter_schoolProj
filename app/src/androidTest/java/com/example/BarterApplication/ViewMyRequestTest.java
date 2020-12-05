@@ -30,6 +30,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
 public class ViewMyRequestTest {
@@ -101,7 +102,7 @@ public class ViewMyRequestTest {
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.requestRecyclerView)).check(matches(isDisplayed()));
-        onView(withId(R.id.requestRecyclerView)).check(matches(hasDescendant(withText("Request id: " + request.getUid() + " : " + requestItem.getName()))));
+        onView(withId(R.id.requestRecyclerView)).check(matches(hasDescendant(withText(containsString("Request id: ")))));
     }
 
     @Test
