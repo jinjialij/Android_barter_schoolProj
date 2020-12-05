@@ -30,6 +30,7 @@ public class MyRequestActivity extends AppCompatActivity {
 
     private DatabaseReference dbRef;
     private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
     private ArrayList<Item> items;
     private ItemRequest receivedItemRequest;
 
@@ -40,6 +41,7 @@ public class MyRequestActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
+        currentUser = mAuth.getCurrentUser();
         items = ItemService.getItemList();
 
         receivedItemRequest = (ItemRequest)getIntent().getSerializableExtra("itemRequestSelected");
@@ -48,7 +50,6 @@ public class MyRequestActivity extends AppCompatActivity {
             goBackToMainActivity(false);
         }
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
 
@@ -61,15 +62,24 @@ public class MyRequestActivity extends AppCompatActivity {
         Button refuseBtn = (Button) findViewById(R.id.refuseRequestBtn);
         Button closeBtn = (Button) findViewById(R.id.closeBtn);
 
-        if (receivedItemRequest!=null && items!=null && !items.isEmpty()){
-            if (receivedItemRequest.isAccepted()){
-                refuseBtn.setEnabled(true);
-                acceptBtn.setEnabled(false);
-            }
-            else{
-                refuseBtn.setEnabled(false);
-                acceptBtn.setEnabled(true);
-            }
+        //for requests sent by current user, hide accept and refuse button
+        if (receivedItemRequest.getRequesterId().equals(currentUser.getUid())){
+            refuseBtn.setVisibility(View.INVISIBLE);
+            acceptBtn.setVisibility(View.INVISIBLE);
+            closeBtn.setVisibility(View.INVISIBLE);
+            refuseBtn.setEnabled(false);
+            acceptBtn.setEnabled(false);
+            closeBtn.setEnabled(false);
+        } else {
+            refuseBtn.setVisibility(View.VISIBLE);
+            acceptBtn.setVisibility(View.VISIBLE);
+            closeBtn.setVisibility(View.VISIBLE);
+            refuseBtn.setEnabled(true);
+            acceptBtn.setEnabled(true);
+            closeBtn.setEnabled(true);
+        }
+
+        if (items!=null && !items.isEmpty()){
             HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();
             ArrayList<HashMap<String, String>> offeredItemInfoMapList = new ArrayList<>();
             Item requestItem = ItemService.findItemByUid(receivedItemRequest.getRequestItemId());

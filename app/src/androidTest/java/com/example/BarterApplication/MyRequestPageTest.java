@@ -99,6 +99,7 @@ public class MyRequestPageTest {
         //ensure the request is accepted
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.acceptRequestBtn)).perform(click());
         onView(withId(R.id.closeBtn)).perform(click());
@@ -106,6 +107,7 @@ public class MyRequestPageTest {
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.refuseRequestBtn)).perform(click());
         onView(withId(R.id.closeBtn)).perform(click());
@@ -123,12 +125,14 @@ public class MyRequestPageTest {
         //ensure the request is refused
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.refuseRequestBtn)).perform(click());
         onView(withId(R.id.closeBtn)).perform(click());
         //check refuse button is disabled after clicking accept.
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.acceptRequestBtn)).perform(click());
         onView(withId(R.id.closeBtn)).perform(click());
@@ -145,6 +149,7 @@ public class MyRequestPageTest {
     public void testMyRequest_AT_08_06(){
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.closeBtn)).check(matches(isDisplayed()));
         onView(withId(R.id.closeBtn)).check(matches(isClickable()));
@@ -164,6 +169,7 @@ public class MyRequestPageTest {
     public void testMyRequest_AT_08_07(){
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
+        onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.acceptRequestBtn)).check(matches(isDisplayed()));
         onView(withId(R.id.refuseRequestBtn)).check(matches(isDisplayed()));

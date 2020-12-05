@@ -63,6 +63,7 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
             }
         });
 
+        //filter requests sent by current user
         viewSentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +79,7 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
             }
         });
 
+        //filter received requests from others
         viewReceivedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
