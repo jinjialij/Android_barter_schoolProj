@@ -2,15 +2,12 @@ package com.example.BarterApplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.BarterApplication.helpers.ItemRequestService;
 import com.example.BarterApplication.helpers.ItemService;
@@ -25,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class MyRequestActivity extends AppCompatActivity {
     private static final String TAG = "myRequest";
@@ -35,6 +31,8 @@ public class MyRequestActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private ArrayList<Item> items;
     private ItemRequest receivedItemRequest;
+    private boolean updateStatusFromMyRequest = false;
+    private boolean emailSentSuccess = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +55,7 @@ public class MyRequestActivity extends AppCompatActivity {
 
     public void onStart(){
         super.onStart();
+        TextView requestTitle = (TextView) findViewById(R.id.itemRequestTitle);
         TextView requestId = (TextView) findViewById(R.id.requestID);
         TextView requestItemInfo = (TextView) findViewById(R.id.requestItemInfo);
         TextView offerItemInfo = (TextView) findViewById(R.id.offeredItemInfo);
@@ -65,21 +64,47 @@ public class MyRequestActivity extends AppCompatActivity {
         Button closeBtn = (Button) findViewById(R.id.closeBtn);
         Button saveBtn = (Button) findViewById(R.id.BarterMyRequestSaveBtn);
 
-        //for requests sent by current user, hide accept and refuse button
+        if (receivedItemRequest.isCompleted()){
+            requestTitle.setText(getString(R.string.itemRequestTitle) + ":\t" + getString(R.string.itemRequestMatchStatusComplete));
+            saveBtn.setVisibility(View.INVISIBLE);
+            saveBtn.setEnabled(false);
+            if (receivedItemRequest.isAccepted()) {
+                acceptBtn.setVisibility(View.VISIBLE);
+                acceptBtn.setEnabled(false);
+                acceptBtn.setText(R.string.itemRequestAccepted);
+                refuseBtn.setVisibility(View.INVISIBLE);
+                refuseBtn.setEnabled(false);
+            }else if((receivedItemRequest.isCompleted() && !receivedItemRequest.isAccepted())){
+                refuseBtn.setVisibility(View.VISIBLE);
+                refuseBtn.setEnabled(false);
+                refuseBtn.setText(R.string.itemRequestRefused);
+                acceptBtn.setVisibility(View.INVISIBLE);
+                acceptBtn.setEnabled(false);
+            }
+        } else {
+            requestTitle.setText(getString(R.string.itemRequestTitle) + ":\t" + getString(R.string.itemRequestMatchStatusNew));
+        }
+
+        //for requests sent by current user, only show close button
         if (receivedItemRequest.getRequesterId().equals(currentUser.getUid())){
             refuseBtn.setVisibility(View.INVISIBLE);
             acceptBtn.setVisibility(View.INVISIBLE);
-            closeBtn.setVisibility(View.INVISIBLE);
+            closeBtn.setVisibility(View.VISIBLE);
+            saveBtn.setVisibility(View.INVISIBLE);
+            saveBtn.setEnabled(false);
             refuseBtn.setEnabled(false);
             acceptBtn.setEnabled(false);
-            closeBtn.setEnabled(false);
-        } else {
+            closeBtn.setEnabled(true);
+        } else if (!receivedItemRequest.getRequesterId().equals(currentUser.getUid()) && !receivedItemRequest.isCompleted()){
+            //for received and not matched requests
             refuseBtn.setVisibility(View.VISIBLE);
             acceptBtn.setVisibility(View.VISIBLE);
             closeBtn.setVisibility(View.VISIBLE);
+            saveBtn.setVisibility(View.VISIBLE);
             refuseBtn.setEnabled(true);
             acceptBtn.setEnabled(true);
             closeBtn.setEnabled(true);
+            saveBtn.setEnabled(true);
         }
 
         if (items!=null && !items.isEmpty()){
@@ -123,27 +148,19 @@ public class MyRequestActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                receivedItemRequest.setMatched(true);
+                receivedItemRequest.setCompleted(true);
                 ItemRequestService.updateItemRequestStatus(receivedItemRequest);
+                updateStatusFromMyRequest = true;
+                emailSentSuccess = true;
                 Toaster.generateToast(MyRequestActivity.this, getString(R.string.BarterActivity_SaveRequestSuccess));
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("message/rfc822");
-                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{receivedItemRequest.getRequesterEmail()});
-                String acceptSubject = "Your Barter request has been accepted";
-                String refuseSubject = "Your Barter request has been refused";
-                String content = "One of your sent request just changes its status. Please find more information in the View My Request of Barter.";
-                if (receivedItemRequest.isAccepted()&&receivedItemRequest.isMatched()){
-                    i.putExtra(Intent.EXTRA_SUBJECT, acceptSubject);
-                }
-                else if (!receivedItemRequest.isAccepted()&&receivedItemRequest.isMatched()){
-                    i.putExtra(Intent.EXTRA_SUBJECT, refuseSubject);
-                }
-                i.putExtra(Intent.EXTRA_TEXT   , content);
+
+                Intent i = sendEmail(receivedItemRequest);
                 try {
                     startActivity(Intent.createChooser(i, "Send mail..."));
                 } catch (android.content.ActivityNotFoundException ex) {
                     Toast.makeText(MyRequestActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
                 }
+
                 saveBtn.setEnabled(false);
                 acceptBtn.setEnabled(false);
                 refuseBtn.setEnabled(false);
@@ -153,7 +170,7 @@ public class MyRequestActivity extends AppCompatActivity {
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goBackToHomepageActivity(true, true);
+                goBackToHomepageActivity(updateStatusFromMyRequest, emailSentSuccess);
             }
         });
     }
@@ -175,5 +192,23 @@ public class MyRequestActivity extends AppCompatActivity {
         intent.putExtra("updateStatusFromMyRequest", updateStatusFromMyRequest);
         intent.putExtra("emailSentSuccess", emailSentSuccess);
         startActivity(intent);
+    }
+
+    public Intent sendEmail(ItemRequest receivedItemRequest){
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{receivedItemRequest.getRequesterEmail()});
+        String acceptSubject = "Your Barter request has been accepted";
+        String refuseSubject = "Your Barter request has been refused";
+        String content = "One of your sent request just changes its status. Please find more information in the View My Request of Barter.";
+        if (receivedItemRequest.isAccepted()&&receivedItemRequest.isCompleted()){
+            i.putExtra(Intent.EXTRA_SUBJECT, acceptSubject);
+        }
+        else if (!receivedItemRequest.isAccepted()&&receivedItemRequest.isCompleted()){
+            i.putExtra(Intent.EXTRA_SUBJECT, refuseSubject);
+        }
+        i.putExtra(Intent.EXTRA_TEXT, content);
+
+        return i;
     }
 }

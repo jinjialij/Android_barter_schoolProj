@@ -114,6 +114,8 @@ public class ViewMyRequestTest {
         onView(withId(R.id.viewAllRequestsBtn)).check(matches(isClickable()));
         onView(withId(R.id.viewSentRequestBtn)).check(matches(isClickable()));
         onView(withId(R.id.viewReceivedRequestBtn)).check(matches(isClickable()));
+        onView(withId(R.id.ViewMyRequestCompletedBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.ViewMyRequestCompletedBtn)).check(matches(isClickable()));
     }
 
     @After

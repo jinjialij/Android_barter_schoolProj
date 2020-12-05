@@ -12,7 +12,7 @@ public class ItemRequest implements Serializable {
     private String uid;
     private boolean accepted;
     private String requesterEmail;
-    private boolean matched;
+    private boolean completed;
 
     //This constructor is used for Firebase
     public ItemRequest() {
@@ -21,14 +21,14 @@ public class ItemRequest implements Serializable {
         this.requestItemId = null;
         this.uid = UidService.newUID();
         this.accepted = false;
-        this.matched = false;
+        this.completed = false;
     }
 
     public ItemRequest(String userUID, Item wanted, ArrayList<Item> offered, String email) {
         this.uid = UidService.newUID();
         this.accepted = false;
         this.requesterEmail = email;
-        this.matched = false;
+        this.completed = false;
         if(offered.size() != 0){
             this.requesterId = userUID;
             this.requestItemId = wanted.getUid();
@@ -60,7 +60,7 @@ public class ItemRequest implements Serializable {
         this.itemIdsOffered = new ArrayList<>();
         itemIdsOffered.add(offerItem.getUid());
         this.accepted = false;
-        this.matched = false;
+        this.completed = false;
     }
 
     public String getRequesterId() {
@@ -90,11 +90,11 @@ public class ItemRequest implements Serializable {
 
     public String getRequesterEmail(){return this.requesterEmail;}
 
-    public boolean isMatched() {
-        return matched;
+    public boolean isCompleted() {
+        return completed;
     }
 
-    public void setMatched(boolean matched) {
-        this.matched = matched;
+    public void setCompleted(boolean responded) {
+        this.completed = responded;
     }
 }

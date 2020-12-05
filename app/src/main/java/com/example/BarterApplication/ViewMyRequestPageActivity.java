@@ -46,6 +46,7 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
         Button viewAllBtn = (Button) findViewById(R.id.viewAllRequestsBtn);
         Button viewReceivedBtn = (Button) findViewById(R.id.viewSentRequestBtn);
         Button viewSentBtn = (Button) findViewById(R.id.viewReceivedRequestBtn);
+        Button viewCompletedBtn = (Button) findViewById(R.id.ViewMyRequestCompletedBtn);
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +71,7 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
                 ArrayList<ItemRequest> requestFromOthers = new ArrayList<>();
                 itemRequests = ItemRequestService.getItemRequestList();
                 for (ItemRequest itemRequest:itemRequests){
-                    if (!itemRequest.getRequesterId().equals(currentUser.getUid())){
+                    if (!itemRequest.getRequesterId().equals(currentUser.getUid()) && !itemRequest.isCompleted()){
                         requestFromOthers.add(itemRequest);
                     }
                 }
@@ -86,11 +87,39 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
                 ArrayList<ItemRequest> requestOfOneself = new ArrayList<>();
                 itemRequests = ItemRequestService.getItemRequestList();
                 for (ItemRequest itemRequest:itemRequests){
-                    if (itemRequest.getRequesterId().equals(currentUser.getUid())){
+                    if (itemRequest.getRequesterId().equals(currentUser.getUid())  && !itemRequest.isCompleted()){
                         requestOfOneself.add(itemRequest);
                     }
                 }
                 itemRequests = requestOfOneself;
+                updateList();
+            }
+        });
+
+        viewCompletedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<ItemRequest> completedRequest = new ArrayList<>();
+                itemRequests = ItemRequestService.getItemRequestList();
+                //only show user related completed itemRequest
+                for (ItemRequest itemRequest:itemRequests){
+                    boolean add = false;
+                    if (itemRequest.isCompleted()){
+                        Item requestItem = UidService.findItemByItemUid(itemRequest.getRequestItemId(), ItemService.getItemList());
+                        if (requestItem.getOwnerId().equals(currentUser.getUid())){
+                            add = true;
+                        }
+
+                        if (itemRequest.getRequesterId().equals(currentUser.getUid())){
+                            add = true;
+                        }
+
+                        if (add){
+                            completedRequest.add(itemRequest);
+                        }
+                    }
+                }
+                itemRequests = completedRequest;
                 updateList();
             }
         });
