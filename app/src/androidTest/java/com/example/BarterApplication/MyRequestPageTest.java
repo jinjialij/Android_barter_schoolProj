@@ -9,6 +9,7 @@ import androidx.test.runner.AndroidJUnit4;
 import com.example.BarterApplication.helpers.ItemRequestService;
 import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TestHelper;
+import com.example.BarterApplication.helpers.ToastMatcher;
 import com.example.BarterApplication.helpers.UidService;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -95,29 +96,15 @@ public class MyRequestPageTest {
     }
 
     @Test
-    public void testMyRequest_AT_08_04(){
-        //ensure the request is accepted
+    public void testMyRequest_AT_19_0203_acceptRequest(){
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
         onView(isRoot()).perform(TestHelper.waitFor(5000));
         onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
         onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.acceptRequestBtn)).perform(click());
         onView(withId(R.id.closeBtn)).perform(click());
-        //check refuse button is disabled after clicking refuse.
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.viewMyRequestBtn)).perform(click());
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
-        onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.refuseRequestBtn)).perform(click());
-        onView(withId(R.id.closeBtn)).perform(click());
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.viewMyRequestBtn)).perform(click());
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(isRoot()).perform(TestHelper.waitFor(5000));
-        onView(withId(R.id.refuseRequestBtn)).check(matches(IsNot.not(isEnabled())));
-        pressBack();
+        onView(withText(R.string.SuccessfulSentRequestEmail)).inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
     }
 
     @Test
