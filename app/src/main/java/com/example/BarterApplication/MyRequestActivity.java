@@ -9,8 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.BarterApplication.helpers.ItemRequestService;
 import com.example.BarterApplication.helpers.ItemService;
@@ -25,15 +23,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class MyRequestActivity extends AppCompatActivity {
     private static final String TAG = "myRequest";
 
     private DatabaseReference dbRef;
     private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
     private ArrayList<Item> items;
     private ItemRequest receivedItemRequest;
+    private boolean updateStatusFromMyRequest = false;
+    private boolean emailSentSuccess = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,65 +42,98 @@ public class MyRequestActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
+        currentUser = mAuth.getCurrentUser();
         items = ItemService.getItemList();
 
         receivedItemRequest = (ItemRequest)getIntent().getSerializableExtra("itemRequestSelected");
         if(receivedItemRequest == null) {
             Toaster.generateToast(this, "Internal error, please try again");
-            goBackToMainActivity(false);
+            goBackToHomepageActivity(false, false);
         }
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
 
     public void onStart(){
         super.onStart();
+        TextView requestTitle = (TextView) findViewById(R.id.itemRequestTitle);
         TextView requestId = (TextView) findViewById(R.id.requestID);
         TextView requestItemInfo = (TextView) findViewById(R.id.requestItemInfo);
         TextView offerItemInfo = (TextView) findViewById(R.id.offeredItemInfo);
         Button acceptBtn = (Button) findViewById(R.id.acceptRequestBtn);
         Button refuseBtn = (Button) findViewById(R.id.refuseRequestBtn);
         Button closeBtn = (Button) findViewById(R.id.closeBtn);
+        Button saveBtn = (Button) findViewById(R.id.BarterMyRequestSaveBtn);
         Button deleteBtn = findViewById(R.id.deleteMatchButton);
-        TextView itemRequestTitle = findViewById(R.id.itemRequestTitle);
 
-        if (receivedItemRequest!=null && items!=null && !items.isEmpty()){
-            if (receivedItemRequest.isDeleted()){
-                refuseBtn.setEnabled(false);
+        if (receivedItemRequest.isCompleted()){
+            String title = getString(R.string.itemRequestTitle) + ":\t" + getString(R.string.itemRequestMatchStatusComplete);
+            requestTitle.setText(title);
+            saveBtn.setVisibility(View.INVISIBLE);
+            saveBtn.setEnabled(false);
+            deleteBtn.setVisibility(View.VISIBLE);
+            deleteBtn.setEnabled(true);
+            if (receivedItemRequest.isAccepted()) {
+                acceptBtn.setVisibility(View.VISIBLE);
                 acceptBtn.setEnabled(false);
-                deleteBtn.setEnabled(false);
-            }else if (receivedItemRequest.isAccepted()&& !receivedItemRequest.isDeleted()){
+                acceptBtn.setText(R.string.itemRequestAccepted);
+                refuseBtn.setVisibility(View.INVISIBLE);
                 refuseBtn.setEnabled(false);
-                acceptBtn.setEnabled(false);
-                deleteBtn.setEnabled(true);
-            }else if (!receivedItemRequest.isAccepted()){
+            }else if((receivedItemRequest.isCompleted() && !receivedItemRequest.isAccepted())){
+                refuseBtn.setVisibility(View.VISIBLE);
                 refuseBtn.setEnabled(false);
+                refuseBtn.setText(R.string.itemRequestRefused);
+                acceptBtn.setVisibility(View.INVISIBLE);
                 acceptBtn.setEnabled(false);
-                deleteBtn.setEnabled(false);
             }
-            else
-                {
-                refuseBtn.setEnabled(true);
-                acceptBtn.setEnabled(true);
-                deleteBtn.setEnabled(false);
-            }
+        } else {
+            String title = getString(R.string.itemRequestTitle) + ":\t" + getString(R.string.itemRequestMatchStatusNew);
+            requestTitle.setText(title);
+            saveBtn.setVisibility(View.VISIBLE);
+            saveBtn.setEnabled(true);
+            deleteBtn.setVisibility(View.INVISIBLE);
+            deleteBtn.setEnabled(false);
+        }
+
+        //for requests sent by current user, only show close button
+        if (receivedItemRequest.getRequesterId().equals(currentUser.getUid())){
+            refuseBtn.setVisibility(View.INVISIBLE);
+            acceptBtn.setVisibility(View.INVISIBLE);
+            closeBtn.setVisibility(View.VISIBLE);
+            saveBtn.setVisibility(View.INVISIBLE);
+            saveBtn.setEnabled(false);
+            refuseBtn.setEnabled(false);
+            acceptBtn.setEnabled(false);
+            closeBtn.setEnabled(true);
+        } else if (!receivedItemRequest.getRequesterId().equals(currentUser.getUid()) && !receivedItemRequest.isCompleted()){
+            //for received and not matched requests
+            refuseBtn.setVisibility(View.VISIBLE);
+            acceptBtn.setVisibility(View.VISIBLE);
+            closeBtn.setVisibility(View.VISIBLE);
+            saveBtn.setVisibility(View.VISIBLE);
+            refuseBtn.setEnabled(true);
+            acceptBtn.setEnabled(true);
+            closeBtn.setEnabled(true);
+            saveBtn.setEnabled(true);
+        }
+
+        if (items!=null && !items.isEmpty()){
             HashMap<String, String> requestItemInfoMap = new LinkedHashMap<>();
             ArrayList<HashMap<String, String>> offeredItemInfoMapList = new ArrayList<>();
             Item requestItem = ItemService.findItemByUid(receivedItemRequest.getRequestItemId());
-            getItemMap(requestItem, requestItemInfoMap);
+            requestItemInfoMap = ItemService.getItemMap(requestItem, requestItemInfoMap);
 
             for(String id: receivedItemRequest.getItemIdsOffered()){
                 Item offeredItem = UidService.findItemByItemUid(id, items);
                 HashMap<String, String> map = new LinkedHashMap<>();
-                getItemMap(offeredItem, map);
+                map = ItemService.getItemMap(offeredItem, map);
                 offeredItemInfoMapList.add(map);
             }
 
             String requestUid = receivedItemRequest.getUid();
             requestId.setText(requestUid);
-            requestItemInfo.setText(printItemMap(requestItemInfoMap));
-            offerItemInfo.setText(printItemMapList(offeredItemInfoMapList));
+            requestItemInfo.setText(ItemService.printItemMap(requestItemInfoMap));
+            offerItemInfo.setText(ItemService.printItemMapList(offeredItemInfoMapList));
         }
 
         acceptBtn.setOnClickListener(new View.OnClickListener() {
@@ -121,29 +154,48 @@ public class MyRequestActivity extends AppCompatActivity {
             }
         });
 
+        //save changes only when save button is clicked. Also, send email
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                receivedItemRequest.setCompleted(true);
+                ItemRequestService.updateItemRequestStatus(receivedItemRequest);
+                updateStatusFromMyRequest = true;
+                emailSentSuccess = true;
+                Toaster.generateToast(MyRequestActivity.this, getString(R.string.BarterActivity_SaveRequestSuccess));
+
+                Intent i = sendEmail(receivedItemRequest);
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(MyRequestActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+
+                saveBtn.setEnabled(false);
+                acceptBtn.setEnabled(false);
+                refuseBtn.setEnabled(false);
+            }
+        });
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBackToHomepageActivity(updateStatusFromMyRequest, emailSentSuccess);
+            }
+        });
+
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 receivedItemRequest.setDeleted(true);
-                refuseBtn.setEnabled(false);
-                acceptBtn.setEnabled(false);
+                ItemRequestService.updateItemRequestStatus(receivedItemRequest);
+                saveBtn.setEnabled(false);
                 deleteBtn.setEnabled(false);
-                itemRequestTitle.setText("Request has been deleted");
-                Toast toast=Toast.makeText(MyRequestActivity.this, "The accepted request has been deleted！", Toast.LENGTH_LONG);
+                Toast toast=Toast.makeText(MyRequestActivity.this, "The request has been deleted!", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER_HORIZONTAL| Gravity.BOTTOM, 0, 10);
                 toast.show();
-                ItemRequestService.updateItemRequestStatus(receivedItemRequest);
-                goBackToMyRequestActivity(true);
-            }
-
-        });
-
-        //save changes only when save button is clicked
-        closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ItemRequestService.updateItemRequestStatus(receivedItemRequest);
-                goBackToMainActivity(true);
+                updateStatusFromMyRequest = true;
+                emailSentSuccess = false;
             }
         });
     }
@@ -155,52 +207,33 @@ public class MyRequestActivity extends AppCompatActivity {
         }
     }
 
-    private void getItemMap(Item item, HashMap<String, String> map){
-        if (item!=null){
-            map.put("Name: ", item.getName());
-            map.put("Labels: ", item.getLabels().toString());
-            map.put("Description: ", item.getDescription());
-            //@todo use uid to get owner name
-            map.put("Owner Name: ", item.getOwnerId());
-        }
-    }
-
-    private String printItemMap(HashMap<String, String> map){
-        String mapString = "";
-        if (map!=null && !map.isEmpty()){
-            for (Map.Entry<String,String> entry : map.entrySet()) {
-                mapString += entry.getKey() + entry.getValue() + "\n";
-            }
-        }
-        return mapString;
-    }
-
-    private String printItemMapList(ArrayList<HashMap<String, String>> mapList){
-        String mapListString = "";
-        if (mapList!=null && !mapList.isEmpty()){
-            for (HashMap<String, String> map:mapList){
-                String mapString = printItemMap(map);
-                mapListString += mapString + "\n";
-            }
-
-        }
-        return mapListString;
-    }
-
     @Override
     public void onBackPressed() {
-        goBackToMainActivity(false);
+        goBackToHomepageActivity(false, false);
     }
 
-    public void goBackToMainActivity(boolean updateStatusFromMyRequest){
-        Intent intent = new Intent(this, MainActivity.class);
+    public void goBackToHomepageActivity(boolean updateStatusFromMyRequest, boolean emailSentSuccess){
+        Intent intent = new Intent(this, HomepageActivity.class);
         intent.putExtra("updateStatusFromMyRequest", updateStatusFromMyRequest);
+        intent.putExtra("emailSentSuccess", emailSentSuccess);
         startActivity(intent);
     }
 
-    public void goBackToMyRequestActivity(boolean updateStatusFromMyRequest){
-        Intent intent = new Intent(this, ViewMyRequestPageActivity.class);
-        intent.putExtra("updateStatusFromMyRequest", updateStatusFromMyRequest);
-        startActivity(intent);
+    public Intent sendEmail(ItemRequest receivedItemRequest){
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{receivedItemRequest.getRequesterEmail()});
+        String acceptSubject = "Your Barter request has been accepted";
+        String refuseSubject = "Your Barter request has been refused";
+        String content = "One of your sent request just changes its status. Please find more information in the View My Request of Barter.";
+        if (receivedItemRequest.isAccepted()&&receivedItemRequest.isCompleted()){
+            i.putExtra(Intent.EXTRA_SUBJECT, acceptSubject);
+        }
+        else if (!receivedItemRequest.isAccepted()&&receivedItemRequest.isCompleted()){
+            i.putExtra(Intent.EXTRA_SUBJECT, refuseSubject);
+        }
+        i.putExtra(Intent.EXTRA_TEXT, content);
+
+        return i;
     }
 }

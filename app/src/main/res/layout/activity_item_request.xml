@@ -19,7 +19,7 @@
         android:id="@+id/requestItem"
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:text="@string/itemRequestRequestItemSection"
+        android:text="@string/RequestItemTitle"
         android:textSize="18sp" />
 
     <TextView
@@ -31,13 +31,13 @@
         android:id="@+id/offeredItem"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:text="@string/itemRequestOfferedItemSection"
+        android:text="@string/OfferingItemSectionTitle"
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/offeredItemInfo"
         android:layout_width="match_parent"
-        android:layout_height="309dp" />
+        android:layout_height="250dp" />
 
     <Button
         android:id="@+id/acceptRequestBtn"
@@ -52,10 +52,16 @@
         android:text="@string/itemRequestRefuse" />
 
     <Button
+        android:id="@+id/BarterMyRequestSaveBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itemRequestSave" />
+
+    <Button
         android:id="@+id/deleteMatchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete" />
+        android:text="@string/itemRequestDelete" />
 
     <Button
         android:id="@+id/closeBtn"

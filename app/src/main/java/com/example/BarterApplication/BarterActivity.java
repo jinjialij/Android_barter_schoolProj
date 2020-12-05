@@ -1,20 +1,26 @@
 package com.example.BarterApplication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.util.EventLogTags;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.BarterApplication.helpers.ItemService;
 import com.example.BarterApplication.helpers.TextChangedListener;
+import com.example.BarterApplication.helpers.Toaster;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -25,11 +31,16 @@ public class BarterActivity extends AppCompatActivity {
     private ArrayList<Item> nearbyItems = new ArrayList<Item>();
     private ImageView currentItemImageFrame;
     private TextView currentItemNameFrame;
-    private TextView currentItemDescFrame;
+    private Button currentItemDescBtn;
+    private Button requestBtn;
     private TextView itemDistanceDisplayFrame;
     private EditText searchRadiusEditText;
     private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
     private Handler refreshHandler;
+    private Item requestItem;
+    private boolean ownEmptyItem;
+    private AlertDialog.Builder alertBuilder;
 
     private int searchRadius;
     @Override
@@ -37,16 +48,28 @@ public class BarterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barter);
         mAuth = FirebaseAuth.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         currentItemImageFrame = findViewById(R.id.BarterActivityCurrentItemImageView);
-        currentItemDescFrame = findViewById(R.id.BarterActivityCurrentItemDescriptionTextView);
+        currentItemDescBtn = findViewById(R.id.BarterActivityDescBtn);
         currentItemNameFrame = findViewById(R.id.BarterActivityCurrentItemNameTextView);
         searchRadiusEditText = findViewById(R.id.BarterActivityItemSearchRadiusEditText);
         itemDistanceDisplayFrame = findViewById(R.id.BarterActivityitemDistanceDisplayTextView);
+        requestBtn = (Button) findViewById(R.id.BarterActivitySendRequestButton);
+        ownEmptyItem = ItemService.getUserItems(currentUser).isEmpty();
+        alertBuilder = new AlertDialog.Builder(this);
 
         /* Get initial default list of items */
         searchRadius = DEFAULT_SEARCH_RADIUS_KM;
         refreshHandler = new Handler();
-        updateItemList();
+
+        //get from request page or description page
+        requestItem = (Item)getIntent().getSerializableExtra("requestedItem");
+        if(requestItem != null) {
+            displayItem(requestItem);
+            currentItemDescBtn.setEnabled(true);
+        } else {
+            updateItemList();
+        }
 
         if(searchRadiusEditText != null){
             searchRadiusEditText.addTextChangedListener(new TextChangedListener<EditText>(searchRadiusEditText) {
@@ -79,8 +102,27 @@ public class BarterActivity extends AppCompatActivity {
                 }
             });
         }
+
         refreshHandler.postDelayed(periodicNearbyItemRefreshCallback, 0);
+        disableRequestBtn(requestItem, ownEmptyItem);
+
+        currentItemDescBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertBuilder.setMessage(requestItem.getDescription());
+                alertBuilder.setTitle(R.string.description);
+                alertBuilder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog alert = alertBuilder.create();
+                alert.show();
+            }
+        });
     }
+
 
     /**
      * @brief return to the homepage activity
@@ -92,19 +134,16 @@ public class BarterActivity extends AppCompatActivity {
 
     }
 
+
     /**
      * @brief send a barter request to the owner of the currently displayed item
      * @param v The current layout content view for the activity
      * @note ANALOGOUS TO SWIPE RIGHT (or click the green heart button) in tinder - carl
      */
     public void sendRequest(View v) {
-        boolean sendReqWasSuccessful = true; /** @todo SEND THE REQUEST AND CHECK ERROR CODE */
-        if(sendReqWasSuccessful){
-            displayNextItem();
-        }
-        else {
-            /** @todo ERROR HANDLE */
-        }
+        Intent intent = new Intent(this, CreateRequestActivity.class);
+        intent.putExtra("requestedItem", requestItem);
+        startActivity(intent);
     }
 
 
@@ -116,6 +155,7 @@ public class BarterActivity extends AppCompatActivity {
         displayNextItem();
     }
 
+
     /**
      * @brief update the barter activity item feed
      */
@@ -124,6 +164,7 @@ public class BarterActivity extends AppCompatActivity {
         this.nearbyItems = ItemService.getOtherItemsInRadius(this.searchRadius);
         displayCurrentItem();
     }
+
 
     /**
      * @brief Display the next item in the item feed
@@ -154,14 +195,14 @@ public class BarterActivity extends AppCompatActivity {
      */
     private void displayItem(Item i){
         if(i == null){
-            this.currentItemDescFrame.setText("");
+            currentItemDescBtn.setEnabled(false);
             this.itemDistanceDisplayFrame.setText("");
             this.currentItemNameFrame.setText("There are no items within that search radius");
             this.currentItemImageFrame.setVisibility(View.INVISIBLE);
         }
         else {
             this.currentItemNameFrame.setText(i.getName());
-            this.currentItemDescFrame.setText(i.getDescription());
+            currentItemDescBtn.setEnabled(true);
 
             /* Update the distance */
             String distanceString = new String();
@@ -170,7 +211,10 @@ public class BarterActivity extends AppCompatActivity {
             distanceString += " Km away";
             this.itemDistanceDisplayFrame.setText(distanceString);
             /**@todo DISPLAY ITEM IMAGE BY URL */
+            this.currentItemImageFrame.setVisibility(View.VISIBLE);
         }
+        requestItem = i;
+        disableRequestBtn(requestItem, ownEmptyItem);
     }
 
     private Runnable periodicNearbyItemRefreshCallback = new Runnable() {
@@ -180,4 +224,12 @@ public class BarterActivity extends AppCompatActivity {
             Log.i("[BARTER ACTIVITY]", "run: updated nearby item list");
         }
     };
+
+    protected void disableRequestBtn(Item requestItem, boolean ownEmptyItem){
+        if (requestItem ==null || ownEmptyItem){
+            requestBtn.setEnabled(false);
+        } else {
+            requestBtn.setEnabled(true);
+        }
+    }
 }

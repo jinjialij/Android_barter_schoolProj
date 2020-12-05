@@ -42,36 +42,50 @@ public class ItemRequestService {
     }
 
     public static void updateItemRequestStatus(ItemRequest itemReq) {
-        if (itemReq.isDeleted()){
-            getKeyNode().child(itemReq.getUid()).child("deleted").setValue(true)
-                    .addOnSuccessListener(aVoid -> {
-                        // Write was successful!
-                        lastUpdateSucceed = true;
-                        Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest " + itemReq.getUid() + " is successful!");
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    // Write failed
-                    lastUpdateSucceed = false;
-                    Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest " + itemReq.getUid());
-                }
-            });
+        getKeyNode().child(itemReq.getUid()).child("deleted").setValue(itemReq.isDeleted())
+                .addOnSuccessListener(aVoid -> {
+                    // Write was successful!
+                    lastUpdateSucceed = true;
+                    Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest to be deleted " + itemReq.getUid() + " is successful!");
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Write failed
+                lastUpdateSucceed = false;
+                Log.d("IR_updateItemRequest","UpdateItemRequest itemRequest to be deleted " + itemReq.getUid() + " is failed");
+            }
+        });
 
-        }else {
-            getKeyNode().child(itemReq.getUid()).child("accepted").setValue(itemReq.isAccepted())
-                    .addOnSuccessListener(aVoid -> {
+        getKeyNode().child(itemReq.getUid()).child("accepted").setValue(itemReq.isAccepted())
+                .addOnSuccessListener(aVoid -> {
+                    // Write was successful!
+                    lastUpdateSucceed = true;
+                    Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest accepted " + itemReq.getUid() + " is successful!");
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Write failed
+                lastUpdateSucceed = false;
+                Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest accepted " + itemReq.getUid() + " is failed");
+            }
+        });
+
+        getKeyNode().child(itemReq.getUid()).child("completed").setValue(itemReq.isCompleted())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
                         // Write was successful!
                         lastUpdateSucceed = true;
-                        Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest " + itemReq.getUid() + " is successful!");
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    // Write failed
-                    lastUpdateSucceed = false;
-                    Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest " + itemReq.getUid());
-                }
-            });
-        }
+                        Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest match status " + itemReq.getUid() + " is successful!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Write failed
+                lastUpdateSucceed = false;
+                Log.d("IR_updateItemRequest", "UpdateItemRequest itemRequest match status " + itemReq.getUid() + " is failed");
+            }
+        });
         initDbListener();
     }
 

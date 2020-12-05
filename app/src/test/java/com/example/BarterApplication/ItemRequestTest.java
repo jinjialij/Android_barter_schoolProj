@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -51,11 +52,15 @@ public class ItemRequestTest {
     public void test_CTOR_for_firebase_currentUser_use(){
         //in this case, user is the requester
         String requesterId = "requesterId";
-        String requestItemId = "requestItemId";
-        String uid = UidService.newUID();
-        ItemRequest request = new ItemRequest(requesterId, requestItemId, uid);
+        String n1 = "requestItem";
+        String ownerId1 = "123456";
+        Item requestItem = new Item(n1, ownerId1);
+        String n2 = "offerItem";
+        String ownerId2 = "654321";
+        Item offerItem = new Item(n2, ownerId2);
+        ItemRequest request = new ItemRequest(requesterId, requestItem, offerItem);
         assertEquals(request.getRequesterId(), requesterId);
-        assertEquals(request.getRequestItemId(), requestItemId);
-        assertEquals(request.getUid(), uid);
+        assertEquals(request.getRequestItemId(), requestItem.getUid());
+        assertFalse(request.getUid().isEmpty());
     }
 }

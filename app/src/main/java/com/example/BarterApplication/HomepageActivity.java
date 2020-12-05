@@ -53,6 +53,8 @@ public class HomepageActivity extends AppCompatActivity {
         //check if inserted is success when directing from the addItemActivity
         Item insertedItem = (Item) getIntent().getSerializableExtra("insertedItem");
         boolean updateStatusFromMyRequest = getIntent().getBooleanExtra("updateStatusFromMyRequest", false);
+        boolean emailSentSuccess = getIntent().getBooleanExtra("emailSentSuccess", false);
+//        ItemRequest updatedItemRequest = (ItemRequest) getIntent().getSerializableExtra("receivedItemRequest");
         if (insertedItem!=null && ItemService.isLastInsertSucceed()){
             boolean insertedSuccess = false;
             for (Item item : items){
@@ -69,10 +71,28 @@ public class HomepageActivity extends AppCompatActivity {
 
         //check if updated is success when directing from the myRequestActivity
         if (updateStatusFromMyRequest && ItemRequestService.isLastUpdateSucceed()){
-            Toaster.generateToast(HomepageActivity.this, "Your request is updated successfully!");
+            if (emailSentSuccess){
+                Toaster.generateToast(HomepageActivity.this, getString(R.string.BarterActivity_SaveRequestSuccess) + "\n" +getString(R.string.BarterActivity_SuccessfulSentRequestEmail));
+            }
         }
         else if (updateStatusFromMyRequest && !ItemRequestService.isLastUpdateSucceed()){
             Toaster.generateToast(HomepageActivity.this, "Fail to update your request, please try again");
+        }
+
+        //check if inserted is success when directing from the createRequestActivity
+        ItemRequest insertedItemReq = (ItemRequest) getIntent().getSerializableExtra("insertedItemReq");
+        if (insertedItemReq!=null && ItemRequestService.isLastInsertSucceed()){
+            boolean insertedSuccess = false;
+            for (ItemRequest itemRequest : itemRequests){
+                if (itemRequest.getUid().equals(insertedItemReq.getUid())){
+                    Toaster.generateToast(HomepageActivity.this, getString(R.string.NewRequestSubmissionSuccessMessage));
+                    insertedSuccess = true;
+                    break;
+                }
+            }
+            if (!insertedSuccess){
+                Toaster.generateToast(HomepageActivity.this, getString(R.string.NewRequestSubmissionFailure));
+            }
         }
     }
 
@@ -111,4 +131,9 @@ public class HomepageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, HomepageActivity.class);
+        startActivity(intent);
+    }
 }

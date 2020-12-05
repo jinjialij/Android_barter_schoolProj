@@ -1,8 +1,8 @@
 package com.example.BarterApplication;
 
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import com.example.BarterApplication.helpers.TestHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -13,16 +13,13 @@ import org.junit.Test;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class BarterActivityTester {
     private final String testerEmail = "cmattatall2@gmail.com";
@@ -74,7 +71,9 @@ public class BarterActivityTester {
 
     @Test
     public void itemDescriptionDisplayCheck(){
-        onView(withId(R.id.BarterActivityCurrentItemDescriptionTextView)).check(matches(isDisplayed()));
+        onView(withId(R.id.BarterActivityDescBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.BarterActivityDescBtn)).check(matches(isClickable()));
+        onView(withId(R.id.BarterActivityDescBtn)).check(matches(isEnabled()));
     }
 
     @Test
@@ -101,7 +100,7 @@ public class BarterActivityTester {
     @Test
     public void goBackOnClickCheck(){
         onView(withId(R.id.BarterActivityGoToHomepageButton)).perform(click());
-
+        onView(isRoot()).perform(TestHelper.waitFor(3000));
         /** @todo REFACTOR / Fix
          * I HAVE USED CHECKING FOR THE HOMEPAGE TITLE AS A PROXY FOR CHECKING
          * IF THE CURRENT ACTIVITY IS THE HOMEPAGE. I CANT GET THE COMMENTED LINE

@@ -19,7 +19,8 @@
     <string name="search_prompt">Choose an option</string>
     <string name="confirm">confirm</string>
     <string name="title">title</string>
-    <string name="description">description</string>
+    <string name="itemName">Item name</string>
+    <string name="description">Description</string>
     <string name="addItemSuccess">Item add successful.</string>
     <string name="addItemFail">Choose an option</string>
     <string name="addItem">Add an Item</string>
@@ -34,26 +35,46 @@
     <string-array name="search_arrays">
         <item>Label</item>
         <item>Name</item>
-
     </string-array>
+
     <string name="itemRequestTitle">Request</string>
-    <string name="itemRequestRequestItemSection">Request Item</string>
-    <string name="itemRequestOfferedItemSection">Offered Item</string>
+    <string name="itemRequestMatchStatusNew">New</string>
+    <string name="itemRequestMatchStatusComplete">Completed</string>
+    <string name="RequestItemTitle">Request Item</string>
+    <string name="OfferingItemSectionTitle">Offering Item(s)</string>
     <string name="itemRequestAccept">Accept</string>
     <string name="itemRequestRefuse">Refuse</string>
-    <string name="itemRequestClose">Save and Close</string>
+    <string name="itemRequestSave">Save</string>
+    <string name="itemRequestDelete">Delete</string>
+    <string name="itemRequestClose">Close</string>
+    <string name="itemRequestAccepted">Status: Accepted</string>
+    <string name="itemRequestRefused">Status: Refused</string>
 
     <string name="EmptyItemListMessage">You have no items</string>
 
     <string name="HomePageTitle">Homepage</string>
     <string name="logout">Log out</string>
     <string name="back">Back</string>
+    <string name="viewItemTitle">View Items</string>
+    <string name="viewItemSearchHint">Search Name or Labels</string>
+    <string name="CreateRequestTitle">Create New Request</string>
 
-
-
+    <string name="Add">Add</string>
+    <string name="Delete">Delete</string>
+    <string name="Submit">Submit</string>
+    <string name="NewRequestSubmissionError">Cannot submit without offering items</string>
+    <string name="NewRequestSubmissionFailure">Your request fails to create, please try again</string>
+    <string name="NewRequestSubmissionSuccessMessage">Your request has been created successful</string>
     <!-- BARTER ACTIVITY LABELS AND LAYOUT VALUE STUFF -->
     <string name="BarterActivity_ActivityTitle">Barter Activity</string>
     <string name="BarterActivity_SendRequestButtonLabel">send request</string>
-    <string name="BarterActivity_ViewNextItemButtonLabel">next item</string>
+    <string name="BarterActivity_ViewNextItemButtonLabel">Next Nearby item</string>
+
+    <string name="BarterActivity_viewAllMyRequestButtonLabel">All</string>
+    <string name="BarterActivity_ViewMyOwnRequestButtonLabel">Sent</string>
+    <string name="BarterActivity_ViewReceivedRequestButtonLabel">Received</string>
+
+    <string name="BarterActivity_SaveRequestSuccess">Request has been saved successfully!</string>
+    <string name="BarterActivity_SuccessfulSentRequestEmail">An email has been sent to the requester.</string>
 
 </resources>

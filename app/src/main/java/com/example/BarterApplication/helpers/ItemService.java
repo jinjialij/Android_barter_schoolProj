@@ -23,6 +23,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ItemService {
     private static ArrayList<Item> itemList = new ArrayList<Item>();
@@ -71,13 +75,12 @@ public class ItemService {
 
     /** @todo REFACTOR SO WE AREN'T LITERALLY GOING THROUGH THE ENTIRE ITEM LIST */
     public static ArrayList<Item> getUserItems(FirebaseUser u){
-        ArrayList<Item> items = new ArrayList<Item>();
+        ArrayList<Item> userItems = new ArrayList<Item>();
 
         /* Need to null check because sometimes callback
         functions occur after FirebaseUser.signout() */
         if(u != null){
             /** @note I know this is not ideal but we're working on a deadline here - carl */
-            ArrayList<Item> userItems = new ArrayList<Item>();
             String my_uid = u.getUid();
             for(int i = 0; i < getItemList().size(); i++){
                 Item current = getItemList().get(i);
@@ -86,7 +89,24 @@ public class ItemService {
                 }
             }
         }
-        return items;
+        return userItems;
+    }
+
+    public static ArrayList<Item> getOtherUserItems(ArrayList<Item> currentUserItems){
+        ArrayList<String> currentUserItemUids = new ArrayList<>();
+        ArrayList<Item> otherUserItems = new ArrayList<>();
+
+        for (Item item: currentUserItems) {
+            currentUserItemUids.add(item.getUid());
+        }
+
+        for (Item item : itemList){
+            if (!currentUserItemUids.contains(item.getUid())){
+                otherUserItems.add(item);
+            }
+        }
+
+        return otherUserItems;
     }
 
     /**
@@ -292,5 +312,39 @@ public class ItemService {
                 Log.w("IS_initDbListener", "Failed to read value.", error.toException());
             }
         });
+    }
+
+    public static HashMap<String, String> getItemMap(Item item, HashMap<String, String> map){
+        if (item!=null){
+            map.put("Name: ", item.getName());
+            map.put("Labels: ", item.getLabels().toString());
+            map.put("Description: ", item.getDescription());
+            //@todo use uid to get owner name
+            map.put("Owner Name: ", item.getOwnerId());
+        }
+
+        return map;
+    }
+
+    public static String printItemMap(HashMap<String, String> map){
+        String mapString = "";
+        if (map!=null && !map.isEmpty()){
+            for (Map.Entry<String,String> entry : map.entrySet()) {
+                mapString += entry.getKey() + entry.getValue() + "\n";
+            }
+        }
+        return mapString;
+    }
+
+    public static String printItemMapList(ArrayList<HashMap<String, String>> mapList){
+        String mapListString = "";
+        if (mapList!=null && !mapList.isEmpty()){
+            for (HashMap<String, String> map:mapList){
+                String mapString = printItemMap(map);
+                mapListString += mapString + "\n";
+            }
+
+        }
+        return mapListString;
     }
 }
