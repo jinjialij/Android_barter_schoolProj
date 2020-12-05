@@ -62,19 +62,7 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
                 itemRequests = ItemRequestService.getNotDeletedItemRequestList();
                 ArrayList<ItemRequest> currentUserRelatedRequests = new ArrayList<>();
                 for (ItemRequest itemRequest:itemRequests){
-                    boolean add = false;
-                    Item requestItem = UidService.findItemByItemUid(itemRequest.getRequestItemId(), ItemService.getItemList());
-                    if (requestItem.getOwnerId().equals(currentUser.getUid())){
-                        add = true;
-                    }
-
-                    if (itemRequest.getRequesterId().equals(currentUser.getUid())){
-                        add = true;
-                    }
-
-                    if (add){
-                        currentUserRelatedRequests.add(itemRequest);
-                    }
+                    addRelatedRequests(currentUserRelatedRequests, itemRequest, currentUser);
                 }
                 itemRequests = currentUserRelatedRequests;
                 updateList();
@@ -120,20 +108,8 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
                 itemRequests = ItemRequestService.getNotDeletedItemRequestList();
                 //only show user related completed itemRequest
                 for (ItemRequest itemRequest:itemRequests){
-                    boolean add = false;
                     if (itemRequest.isCompleted()){
-                        Item requestItem = UidService.findItemByItemUid(itemRequest.getRequestItemId(), ItemService.getItemList());
-                        if (requestItem.getOwnerId().equals(currentUser.getUid())){
-                            add = true;
-                        }
-
-                        if (itemRequest.getRequesterId().equals(currentUser.getUid())){
-                            add = true;
-                        }
-
-                        if (add){
-                            completedRequest.add(itemRequest);
-                        }
+                        addRelatedRequests(completedRequest, itemRequest, currentUser);
                     }
                 }
                 itemRequests = completedRequest;
@@ -184,5 +160,21 @@ public class ViewMyRequestPageActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    private void addRelatedRequests(ArrayList<ItemRequest> requests, ItemRequest itemRequest, FirebaseUser currentUser){
+        boolean add = false;
+        Item requestItem = UidService.findItemByItemUid(itemRequest.getRequestItemId(), ItemService.getItemList());
+        if (requestItem.getOwnerId().equals(currentUser.getUid())){
+            add = true;
+        }
+
+        if (itemRequest.getRequesterId().equals(currentUser.getUid())){
+            add = true;
+        }
+
+        if (add){
+            requests.add(itemRequest);
+        }
     }
 }
