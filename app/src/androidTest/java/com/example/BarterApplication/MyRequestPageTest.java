@@ -95,35 +95,6 @@ public class MyRequestPageTest {
         pressBack();
     }
 
-//    @Test
-//    public void testMyRequest_AT_19_02_and_03_acceptRequest(){
-//        onView(withId(R.id.viewMyRequestBtn)).perform(click());
-//        onView(isRoot()).perform(TestHelper.waitFor(5000));
-//        onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
-//        onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-//        onView(withId(R.id.acceptRequestBtn)).perform(click());
-//        onView(withId(R.id.BarterMyRequestSaveBtn)).perform(click());
-//        pressBack();
-//        onView(withId(R.id.acceptRequestBtn)).check(matches(IsNot.not(isEnabled())));
-//        onView(withId(R.id.BarterMyRequestSaveBtn)).check(matches(IsNot.not(isEnabled())));
-//        onView(withId(R.id.refuseRequestBtn)).check(matches(IsNot.not(isEnabled())));
-//    }
-
-//    @Test
-//    public void testMyRequest_AT_19_02_03_04_refuseRequest(){
-//        //ensure the request is refused
-//        onView(withId(R.id.viewMyRequestBtn)).perform(click());
-//        onView(isRoot()).perform(TestHelper.waitFor(5000));
-//        onView(withId(R.id.viewReceivedRequestBtn)).perform(click());
-//        onView(withId(R.id.requestRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-//        onView(withId(R.id.refuseRequestBtn)).perform(click());
-//        onView(withId(R.id.BarterMyRequestSaveBtn)).perform(click());
-//        pressBack();
-//        onView(withId(R.id.acceptRequestBtn)).check(matches(IsNot.not(isEnabled())));
-//        onView(withId(R.id.BarterMyRequestSaveBtn)).check(matches(IsNot.not(isEnabled())));
-//        onView(withId(R.id.refuseRequestBtn)).check(matches(IsNot.not(isEnabled())));
-//    }
-
     @Test
     public void testMyRequest_AT_08_07(){
         onView(withId(R.id.viewMyRequestBtn)).perform(click());
