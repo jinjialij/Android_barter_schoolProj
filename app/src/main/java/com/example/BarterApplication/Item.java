@@ -27,7 +27,7 @@ public class Item implements Serializable {
         this.location = location;
     }
 
-    //@todo PHOTO
+    public String Bas64Image;
 
     // ctor
     public Item() {
@@ -172,4 +172,6 @@ public class Item implements Serializable {
         }
         return str;
     }
+
+
 }

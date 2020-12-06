@@ -2,9 +2,12 @@ package com.example.BarterApplication;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.util.Base64;
 import android.util.EventLogTags;
 import android.util.Log;
 import android.view.View;
@@ -210,7 +213,20 @@ public class BarterActivity extends AppCompatActivity {
             distanceString += Integer.toString(dist);
             distanceString += " Km away";
             this.itemDistanceDisplayFrame.setText(distanceString);
-            /**@todo DISPLAY ITEM IMAGE BY URL */
+
+
+            ImageView imageView = findViewById(R.id.BarterActivityCurrentItemImageView);
+
+            try{
+                byte[] decodedString = Base64.decode(i.Bas64Image, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                imageView.setImageBitmap(decodedByte);
+            }catch
+            (Exception ignored){
+                // no picture
+                imageView.setImageBitmap(null);
+            }
+
             this.currentItemImageFrame.setVisibility(View.VISIBLE);
         }
         requestItem = i;
