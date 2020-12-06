@@ -3,6 +3,7 @@ package com.example.BarterApplication;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -195,15 +197,6 @@ public class AddItemActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
-
-
-
-
     public void confirmAddOnClick(View view){
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -237,6 +230,17 @@ public class AddItemActivity extends AppCompatActivity {
         else {
             Location currLoc = LocationHelper.getLocation();
             Item i = new Item(itemName, itemDesc, labelArrayList, userId, new SimpleLocation(currLoc.getLongitude(), currLoc.getLatitude()));
+            ImageView image = findViewById(R.id.displayImageView);
+
+            selectedImage.buildDrawingCache();
+            Bitmap bitmap = selectedImage.getDrawingCache();
+
+            // convert image to base 64 string
+            ByteArrayOutputStream stream=new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+            byte[] image1 =stream.toByteArray();
+            String img_str = Base64.encodeToString(image1, 0);
+            i.Bas64Image =img_str;
             ItemService.addItem(i);
             goToHomepage(i);
         }
