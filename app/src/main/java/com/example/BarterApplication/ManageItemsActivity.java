@@ -3,14 +3,27 @@ package com.example.BarterApplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -25,6 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ManageItemsActivity extends AppCompatActivity {
@@ -60,6 +74,7 @@ public class ManageItemsActivity extends AppCompatActivity {
         ArrayList<String> filterStrings = new ArrayList<String>();
         SearchViewEditText = findViewById(R.id.ManageItemsSearchBoxEditText);
         SearchViewEditText.addTextChangedListener(new TextChangedListener<EditText>(SearchViewEditText) {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -126,15 +141,57 @@ public class ManageItemsActivity extends AppCompatActivity {
 
 
     private void displayItems(ListView view, ArrayList<Item> itemsToDisplay){
+
         ArrayList<String> displayStrings = new ArrayList<String>();
         for(Item i : itemsToDisplay){
-            String displayString = "Name: " + i.getName() + "\nDescription: " + i.getDescription() + "\nLabels:";
+            String displayString = "ID: "+i.getUid() + " Name: " + i.getName() + "\nDescription: " + i.getDescription() + "\nLabels:";
             for(String lbl : i.getLabels()){
                 displayString += "- " + lbl + "\n";
             }
             displayStrings.add(displayString);
         }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+
+                String rawDisplayString = parent.getItemAtPosition(position).toString();
+                String[] splitDisplayString = rawDisplayString.split(" ");
+                String uuid = splitDisplayString[1];
+
+               displayImage(view, ItemService.findItemByUid(uuid));
+            }
+        });
         view.setAdapter(new ArrayAdapter<String>(ManageItemsActivity.this, android.R.layout.simple_list_item_1, displayStrings));
+    }
+
+    public void displayImage(View v, Item item){
+
+            Dialog builder = new Dialog(this);
+            builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            builder.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    //nothing;
+                }
+            });
+            byte[] decodedString;
+            try{
+                decodedString = Base64.decode(item.Bas64Image, Base64.DEFAULT);
+
+            }catch (Exception e){
+                return;
+            }
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            ImageView imageView = new ImageView(this);
+            imageView.setImageBitmap(decodedByte);
+            builder.addContentView(imageView, new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
+            builder.show();
+
     }
 }
 

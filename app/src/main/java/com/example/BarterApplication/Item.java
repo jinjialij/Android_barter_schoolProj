@@ -1,5 +1,9 @@
 package com.example.BarterApplication;
 
+import android.location.Location;
+import android.location.LocationManager;
+
+import com.example.BarterApplication.helpers.LocationHelper;
 import com.example.BarterApplication.helpers.UidService;
 
 import java.io.Serializable;
@@ -13,7 +17,17 @@ public class Item implements Serializable {
     private ArrayList<String> labels;
     private String uid;
     private String ownerId;
-    //@todo PHOTO
+    private SimpleLocation location;
+
+    public SimpleLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(SimpleLocation location) {
+        this.location = location;
+    }
+
+    public String Bas64Image;
 
     // ctor
     public Item() {
@@ -21,6 +35,7 @@ public class Item implements Serializable {
         this.labels = new ArrayList<String>();
         this.ownerId = null;
         this.uid = UidService.newUID();
+        this.location = new SimpleLocation(0, 0);
     }
 
     public Item(String name, String ownerId) {
@@ -28,6 +43,8 @@ public class Item implements Serializable {
         this.labels = new ArrayList<String>();
         this.ownerId = ownerId;
         this.uid = UidService.newUID();
+        this.location = new SimpleLocation(0, 0);
+
     }
 
     // other form of ctor
@@ -38,6 +55,8 @@ public class Item implements Serializable {
         this.labels = labels;
         removeDuplicateLabels();
         this.ownerId = ownerId;
+        this.location = new SimpleLocation(0, 0);
+
     }
 
     // ctor
@@ -46,8 +65,20 @@ public class Item implements Serializable {
         this.description = description;
         this.ownerId = ownerId;
         this.uid = UidService.newUID();
+        this.location = new SimpleLocation(0, 0);
+
     }
 
+    // other form of ctor
+    public Item(String name, String description, ArrayList<String> labels, String ownerId, SimpleLocation location) {
+        this.name = name;
+        this.description = description;
+        this.uid = UidService.newUID();
+        this.labels = labels;
+        removeDuplicateLabels();
+        this.ownerId = ownerId;
+        this.location = location;
+    }
     public String getUid() {
         return this.uid;
     }
@@ -96,6 +127,9 @@ public class Item implements Serializable {
         return null;
     }
 
+    /**
+     * @brief remove duplicate labels from an item
+     */
     private void removeDuplicateLabels(){
         ArrayList<String> singles = new ArrayList<String>();
         for(int i = 0; i < this.labels.size(); i++){
@@ -105,5 +139,39 @@ public class Item implements Serializable {
         }
         this.labels = singles;
     }
+
+
+    public String toString(){
+        String str = new String();
+        str += "name: "  + this.name + " ";
+        str += "ownerId: " + this.ownerId + " ";
+        str += "UID: " + this.uid + " ";
+        str += "Location: " + this.location.toString();
+        str += "desc: ";
+        if(this.description != null){
+            str += this.description;
+        }
+        else {
+            str += "null";
+        }
+        str += " ";
+        str += "labels: ";
+        if(this.labels.size() > 0){
+            str += "[";
+            for(int i = 0; i < this.labels.size(); i++){
+                String l = this.labels.get(i);
+                str += l;
+                if(i != this.labels.size() -1){
+                    str += ", ";
+                }
+            }
+            str += "] ";
+        }
+        else {
+            str += "[ ] (Empty)";
+        }
+        return str;
+    }
+
 
 }

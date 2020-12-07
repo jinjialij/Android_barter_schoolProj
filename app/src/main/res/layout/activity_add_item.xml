@@ -5,81 +5,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <ImageView
+        android:id="@+id/displayImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="63dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraBtn"
+        app:layout_constraintEnd_toEndOf="@+id/galleryBtn"
+        app:layout_constraintStart_toStartOf="@+id/cameraBtn"
+        app:layout_constraintTop_toTopOf="@+id/AddItemActivityBackButton"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="59dp"
+        android:layout_width="0dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="132dp"
+        android:layout_marginRight="132dp"
         android:text="Add an Item"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/AddItemActivityBackButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/AddItemNameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="139dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:ems="10"
         android:hint="@string/AddItemNameHint"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/galleryBtn"
+        app:layout_constraintTop_toBottomOf="@+id/cameraBtn" />
 
     <EditText
         android:id="@+id/AddItemDescriptionEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="14dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/AddItemDescHint"
         android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/AddItemNameEditText"
         app:layout_constraintTop_toBottomOf="@+id/AddItemNameEditText" />
 
     <EditText
         android:id="@+id/AddItemLabelsEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/AddItemLabelHint"
         android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/AddItemDescriptionEditText"
         app:layout_constraintTop_toBottomOf="@+id/AddItemDescriptionEditText" />
 
     <Button
         android:id="@+id/AddItemActivityBackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="260dp"
-        android:layout_marginRight="260dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginLeft="31dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:onClick="goBackToHomepage"
         android:text="Back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toStartOf="@+id/textView4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <Button
         android:id="@+id/AddItemSubmitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="24dp"
         android:onClick="confirmAddOnClick"
         android:text="Submit"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/AddItemLabelsEditText"
+        app:layout_constraintStart_toStartOf="@+id/AddItemLabelsEditText"
+        app:layout_constraintTop_toBottomOf="@+id/AddItemLabelsEditText" />
+
+    <Button
+        android:id="@+id/cameraBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="51dp"
+        android:layout_marginLeft="51dp"
+        android:layout_marginTop="288dp"
+        android:text="Photo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/galleryBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="91dp"
+        android:layout_marginRight="91dp"
+        android:text="Gallery"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/displayImageView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ItemsListViewFrameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="125dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ViewItemsInfoTextView"
+        android:layout_width="240dp"
+        android:layout_height="100dp"
+        android:layout_gravity="left"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="729dp" />
+
+    <Button
+        android:id="@+id/ViewItemsMakeRequestBtn"
+        android:layout_width="85dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal|right"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="727dp"
+        android:onClick="goToCreateRequest"
+        android:text="@string/Delete" />
+</FrameLayout>

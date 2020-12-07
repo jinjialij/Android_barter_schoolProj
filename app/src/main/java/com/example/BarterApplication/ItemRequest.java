@@ -11,6 +11,9 @@ public class ItemRequest implements Serializable {
     private String requestItemId;
     private String uid;
     private boolean accepted;
+    private boolean deleted;
+    private String requesterEmail;
+    private boolean completed;
 
     //This constructor is used for Firebase
     public ItemRequest() {
@@ -19,13 +22,16 @@ public class ItemRequest implements Serializable {
         this.requestItemId = null;
         this.uid = UidService.newUID();
         this.accepted = false;
+        this.completed = false;
     }
 
-    public ItemRequest(UserAccount u, Item wanted, ArrayList<Item> offered ) {
+    public ItemRequest(String userUID, Item wanted, ArrayList<Item> offered, String email) {
         this.uid = UidService.newUID();
         this.accepted = false;
+        this.requesterEmail = email;
+        this.completed = false;
         if(offered.size() != 0){
-            this.requesterId = u.getUid();
+            this.requesterId = userUID;
             this.requestItemId = wanted.getUid();
             this.itemIdsOffered = new ArrayList<String>();
             int i = 0;
@@ -37,13 +43,15 @@ public class ItemRequest implements Serializable {
         }
     }
 
-    //This constructor is only used for Firebase insert dummy data for test
-    public ItemRequest(String requesterId, String requestItemId, String uid) {
-        this.uid = uid;
+    //constructor for inserting test data
+    public ItemRequest(String requesterId, Item requestItem, Item offerItem) {
+        this.uid = UidService.newUID();
         this.requesterId = requesterId;
-        this.requestItemId = requestItemId;
+        this.requestItemId = requestItem.getUid();
         this.itemIdsOffered = new ArrayList<>();
+        itemIdsOffered.add(offerItem.getUid());
         this.accepted = false;
+        this.completed = false;
     }
 
     public String getRequesterId() {
@@ -67,7 +75,25 @@ public class ItemRequest implements Serializable {
         return accepted;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public void setDeleted(boolean deleted){
+        this.deleted = deleted;
+    }
+
+    public String getRequesterEmail(){return this.requesterEmail;}
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean responded) {
+        this.completed = responded;
     }
 }

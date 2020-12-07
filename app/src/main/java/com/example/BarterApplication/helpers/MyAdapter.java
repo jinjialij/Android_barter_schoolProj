@@ -40,10 +40,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 public void onClick(View v) {
                     Log.d(TAG, "Element " + getAdapterPosition() + " clicked.");
                     Intent intent = new Intent(context, MyRequestActivity.class);
-                    ArrayList<ItemRequest> itReqs = new ArrayList<>();
-                    itReqs.add(itemRequests.get(getAdapterPosition()));
-                    intent.putExtra("itemRequestSelected", itReqs);
-                    intent.putExtra("itemsExtra", itemLists);
+                    intent.putExtra("itemRequestSelected", itemRequests.get(getAdapterPosition()));
                     context.startActivity(intent);
                 }
             });
