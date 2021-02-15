@@ -30,4 +30,4 @@ jobs:
         run: echo Hello, world!
 
       - name: Build the App
-        run: ./gradle build
+        run: ./gradlew build
