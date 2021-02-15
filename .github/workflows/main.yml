@@ -9,9 +9,11 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+#Environment variables
+env:
+  ANDROID_COMPILE_SDK: "28"
+  ANDROID_BUILD_TOOLS: "28.0.2"
+  ANDROID_SDK_TOOLS: "4333796"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -28,6 +30,29 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
-
-      - name: Build the App
-        run: ./gradlew build
+      - name : Run before
+        run: wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip
+  
+      - name: unzip
+        run: unzip -d android-sdk-linux android-sdk.zip
+      
+      - name: set sdkmanager 1
+        run: echo y | android-sdk-linux/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
+        
+      - name: set sdkmanager 2
+        run: echo y | android-sdk-linux/tools/bin/sdkmanager "platform-tools" >/dev/null
+        
+      - name: set build tools
+        run: echo y | android-sdk-linux/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null
+        
+      - name: export pwd
+        run: export ANDROID_HOME=$PWD/android-sdk-linux
+    
+      - name: export path
+        run: export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
+        
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        
+      - name: run test
+        run: ./gradlew test
