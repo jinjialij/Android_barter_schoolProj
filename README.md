@@ -5,6 +5,12 @@ It is based on the tutorial for Android apps in general that can be found [here]
 If you're learning Android at the same time, you can also follow along that
 tutorial and learn how to do everything all at once.
 
+## Barter application
+
+Barter is an android application that allows users to exchange items with nearby people. Users can add information in the app for things they want to exchange. They can browse items offered by other nearby users. They can send requests to other users to ask for a barter. When accept or refuse a request, the app will send an email to other users. Then, the request is completed.
+
+For more details about this project, please see the [Documentation](https://github.com/jinjialij/Android_barter_schoolProj/blob/master/Barter%20application.pdf)
+
 # Reference links
 
 - [GitLab CI Documentation](https://docs.gitlab.com/ee/ci/)
